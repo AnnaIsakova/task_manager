@@ -1,0 +1,41 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.vertical-center {
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 89vh; /* These two lines are counted as one :-)       */
+
+    display: flex;
+    align-items: center;
+}
+
+.f-l {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
+.d-inline-block{
+    display: inline-block;
+}
+
+.m-r-5{
+    margin-right: 5px;
+}
+
+.m-t-15{
+    margin-top: 15px;
+}

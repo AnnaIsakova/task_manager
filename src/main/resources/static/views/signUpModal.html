@@ -1,0 +1,175 @@
+<div class="modal fade" id="signUpModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="singUpForm" role="form" novalidate>
+                <div class="modal-header text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Please sign up for Anna'nas Manager</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group"
+                                 ng-class="{
+                                    'has-error' :
+                                        singUpForm.firstName.$invalid && !singUpForm.firstName.$pristine,
+                                    'has-success' :
+                                        singUpForm.firstName.$valid && !singUpForm.firstName.$pristine}">
+                                <input
+                                        type="text"
+                                        name="firstName"
+                                        id="firstName"
+                                        class="form-control input-sm"
+                                        placeholder="First name"
+                                        ng-model="user.firstName"
+                                        ng-minlength="3"
+                                        ng-maxlength="32"
+                                        required>
+                                <small  ng-if="singUpForm.firstName.$error.minlength && !singUpForm.firstName.$pristine">
+                                    Too short
+                                </small>
+                                <small  ng-if="singUpForm.firstName.$error.maxlength && !singUpForm.firstName.$pristine">
+                                    Too long
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group"
+                                 ng-class="{
+                                 'has-error' :
+                                    singUpForm.lastName.$invalid && !singUpForm.lastName.$pristine,
+                                  'has-success' :
+                                    singUpForm.lastName.$valid && !singUpForm.lastName.$pristine}">
+                                <input
+                                        type="text"
+                                        name="lastName" id="lastName"
+                                        class="form-control input-sm"
+                                        placeholder="Last Name"
+                                        ng-model="user.lastName"
+                                        ng-minlength="3"
+                                        ng-maxlength="32"
+                                        required>
+                                <small  ng-if="singUpForm.lastName.$error.minlength && !singUpForm.lastName.$pristine">
+                                    Too short
+                                </small>
+                                <small  ng-if="singUpForm.lastName.$error.maxlength && !singUpForm.lastName.$pristine">
+                                    Too long
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="{
+                         'has-error' : (
+                            singUpForm.email.$error.unique
+                            || singUpForm.email.$error.pattern
+                            || singUpForm.email.$invalid)
+                            && !singUpForm.email.$pristine,
+                         'has-success' : (
+                            singUpForm.email.$valid
+                            || !singUpForm.email.$error.pattern)
+                            && !singUpForm.email.$pristine}">
+                        <input
+                                type="text"
+                                name="email"
+                                id="email"
+                                class="form-control input-sm"
+                                placeholder="Email Address"
+                                ng-model="user.email"
+                                ng-model-options="{ debounce: 100 }"
+                                ng-minlength="3"
+                                ng-maxlength="32"
+                                ng-pattern="/^(\S+)@(\S+)\.(\S+)$/"
+                                required
+                                unique-email>
+                        <small  ng-if="singUpForm.email.$error.unique && !singUpForm.email.$pristine">
+                            Such user already exists
+                        </small >
+                        <small  ng-if="singUpForm.email.$error.maxlength && !singUpForm.email.$pristine">
+                            Too long
+                        </small>
+                        <small  ng-if="singUpForm.email.$error.pattern && !singUpForm.email.$pristine">
+                            Doesn't match example@example.ex
+                        </small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group"
+                                 ng-class="{
+                                    'has-error' :
+                                        singUpForm.password.$invalid && !singUpForm.password.$pristine,
+                                    'has-success' :
+                                        singUpForm.password.$valid && !singUpForm.password.$pristine}">
+                                <input
+                                        type="password"
+                                        name="password" id="password"
+                                        class="form-control input-sm"
+                                        placeholder="Password"
+                                        ng-model="user.password"
+                                        ng-minlength="5"
+                                        ng-maxlength="32"
+                                        required>
+                                <small  ng-if="singUpForm.password.$error.minlength && !singUpForm.password.$pristine">
+                                    Too short
+                                </small>
+                                <small  ng-if="singUpForm.password.$error.maxlength && !singUpForm.password.$pristine">
+                                    Too long
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group"
+                                 ng-class="{
+                                    'has-error' :
+                                        singUpForm.password_confirmation.$invalid
+                                        && !singUpForm.password_confirmation.$pristine,
+                                    'has-success' :
+                                        singUpForm.password_confirmation.$valid
+                                        && !singUpForm.password_confirmation.$pristine}">
+                                <input
+                                        type="password"
+                                        name="password_confirmation"
+                                        id="password_confirmation"
+                                        class="form-control input-sm"
+                                        placeholder="Confirm Password"
+                                        ng-model="confirmPassword"
+                                        compare-to="user.password"
+                                        required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group"
+                         ng-class="{
+                            'has-error' :
+                                singUpForm.roles.$invalid && !singUpForm.roles.$pristine,
+                            'has-success' :
+                                singUpForm.roles.$valid && !singUpForm.roles.$pristine}">
+                        <select
+                                class="form-control input-sm"
+                                id="roles"
+                                name="roles"
+                                ng-model="user.role"
+                                ng-options="role for role in roles track by role"
+                                required>
+                            <option value="">Please select your role</option>
+                        </select>
+                    </div>
+                    <small>*all fields are required</small>
+                    <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="submit"
+                            class="btn btn-info"
+                            ng-disabled="singUpForm.$invalid"
+                            ng-click="submit(user)">
+                        Sign up
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
