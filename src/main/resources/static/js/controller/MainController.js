@@ -8,8 +8,8 @@ App.controller('MainController', function($scope, $state, ModalService) {
             controller: "SignUpController"
         }).then(function(modal) {
             modal.element.modal();
-            modal.close.then(function() {
-                $state.go("afterReg");
+            modal.close.then(function(result) {
+                $state.go('afterReg', {id: result.id});
             });
         });
     };

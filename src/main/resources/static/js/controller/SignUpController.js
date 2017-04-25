@@ -3,7 +3,7 @@
 App.controller('SignUpController', ['$scope', '$state', 'close', 'UserService', 'RolesService',
     function($scope, $state, close, UserService, RolesService) {
         var self = this;
-        $scope.user={firstName:'', lastName:'', password: '', email:'', role:''};
+        $scope.user={id:'', firstName:'', lastName:'', password: '', email:'', role:''};
         $scope.users=[];
         $scope.confirmPassword = '';
         $scope.role={role:''};
@@ -38,8 +38,10 @@ App.controller('SignUpController', ['$scope', '$state', 'close', 'UserService', 
         function createUser(user){
             UserService.createUser(user)
                 .then(
-                    function () {
+                    function (d) {
                         close(user, 500);
+                        $scope.user.id = d;
+                        console.log('id: ', $scope.user.id);
                         $('#signUpModal').modal('hide');
                     },
                     function(errResponse){

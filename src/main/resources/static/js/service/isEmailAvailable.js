@@ -2,7 +2,7 @@
 
 App.factory('isEmailAvailable', function($q, $http) {
 
-    var REST_SERVICE_URI = 'http://localhost:8080/api/users/';
+    var REST_SERVICE_URI = 'http://localhost:8080/api/user/';
 
     return function(email) {
         var deferred = $q.defer();

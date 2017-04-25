@@ -14,7 +14,7 @@ App.config(function($stateProvider, $urlRouterProvider) {
         })
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
         .state('afterReg', {
-            url: '/after',
+            url: '/:id',
             templateUrl: '/views/afterRegister.html'
         });
 

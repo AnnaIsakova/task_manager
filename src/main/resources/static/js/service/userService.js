@@ -2,7 +2,7 @@
 
 App.factory('UserService', ['$http', '$q', function($http, $q){
 
-    var REST_SERVICE_URI = 'http://localhost:8080/user/';
+    var REST_SERVICE_URI = 'http://localhost:8080/api/user/';
 
     var factory = {
         fetchAllUsers: fetchAllUsers,
@@ -34,7 +34,6 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
             .then(
                 function (response) {
                     deferred.resolve(response.data);
-                    console.log('OKAY')
                 },
                 function(errResponse){
                     console.error('Error while creating User');
