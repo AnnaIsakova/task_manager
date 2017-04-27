@@ -5,13 +5,16 @@ import annanas_manager.entities.CustomUser;
 import annanas_manager.repositories.CustomUserRepository;
 import annanas_manager.services.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CustomUserServiceImpl implements CustomUserService {
+public class CustomUserServiceImpl implements CustomUserService, UserDetailsService {
 
     @Autowired
     private CustomUserRepository userRepository;
@@ -19,6 +22,15 @@ public class CustomUserServiceImpl implements CustomUserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
+    @Override
+    public UserDetails loadUserByUsername(String email) {
+        CustomUser user = userRepository.findByUsername(email);
+        if (user == null) {
+            throw new UsernameNotFoundException(email);
+        }
+        return new CustomUserPrincipal(user);
+    }
 
     @Override
     public CustomUser add(CustomUserDTO user) {

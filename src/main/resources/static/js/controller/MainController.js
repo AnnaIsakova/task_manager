@@ -14,4 +14,16 @@ App.controller('MainController', function($scope, $state, ModalService) {
         });
     };
 
+    $scope.showSignIn = function() {
+        ModalService.showModal({
+            templateUrl: '/views/signInModal.html',
+            controller: "SignInController"
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                // $state.go('afterReg', {id: result.id});
+            });
+        });
+    };
+
 });

@@ -1,0 +1,51 @@
+<div class="modal fade" id="signInModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="singInForm" role="form" novalidate>
+                <div class="modal-header text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Please sign in for Anna'nas Manager</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <input
+                                type="text"
+                                name="email"
+                                id="email"
+                                class="form-control input-sm"
+                                placeholder="Email Address"
+                                ng-model="email"
+                                >
+                    </div>
+                    <div class="form-group">
+                        <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                class="form-control input-sm"
+                                placeholder="Password"
+                                ng-model="password"
+                        >
+                    </div>
+
+                    <div
+                            class="alert alert-danger m-t-15"
+                            ng-show="errorMessage"
+                            >
+                        {{ errorMessage }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="submit"
+                            class="btn btn-info"
+                            ng-click="login()">
+                        Sign up
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

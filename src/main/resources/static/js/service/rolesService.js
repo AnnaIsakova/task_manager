@@ -2,7 +2,7 @@
 
 App.factory('RolesService', ['$http', '$q', function($http, $q){
 
-    var REST_SERVICE_URI = 'http://localhost:8080/api/roles/';
+    var REST_SERVICE_URI = 'http://localhost:8080/roles/';
 
     var factory = {
         fetchAllRoles: fetchAllRoles

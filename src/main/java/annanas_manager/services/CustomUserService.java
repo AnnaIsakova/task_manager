@@ -2,6 +2,7 @@ package annanas_manager.services;
 
 import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.entities.CustomUser;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
