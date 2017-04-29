@@ -9,7 +9,7 @@ App.controller('MainController', function($scope, $state, ModalService) {
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
-                $state.go('afterReg', {id: result.id});
+                $state.go('dashboard');
             });
         });
     };
@@ -21,7 +21,7 @@ App.controller('MainController', function($scope, $state, ModalService) {
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
-                // $state.go('afterReg', {id: result.id});
+                $state.go('dashboard');
             });
         });
     };

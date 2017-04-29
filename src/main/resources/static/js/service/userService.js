@@ -13,12 +13,14 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
 
     return factory;
 
+
     function fetchAllUsers() {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI)
+        $http.get(REST_SERVICE_URI + 'api/user/')
             .then(
                 function (response) {
                     deferred.resolve(response.data);
+                    console.log(response.data);
                 },
                 function(errResponse){
                     console.error('Error while fetching Users');

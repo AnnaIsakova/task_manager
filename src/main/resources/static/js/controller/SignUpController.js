@@ -1,23 +1,13 @@
 'use strict';
 
-App.controller('SignUpController', ['$scope', '$state', 'close', 'UserService', 'RolesService',
-    function($scope, $state, close, UserService, RolesService) {
+App.controller('SignUpController', ['$scope', '$state', '$http', 'close', 'UserService', 'RolesService',
+    function($scope, $state, $http, close, UserService, RolesService) {
         var self = this;
-        $scope.user={id:'', firstName:'', lastName:'', password: '', email:'', role:''};
+        $scope.user={firstName:'', lastName:'', password: '', email:'', role:''};
         $scope.users=[];
         $scope.confirmPassword = '';
         $scope.role={role:''};
         $scope.roles=[];
-
-        // self.submit = submit;
-        // self.reset = reset;
-
-        // $scope.close = function(result) {
-        //
-        //     close(result, 500);
-        //     console.log(result);
-        //     submit();// close, but give 500ms for bootstrap to animate
-        // };
 
         fetchAllRoles();
 
@@ -40,9 +30,24 @@ App.controller('SignUpController', ['$scope', '$state', 'close', 'UserService', 
                 .then(
                     function (d) {
                         close(user, 500);
-                        $scope.user.id = d;
-                        console.log('id: ', $scope.user.id);
                         $('#signUpModal').modal('hide');
+                        var base64Credential = btoa($scope.user.email + ':' + $scope.user.password);
+                        UserService.login(base64Credential)
+                            .then(
+                            function (d) {
+                                if(d.authenticated) {
+                                    $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
+                                    // $scope.user = d;
+                                    console.log($http.defaults.headers.common['Authorization']);
+                                }
+                            },
+                            function(errResponse){
+                                console.error('Error while login User');
+                                $scope.errorMessage = "Wrong email or password :(";
+                                $timeout(function () { $scope.errorMessage = false; }, 2000);
+                            }
+                        );
+                        //
                     },
                     function(errResponse){
                         console.error('Error while creating User');

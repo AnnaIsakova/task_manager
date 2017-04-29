@@ -6,11 +6,16 @@ App.controller('SignInController', ['$http', '$scope', '$state', '$timeout', 'cl
         // creating base64 encoded String from username and password
         $scope.login = function (){
             var base64Credential = btoa($scope.email + ':' + $scope.password);
-            console.log(base64Credential);
             UserService.login(base64Credential)
                 .then(
                     function (d) {
-                        console.log(d);
+                        close(d, 500);
+                        $('#signInModal').modal('hide');
+                        if(d.authenticated) {
+                            $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
+                            $scope.user = d;
+                            console.log($http.defaults.headers.common['Authorization']);
+                        }
                     },
                     function(errResponse){
                         console.error('Error while login User');
