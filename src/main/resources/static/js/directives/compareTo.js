@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('compareTo', function() {
+app.directive('compareTo', function() {
     return {
         require: "ngModel",
         scope: {

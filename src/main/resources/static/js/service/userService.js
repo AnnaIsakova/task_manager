@@ -1,6 +1,6 @@
 'use strict';
 
-App.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($http, $q, $cookies, $rootScope){
+app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($http, $q, $cookies, $rootScope){
 
     var REST_SERVICE_URI = 'http://localhost:8080/';
     var user = {};

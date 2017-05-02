@@ -1,9 +1,12 @@
 'use strict';
 
-var App = angular.module('app',['ui.router', 'angularModalService', 'ngCookies']);
+var app = angular.module('app',['ui.router', 'angularModalService', 'ngCookies']);
 
+app.run(function ($state,$rootScope) {
+    $rootScope.$state = $state;
+});
 
-App.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -25,5 +28,43 @@ App.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
                     templateUrl: '/views/sideMenu.html'
                 }
             }
-        });
+        })
+        .state('dashboard.projects', {
+            url: '/projects',
+            views: {
+                "content": {
+                    templateUrl: '/views/projects.html',
+                    controller: 'NavBarController'
+                }
+            }
+
+        })
+        .state('dashboard.tasks', {
+            url: '/tasks',
+            views: {
+                "content": {
+                    templateUrl: '/views/tasks.html',
+                    controller: 'NavBarController'
+                }
+            }
+        })
+        .state('dashboard.calendar', {
+            url: '/calendar',
+            views: {
+                "content": {
+                    templateUrl: '/views/calendar.html',
+                    controller: 'NavBarController'
+                }
+            }
+        })
+        .state('dashboard.charts', {
+            url: '/charts',
+            views: {
+                "content": {
+                    templateUrl: '/views/charts.html',
+                    controller: 'NavBarController'
+                }
+            }
+        })
+
 });

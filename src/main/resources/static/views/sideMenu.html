@@ -6,29 +6,35 @@
             <ul id="side-menu" class="nav">
 
                 <div class="clearfix"></div>
-                <li class="active"><a href="#!/dashboard"><i class="fa fa-folder-open fa-fw">
+                <li ng-class="{active: $state.current.name == 'dashboard.projects'}">
+                    <a ui-sref="dashboard.projects"><i class="fa fa-folder-open fa-fw">
                     <div class="icon-bg bg-orange"></div>
-                </i><span class="menu-title">My projects</span></a></li>
-
-                <li><a href="#!/dashboard"><i class="fa fa-tasks fa-fw">
-                    <div class="icon-bg bg-pink"></div>
-                </i><span class="menu-title">My tasks</span></a>
-
+                </i><span class="menu-title">Projects</span></a>
                 </li>
-                <li><a href="#!/dashboard"><i class="fa fa-calendar fa-fw">
+
+                <li ng-class="{active: $state.current.name == 'dashboard.tasks'}">
+                    <a ui-sref="dashboard.tasks"><i class="fa fa-tasks fa-fw">
+                    <div class="icon-bg bg-pink"></div>
+                </i><span class="menu-title">Tasks</span></a>
+                </li>
+
+                <li ng-class="{active: $state.current.name == 'dashboard.calendar'}">
+                    <a ui-sref="dashboard.calendar"><i class="fa fa-calendar fa-fw">
                     <div class="icon-bg bg-green"></div>
                 </i><span class="menu-title">Calendar</span></a>
-
                 </li>
 
-                <li><a href="#!/dashboard"><i class="fa fa-bar-chart-o fa-fw">
+                <li ng-class="{active: $state.current.name == 'dashboard.charts'}">
+                    <a ui-sref="dashboard.charts"><i class="fa fa-bar-chart-o fa-fw">
                     <div class="icon-bg bg-orange"></div>
                 </i><span class="menu-title">Charts</span></a>
-
                 </li>
 
             </ul>
         </div>
     </nav>
     <!--END SIDEBAR MENU-->
+</div>
+<div class="page-content">
+    <div ui-view="content"></div>
 </div>

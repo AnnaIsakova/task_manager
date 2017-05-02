@@ -1,6 +1,6 @@
 'use strict';
 
-App.controller('SignUpController', ['$scope', '$rootScope', '$state', '$http', 'close', 'UserService', 'RolesService',
+app.controller('SignUpController', ['$scope', '$rootScope', '$state', '$http', 'close', 'UserService', 'RolesService',
     function($scope, $rootScope, $state, $http, close, UserService, RolesService) {
         var self = this;
         $scope.user={firstName:'', lastName:'', password: '', email:'', role:''};

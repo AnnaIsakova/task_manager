@@ -1,6 +1,6 @@
 'use strict';
 
-App.factory('RolesService', ['$http', '$q', function($http, $q){
+app.factory('RolesService', ['$http', '$q', function($http, $q){
 
     var REST_SERVICE_URI = 'http://localhost:8080/roles/';
 

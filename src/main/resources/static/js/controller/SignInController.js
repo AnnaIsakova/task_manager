@@ -1,6 +1,6 @@
 'use strict';
 
-App.controller('SignInController', ['$http', '$scope', '$rootScope', '$state', '$timeout', 'close', 'UserService',
+app.controller('SignInController', ['$http', '$scope', '$rootScope', '$state', '$timeout', 'close', 'UserService',
     function($http, $scope, $rootScope, $state, $timeout, close, UserService) {
 
         // creating base64 encoded String from username and password

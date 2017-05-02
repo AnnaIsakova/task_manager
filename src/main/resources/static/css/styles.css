@@ -43,7 +43,15 @@ body {
 .m-t-15{
     margin-top: 15px;
 }
+
+.p-l-270{
+    padding-left: 270px;
+}
 .usr-name-li{
     height: 49px;
     padding-top: 3px;
+}
+
+.active-li{
+    background-color: #1d1d1d;
 }

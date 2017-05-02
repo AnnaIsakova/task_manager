@@ -1,6 +1,6 @@
 'use strict';
 
-App.controller('MainController', function($scope, $state, ModalService) {
+app.controller('MainController', function($scope, $state, ModalService) {
 
     $scope.showSignUp = function() {
         ModalService.showModal({
@@ -9,7 +9,7 @@ App.controller('MainController', function($scope, $state, ModalService) {
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
-                $state.go('dashboard');
+                $state.go('dashboard.projects');
             });
         });
     };
@@ -21,7 +21,7 @@ App.controller('MainController', function($scope, $state, ModalService) {
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
-                $state.go('dashboard');
+                $state.go('dashboard.projects');
             });
         });
     };

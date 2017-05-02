@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('uniqueEmail', function(isEmailAvailable) {
+app.directive('uniqueEmail', function(isEmailAvailable) {
     return {
         restrict: 'A',
         require: "ngModel",
