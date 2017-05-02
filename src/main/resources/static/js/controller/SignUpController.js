@@ -1,7 +1,7 @@
 'use strict';
 
-App.controller('SignUpController', ['$scope', '$state', '$http', 'close', 'UserService', 'RolesService',
-    function($scope, $state, $http, close, UserService, RolesService) {
+App.controller('SignUpController', ['$scope', '$rootScope', '$state', '$http', 'close', 'UserService', 'RolesService',
+    function($scope, $rootScope, $state, $http, close, UserService, RolesService) {
         var self = this;
         $scope.user={firstName:'', lastName:'', password: '', email:'', role:''};
         $scope.users=[];
@@ -37,8 +37,8 @@ App.controller('SignUpController', ['$scope', '$state', '$http', 'close', 'UserS
                             function (d) {
                                 if(d.authenticated) {
                                     $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
-                                    // $scope.user = d;
-                                    console.log($http.defaults.headers.common['Authorization']);
+                                    $rootScope.user = d;
+                                    UserService.setCookieData($rootScope.user);
                                 }
                             },
                             function(errResponse){
@@ -58,14 +58,8 @@ App.controller('SignUpController', ['$scope', '$state', '$http', 'close', 'UserS
 
 
         $scope.submit = function (result) {
-            // if(self.user.id===null){
             console.log(angular.toJson($scope.user));
             createUser(result);
-
-            // }else{
-            //     updateUser(self.user, self.user.id);
-            //     console.log('User updated with id ', self.user.id);
-            // }
         };
 
 

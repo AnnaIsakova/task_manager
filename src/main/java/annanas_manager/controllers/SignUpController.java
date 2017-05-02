@@ -36,18 +36,18 @@ public class SignUpController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Long> createUser(@RequestBody CustomUserDTO user, UriComponentsBuilder ucBuilder, BindingResult bindingResult) {
+    public ResponseEntity<Void> createUser(@RequestBody CustomUserDTO user, UriComponentsBuilder ucBuilder, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()){
             System.out.println("errors from validator: " + bindingResult.getAllErrors());
-            return new ResponseEntity<Long>(HttpStatus.CONFLICT);
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
         customUserService.add(user);
-        long id = customUserService.getByEmail(user.getEmail()).getId();
+//        long id = customUserService.getByEmail(user.getEmail()).getId();
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(id).toUri());
 //        System.out.println(id + "=> ID");
-        return new ResponseEntity<Long>(id, HttpStatus.CREATED);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
     //for async validation on front-end
@@ -58,10 +58,5 @@ public class SignUpController {
         } else {
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
-    }
-
-    @RequestMapping(value = "/afterRegister", method = RequestMethod.GET)
-    public ResponseEntity<Void> afterTest() {
-        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

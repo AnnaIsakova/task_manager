@@ -1,7 +1,7 @@
 'use strict';
 
-App.controller('SignInController', ['$http', '$scope', '$state', '$timeout', 'close', 'UserService',
-    function($http, $scope, $state, $timeout, close, UserService) {
+App.controller('SignInController', ['$http', '$scope', '$rootScope', '$state', '$timeout', 'close', 'UserService',
+    function($http, $scope, $rootScope, $state, $timeout, close, UserService) {
 
         // creating base64 encoded String from username and password
         $scope.login = function (){
@@ -13,8 +13,9 @@ App.controller('SignInController', ['$http', '$scope', '$state', '$timeout', 'cl
                         $('#signInModal').modal('hide');
                         if(d.authenticated) {
                             $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
-                            $scope.user = d;
-                            console.log($http.defaults.headers.common['Authorization']);
+                            $rootScope.user = d;
+                            console.log(d);
+                            UserService.setCookieData($rootScope.user);
                         }
                     },
                     function(errResponse){

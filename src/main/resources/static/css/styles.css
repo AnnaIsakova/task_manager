@@ -6,6 +6,10 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
 }
+
+.color-black {
+    color: #000000;
+}
 .footer {
     position: absolute;
     bottom: 0;
@@ -38,4 +42,8 @@ body {
 
 .m-t-15{
     margin-top: 15px;
+}
+.usr-name-li{
+    height: 49px;
+    padding-top: 3px;
 }

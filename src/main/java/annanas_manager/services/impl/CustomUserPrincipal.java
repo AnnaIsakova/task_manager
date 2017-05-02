@@ -63,4 +63,9 @@ public class CustomUserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getFullName() {
+        String name = this.customUser.getFirstName() + " " + this.customUser.getLastName();
+        return name;
+    }
 }

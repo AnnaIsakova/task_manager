@@ -1,14 +1,19 @@
 'use strict';
 
-App.factory('UserService', ['$http', '$q', function($http, $q){
+App.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($http, $q, $cookies, $rootScope){
 
     var REST_SERVICE_URI = 'http://localhost:8080/';
+    var user = {};
 
     var factory = {
         fetchAllUsers: fetchAllUsers,
         createUser: createUser,
         updateUser:updateUser,
-        login:login
+        login:login,
+        logout:logout,
+        setCookieData:setCookieData,
+        getCookieData:getCookieData,
+        clearCookieData:clearCookieData
     };
 
     return factory;
@@ -33,7 +38,7 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
     function createUser(user) {
         var deferred = $q.defer();
         var user_json = angular.toJson(user);
-        $http.post(REST_SERVICE_URI + '/register', user_json)
+        $http.post(REST_SERVICE_URI + 'register', user_json)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -48,7 +53,7 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
     
     function login(base64Credential) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + '/login', {
+        $http.get(REST_SERVICE_URI + 'login', {
             headers : {
                 // setting the Authorization Header
                 'Authorization' : 'Basic ' + base64Credential
@@ -66,6 +71,11 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
         return deferred.promise;
     }
 
+    function logout() {
+        $http.defaults.headers.common['Authorization'] = null;
+        clearCookieData();
+    }
+
 
     function updateUser(user, id) {
         var deferred = $q.defer();
@@ -80,6 +90,18 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
                 }
             );
         return deferred.promise;
+    }
+    
+    function setCookieData(user) {
+        $cookies.putObject("user", user);
+    }
+    function getCookieData() {
+        user = $cookies.get("user");
+        return user;
+    }
+    function clearCookieData() {
+        $rootScope.user = {};
+        $cookies.remove("user");
     }
 
 }]);
