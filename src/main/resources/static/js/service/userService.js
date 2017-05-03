@@ -17,8 +17,7 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
     };
 
     return factory;
-
-
+    
     function fetchAllUsers() {
         var deferred = $q.defer();
         $http.get(REST_SERVICE_URI + 'api/user/')

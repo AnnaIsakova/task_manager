@@ -33,7 +33,13 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
             url: '/projects',
             views: {
                 "content": {
-                    templateUrl: '/views/projects.html',
+                    templateProvider: function(TemplateService) {
+                        var result = TemplateService.getTemplate();
+                        console.log(result);
+                        // ngInclude template content based on the A/B test result
+                        return '<div ng-include="" src="\'views/projects-' + result + '.html\'\"</div>';
+
+                    },
                     controller: 'NavBarController'
                 }
             }
