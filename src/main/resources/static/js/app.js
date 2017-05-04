@@ -45,12 +45,12 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
             }
 
         })
-        .state('dashboard.tasks', {
-            url: '/tasks',
+        .state('dashboard.todo', {
+            url: '/todo',
             views: {
                 "content": {
-                    templateUrl: '/views/tasks.html',
-                    controller: 'NavBarController'
+                    templateUrl: '/views/todoList.html',
+                    controller: 'TodoListController'
                 }
             }
         })

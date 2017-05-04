@@ -5,9 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-/**
- * Created by Ootka on 05-Mar-17.
- */
+
 public interface CustomUserRepository extends JpaRepository<CustomUser, Long> {
 
     @Query("SELECT u FROM CustomUser u where u.firstName = :name OR u.lastName = :name")

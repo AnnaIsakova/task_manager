@@ -5,13 +5,12 @@ import annanas_manager.entities.enums.UserRole;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
-/**
- * Created by Ootka on 05-Mar-17.
- */
 @Entity
 @Table(name = "users")
 public class CustomUser {
@@ -23,23 +22,26 @@ public class CustomUser {
     private long id;
 
     @Size(min = 3)
-    @Column(name = "firstName", length = 20, nullable = false)
+    @Column(name = "firstName", length = 32, nullable = false)
     private String firstName;
 
-    @Column(name = "lastName", length = 20)
+    @Column(name = "lastName", length = 32, nullable = false)
     private String lastName;
 
     @Size(min = 3)
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", length = 32, nullable = false)
     private String password;
 
     @Size(min = 3)
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", length = 32, nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @OneToMany(mappedBy = "createdBy", cascade= CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Task> todoList;
 
     public CustomUser() {}
 
@@ -115,5 +117,13 @@ public class CustomUser {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public Set<Task> getTodoList() {
+        return todoList;
+    }
+
+    public void setTodoList(Set<Task> todoList) {
+        this.todoList = todoList;
     }
 }

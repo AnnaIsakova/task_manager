@@ -12,10 +12,10 @@
                 </i><span class="menu-title">Projects</span></a>
                 </li>
 
-                <li ng-class="{active: $state.current.name == 'dashboard.tasks'}">
-                    <a ui-sref="dashboard.tasks"><i class="fa fa-tasks fa-fw">
+                <li ng-class="{active: $state.current.name == 'dashboard.todo'}">
+                    <a ui-sref="dashboard.todo"><i class="fa fa-tasks fa-fw">
                     <div class="icon-bg bg-pink"></div>
-                </i><span class="menu-title">Tasks</span></a>
+                </i><span class="menu-title">ToDo List</span></a>
                 </li>
 
                 <li ng-class="{active: $state.current.name == 'dashboard.calendar'}">
@@ -35,6 +35,6 @@
     </nav>
     <!--END SIDEBAR MENU-->
 </div>
-<div class="page-content">
+<div id="page-wrapper" class="page-content">
     <div ui-view="content"></div>
 </div>

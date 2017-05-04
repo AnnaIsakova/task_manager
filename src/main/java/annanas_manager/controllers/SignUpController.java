@@ -1,23 +1,16 @@
 package annanas_manager.controllers;
 
 import annanas_manager.DTO.CustomUserDTO;
-import annanas_manager.entities.CustomUser;
 import annanas_manager.entities.enums.UserRole;
 import annanas_manager.services.CustomUserService;
-//import annanas_manager.services.SecurityService;
 import annanas_manager.validators.UserValidator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 

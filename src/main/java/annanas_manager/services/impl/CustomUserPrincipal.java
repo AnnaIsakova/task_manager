@@ -68,4 +68,8 @@ public class CustomUserPrincipal implements UserDetails {
         String name = this.customUser.getFirstName() + " " + this.customUser.getLastName();
         return name;
     }
+
+    public long getId(){
+        return this.customUser.getId();
+    }
 }
