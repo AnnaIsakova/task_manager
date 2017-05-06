@@ -9,7 +9,7 @@ app.factory('TemplateService', ['$rootScope', 'UserService', function($rootScope
     return factory;
 
     function getTemplate() {
-        var user = JSON.parse(UserService.getCookieData());
+        var user = JSON.parse(UserService.getCookieUser());
         console.log(user);
         console.log(user.authorities[0].authority);
         if(user.authorities[0].authority == 'TEAMLEAD'){

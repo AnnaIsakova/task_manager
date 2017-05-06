@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http', 'TodoListService',
-    function($scope, $rootScope, $state, $http, TodoListService) {
+app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http', 'TodoListService', 'ModalService',
+    function($scope, $rootScope, $state, $http, TodoListService, ModalService) {
         var self = this;
         $scope.task={};
         $scope.tasks=[];
@@ -13,7 +13,6 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
                 .then(
                     function(d) {
                         $scope.tasks = d;
-                        console.log('tasks:', $scope.tasks);
                     },
                     function(errResponse){
                         console.error('Error while fetching tasks -> from controller');
@@ -21,5 +20,17 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
                     }
                 );
         }
+
+        $scope.showNewTodo = function() {
+            ModalService.showModal({
+                templateUrl: '/views/newTodoTask.html',
+                controller: "NewTodoController"
+            }).then(function(modal) {
+                modal.element.modal();
+                modal.close.then(function(result) {
+                    // $state.go('dashboard.projects');
+                });
+            });
+        };
 
     }]);

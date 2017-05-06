@@ -21,7 +21,6 @@ public class Task {
     @Column(name = "id", length = 6, nullable = false)
     private long id;
 
-    @Size(min = 3)
     @Column(name = "description", nullable = false)
     private String description;
 
@@ -45,11 +44,11 @@ public class Task {
     @Type(type="timestamp")
     private Date deadline;
 
-    public Task(String description, CustomUser createdBy, TaskPriority priority, TaskStatus status, Date deadline) {
+    public Task(String description, CustomUser createdBy, TaskPriority priority, Date deadline) {
         this.description = description;
         this.createdBy = createdBy;
         this.priority = priority;
-        this.status = status;
+        this.status = TaskStatus.NEW;
         this.createDate = new Date(System.currentTimeMillis());
         this.deadline = deadline;
     }
@@ -61,7 +60,7 @@ public class Task {
     }
 
     public static Task fromDTO(TaskDTO dto) {
-        return new Task(dto.getDescription(), CustomUser.fromDTO(dto.getCreatedBy()), dto.getPriority(), dto.getStatus(), dto.getDeadline());
+        return new Task(dto.getDescription(), CustomUser.fromDTO(dto.getCreatedBy()), dto.getPriority(), dto.getDeadline());
     }
 
     @Override

@@ -1,9 +1,10 @@
 'use strict';
 
-var app = angular.module('app',['ui.router', 'angularModalService', 'ngCookies']);
+var app = angular.module('app',['ui.router', 'angularModalService', 'ngCookies', 'kendo.directives']);
 
-app.run(function ($state,$rootScope) {
+app.run(function ($state, $rootScope, $http, UserService) {
     $rootScope.$state = $state;
+    $http.defaults.headers.common['Authorization'] = UserService.getCookieHeader();
 });
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {

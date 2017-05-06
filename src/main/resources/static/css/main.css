@@ -4461,51 +4461,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
   color: #594857;
 }
 .btn-default {
-   background: #f2f5f7; /* Old browsers */
-background: -moz-linear-gradient(top, #f2f5f7 0%, #f6f8f9 50%, #d7dee3 50%, #d7dee3 50%, #d7dee3 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f5f7), color-stop(50%,#f6f8f9), color-stop(50%,#d7dee3), color-stop(50%,#d7dee3), color-stop(100%,#d7dee3)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, #f2f5f7 0%,#f6f8f9 50%,#d7dee3 50%,#d7dee3 50%,#d7dee3 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, #f2f5f7 0%,#f6f8f9 50%,#d7dee3 50%,#d7dee3 50%,#d7dee3 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, #f2f5f7 0%,#f6f8f9 50%,#d7dee3 50%,#d7dee3 50%,#d7dee3 100%); /* IE10+ */
-background: linear-gradient(to bottom, #f2f5f7 0%,#f6f8f9 50%,#d7dee3 50%,#d7dee3 50%,#d7dee3 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f7', endColorstr='#d7dee3',GradientType=0 ); /* IE6-9 */
-color:#58636b;
- -webkit-border-radius: 5px !important;
-  -moz-border-radius: 5px !important;
-  border-radius: 5px !important;
+  border-radius: 0px !important;
 }
-.btn-default:hover,
-.btn-default:focus,
-.btn-default:active,
-.btn-default.active,
-.open .dropdown-toggle.btn-default {
-  color: #999999;
-  background-color: #dbdbdb;
-  border-color: #c6c6c6;
-}
-.btn-default:active,
-.btn-default.active,
-.open .dropdown-toggle.btn-default {
-  background-image: none;
-}
-.btn-default.disabled,
-.btn-default[disabled],
-fieldset[disabled] .btn-default,
-.btn-default.disabled:hover,
-.btn-default[disabled]:hover,
-fieldset[disabled] .btn-default:hover,
-.btn-default.disabled:focus,
-.btn-default[disabled]:focus,
-fieldset[disabled] .btn-default:focus,
-.btn-default.disabled:active,
-.btn-default[disabled]:active,
-fieldset[disabled] .btn-default:active,
-.btn-default.disabled.active,
-.btn-default[disabled].active,
-fieldset[disabled] .btn-default.active {
-  background-color: #efefef;
-  border-color: #e5e5e5;
-}
+
 .btn-primary {
   color: #ffffff;
   border: 1px solid #1f68b1;

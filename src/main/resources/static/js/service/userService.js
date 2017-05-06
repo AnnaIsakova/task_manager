@@ -4,6 +4,7 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
 
     var REST_SERVICE_URI = 'http://localhost:8080/';
     var user = {};
+    var header = '';
 
     var factory = {
         fetchAllUsers: fetchAllUsers,
@@ -12,7 +13,8 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
         login:login,
         logout:logout,
         setCookieData:setCookieData,
-        getCookieData:getCookieData,
+        getCookieUser:getCookieUser,
+        getCookieHeader:getCookieHeader,
         clearCookieData:clearCookieData
     };
 
@@ -91,16 +93,23 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
         return deferred.promise;
     }
     
-    function setCookieData(user) {
+    function setCookieData(user, header) {
         $cookies.putObject("user", user);
+        $cookies.put("header", header);
     }
-    function getCookieData() {
+    function getCookieUser() {
         user = $cookies.get("user");
         return user;
+    }
+    function getCookieHeader() {
+        header = $cookies.get("header");
+        return header;
     }
     function clearCookieData() {
         $rootScope.user = {};
         $cookies.remove("user");
+        $rootScope.header = '';
+        $cookies.remove("header");
     }
 
 }]);

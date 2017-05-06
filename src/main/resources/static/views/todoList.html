@@ -15,7 +15,14 @@
     </div>
 
 <div class="panel panel-red m-10">
-    <div class="panel-heading">All Tasks</div>
+    <div class="panel-heading height-50">
+        <div class="f-l">All Tasks</div>
+        <div class="m-r--14 f-r">
+            <button class="btn btn-default" data-toggle="modal" ng-click="showNewTodo()">
+                New task
+            </button>
+        </div>
+    </div>
     <div class="panel-body">
         <table class="table table-hover table-striped">
             <thead>

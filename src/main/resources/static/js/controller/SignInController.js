@@ -15,7 +15,7 @@ app.controller('SignInController', ['$http', '$scope', '$rootScope', '$state', '
                             $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
                             $rootScope.user = d;
                             console.log(d);
-                            UserService.setCookieData($rootScope.user);
+                            UserService.setCookieData($rootScope.user, 'Basic ' + base64Credential);
                         }
                     },
                     function(errResponse){

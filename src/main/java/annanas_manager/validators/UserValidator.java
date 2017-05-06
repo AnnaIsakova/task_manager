@@ -24,7 +24,7 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return CustomUser.class.equals(aClass);
+        return CustomUserDTO.class.equals(aClass);
     }
 
     @Override

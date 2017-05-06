@@ -8,9 +8,11 @@ import annanas_manager.entities.enums.TaskPriority;
 import annanas_manager.entities.enums.TaskStatus;
 import annanas_manager.services.CustomUserService;
 import annanas_manager.services.TaskService;
+import annanas_manager.validators.TaskValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -26,6 +28,9 @@ public class TaskController {
 
     @Autowired
     CustomUserService userService;
+
+    @Autowired
+    TaskValidator taskValidator;
 
     @RequestMapping(value = "/api/status", method = RequestMethod.GET)
     @ResponseBody
@@ -56,5 +61,19 @@ public class TaskController {
             return new ResponseEntity<List<TaskDTO>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<List<TaskDTO>>(tasksDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/new_task", method = RequestMethod.POST)
+    public ResponseEntity<Void> createUser(@RequestBody TaskDTO taskDTO, Principal principal, BindingResult bindingResult) {
+        System.out.println(taskDTO.toString());
+        taskValidator.validate(taskDTO, bindingResult);
+        if (bindingResult.hasErrors()){
+            System.out.println("errors from validator: " + bindingResult.getAllErrors());
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        }
+        CustomUser user = userService.getByEmail(principal.getName());
+        taskDTO.setCreatedBy(user.toDTO());
+        taskService.add(taskDTO);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 }

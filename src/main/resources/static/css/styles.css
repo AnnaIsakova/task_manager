@@ -28,6 +28,10 @@ body {
     float: left;
 }
 
+.f-r {
+    float: right;
+}
+
 .clear {
     clear: both;
 }
@@ -58,4 +62,25 @@ body {
 
 .active-li{
     background-color: #1d1d1d;
+}
+
+.m-r--14 {
+    margin-right: -14px;
+}
+
+.m-r--16 {
+    margin-right: -16px;
+}
+
+.height-50 {
+    height: 50px;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.k-header
+{
+    width: 100% !important;
 }

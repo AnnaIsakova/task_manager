@@ -16,7 +16,6 @@ app.controller('SignUpController', ['$scope', '$rootScope', '$state', '$http', '
                 .then(
                     function(d) {
                         $scope.roles = d;
-                        console.log('roles:', $scope.roles);
                     },
                     function(errResponse){
                         console.error('Error while fetching Roles');
@@ -38,7 +37,7 @@ app.controller('SignUpController', ['$scope', '$rootScope', '$state', '$http', '
                                 if(d.authenticated) {
                                     $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
                                     $rootScope.user = d;
-                                    UserService.setCookieData($rootScope.user);
+                                    UserService.setCookieData($rootScope.user, 'Basic ' + base64Credential);
                                 }
                             },
                             function(errResponse){

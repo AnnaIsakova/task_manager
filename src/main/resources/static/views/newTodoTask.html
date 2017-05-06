@@ -1,0 +1,91 @@
+<div class="modal fade m-r--16" id="newTodoTaskModal">
+    <div class="modal-dialog">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    New Task
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="panel-body pan">
+                    <form name="newTodoTaskForm" role="form" novalidate>
+                        <div class="form-body pal">
+                            <div class="form-group">
+                                <label for="description" class="control-label">
+                                    Description*
+                                </label>
+                                <div ng-class="{
+                                    'has-error' :
+                                        newTodoTaskForm.description.$invalid && !newTodoTaskForm.description.$pristine,
+                                    'has-success' :
+                                        newTodoTaskForm.description.$valid && !newTodoTaskForm.description.$pristine}">
+                                    <textarea
+                                            id="description"
+                                            name="description"
+                                            type="text"
+                                            rows="5"
+                                            class="form-control"
+                                            ng-model="task.description"
+                                            required
+                                    ></textarea>
+                                </div>
+
+                            </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="priority" class="control-label">
+                                                Priority*
+                                            </label>
+                                            <div ng-class="{
+                                                'has-error' :
+                                                    newTodoTaskForm.priority.$invalid && !newTodoTaskForm.priority.$pristine,
+                                                'has-success' :
+                                                        newTodoTaskForm.priority.$valid && !newTodoTaskForm.priority.$pristine}">
+                                                    <select
+                                                            class="form-control"
+                                                            id="priority"
+                                                            name="priority"
+                                                            ng-model="task.priority"
+                                                            ng-options="priority for priority in priorities track by priority"
+                                                            required>
+                                                        <option value="">Please select task priority</option>
+                                                    </select>
+                                                </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="deadline" class="control-label">
+                                                Deadline</label>
+                                            <div>
+                                                <input
+                                                        class="form-control"
+                                                        id="deadline"
+                                                        kendo-date-picker
+                                                        k-ng-model="task.deadline"
+                                                        k-options="datePickerOptions"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
+                            </div>
+                        <div class="form-actions text-right pal">
+                            <button
+                                    type="submit"
+                                    class="btn btn-danger"
+                                    ng-disabled="newTodoTaskForm.$invalid"
+                                    ng-click="submit(task)">
+                                Add task
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>

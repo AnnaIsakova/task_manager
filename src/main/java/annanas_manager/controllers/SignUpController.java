@@ -29,17 +29,13 @@ public class SignUpController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody CustomUserDTO user, UriComponentsBuilder ucBuilder, BindingResult bindingResult) {
+    public ResponseEntity<Void> createUser(@RequestBody CustomUserDTO user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()){
             System.out.println("errors from validator: " + bindingResult.getAllErrors());
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
         customUserService.add(user);
-//        long id = customUserService.getByEmail(user.getEmail()).getId();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(id).toUri());
-//        System.out.println(id + "=> ID");
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 

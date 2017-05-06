@@ -30,6 +30,17 @@ public class TaskDTO {
         this.deadline = deadline;
     }
 
+    public TaskDTO(String description, TaskPriority priority, Date deadline) {
+        this.description = description;
+        this.priority = priority;
+        this.status = TaskStatus.NEW;
+        this.createDate = new Date(System.currentTimeMillis());
+        this.deadline = deadline;
+    }
+
+    public TaskDTO() {
+    }
+
     public long getId() {
         return id;
     }
