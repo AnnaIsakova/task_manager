@@ -1,6 +1,7 @@
 package annanas_manager.services;
 
 
+import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.DTO.TaskDTO;
 import annanas_manager.entities.CustomUser;
 import annanas_manager.entities.Task;
@@ -8,8 +9,9 @@ import annanas_manager.entities.Task;
 import java.util.List;
 
 public interface TaskService {
-    Task add(TaskDTO taskDTO);
-    void delete(long id);
-    Task edit(Task task);
-    List<Task> getAll(CustomUser id);
+    void add(TaskDTO taskDTO);
+    boolean delete(long id, String email);
+    void edit(TaskDTO task);
+    List<TaskDTO> findByUser(CustomUserDTO customUserDTO);
+    CustomUserDTO findUser(String email);
 }

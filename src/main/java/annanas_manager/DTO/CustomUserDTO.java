@@ -1,9 +1,13 @@
 package annanas_manager.DTO;
 
+import annanas_manager.entities.Task;
 import annanas_manager.entities.enums.UserRole;
 import annanas_manager.entities.enums.UserRoleDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import java.util.List;
+import java.util.Set;
 
 public class CustomUserDTO {
 
@@ -13,6 +17,7 @@ public class CustomUserDTO {
     private String password;
     private String email;
     private UserRole role;
+//    private List<TaskDTO> todoList;
 
     public CustomUserDTO() {}
 
@@ -23,6 +28,7 @@ public class CustomUserDTO {
         this.password = password;
         this.email = email;
         this.role = role;
+//        this.todoList = todoList;
     }
 
     @JsonProperty("role")
@@ -76,15 +82,23 @@ public class CustomUserDTO {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "CustomUserDTO{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                '}';
-    }
+//    public List<TaskDTO> getTodoList() {
+//        return todoList;
+//    }
+//
+//    public void setTodoList(List<TaskDTO> todoList) {
+//        this.todoList = todoList;
+//    }
+
+//    @Override
+//    public String toString() {
+//        return "CustomUserDTO{" +
+//                "id=" + id +
+//                ", firstName='" + firstName + '\'' +
+//                ", lastName='" + lastName + '\'' +
+//                ", password='" + password + '\'' +
+//                ", email='" + email + '\'' +
+//                ", role=" + role +
+//                '}';
+//    }
 }

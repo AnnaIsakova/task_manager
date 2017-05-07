@@ -1,6 +1,7 @@
 package annanas_manager.entities;
 
 import annanas_manager.DTO.CustomUserDTO;
+import annanas_manager.DTO.TaskDTO;
 import annanas_manager.entities.enums.UserRole;
 import org.hibernate.annotations.*;
 
@@ -9,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -40,8 +43,8 @@ public class CustomUser {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "createdBy", cascade= CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Task> todoList;
+    @OneToMany(mappedBy = "createdBy", cascade= CascadeType.ALL)
+    private List<Task> todoList;
 
     public CustomUser() {}
 
@@ -69,6 +72,22 @@ public class CustomUser {
                 ", email='" + email + '\'' +
                 ", role=" + role +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CustomUser that = (CustomUser) o;
+
+        return id == that.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
     }
 
     public long getId() {
@@ -119,11 +138,11 @@ public class CustomUser {
         this.role = role;
     }
 
-    public Set<Task> getTodoList() {
+    public List<Task> getTodoList() {
         return todoList;
     }
 
-    public void setTodoList(Set<Task> todoList) {
+    public void setTodoList(List<Task> todoList) {
         this.todoList = todoList;
     }
 }

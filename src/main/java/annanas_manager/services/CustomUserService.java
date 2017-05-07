@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface CustomUserService {
 
-    CustomUser add(CustomUserDTO user);
+    void add(CustomUserDTO customUserDTO);
     void delete(long id);
-    CustomUser getByName(String name);
-    CustomUser getByFullName(String firstName, String lastName);
-    CustomUser getByEmail(String email);
-    CustomUser edit(CustomUser customUser);
-    List<CustomUser> getAll();
+    CustomUserDTO getByName(String name);
+    CustomUserDTO getByFullName(String firstName, String lastName);
+    CustomUserDTO getByEmail(String email);
+    void edit(CustomUserDTO customUserDTO);
+    List<CustomUserDTO> getAll();
     boolean isUserExist(CustomUserDTO customUserDTO);
 }

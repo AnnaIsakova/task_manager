@@ -1,13 +1,13 @@
 'use strict';
 
-app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 'TodoListService', 'ModalService',
-    function($scope, $rootScope, $state, $http, TodoListService, ModalService) {
+app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 'close', 'TodoListService', 'ModalService',
+    function($scope, $rootScope, $state, $http, close, TodoListService, ModalService) {
 
         $scope.task = {description:'', priority:'', deadline:new Date()};
         $scope.priorities = [];
         $scope.datePickerOptions = {
             min: new Date(),
-            parseFormats: ["yyyy-MM-ddTHH:mm:ss"]
+            parseFormats: ["yyyy-MM-dd"]
         };
 
         fetchAllPriorities();
@@ -29,8 +29,8 @@ app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 
             TodoListService.createTask(task)
                 .then(
                     function (d) {
-                        // close(user, 500);
-                        // $('#signUpModal').modal('hide');
+                        close(task, 500);
+                        $('#newTodoTaskModal').modal('hide');
                     },
                     function(errResponse){
                         console.error('Error while creating User');

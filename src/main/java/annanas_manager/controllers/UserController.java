@@ -23,14 +23,10 @@ public class UserController {
     @RequestMapping(value = "api/user/", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<CustomUserDTO>> getAllUsers(){
-        List<CustomUser> users = customUserService.getAll();
-        List<CustomUserDTO> usersDTO = new ArrayList<>();
-        for(CustomUser user : users){
-            usersDTO.add(user.toDTO());
-        }
+        List<CustomUserDTO> users = customUserService.getAll();
         if(users.isEmpty()){
             return new ResponseEntity<List<CustomUserDTO>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
-        return new ResponseEntity<List<CustomUserDTO>>(usersDTO, HttpStatus.OK);
+        return new ResponseEntity<List<CustomUserDTO>>(users, HttpStatus.OK);
     }
 }

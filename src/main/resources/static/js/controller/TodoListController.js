@@ -16,7 +16,7 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
                     },
                     function(errResponse){
                         console.error('Error while fetching tasks -> from controller');
-                        $scope.errorMessage = "Oops, error while fetching roles occurred :(\nPlease, try again later!";
+                        $scope.errorMessage = "Oops, error while fetching tasks occurred :(\nPlease, try again later!";
                     }
                 );
         }
@@ -28,9 +28,25 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
             }).then(function(modal) {
                 modal.element.modal();
                 modal.close.then(function(result) {
-                    // $state.go('dashboard.projects');
+                    $state.go('dashboard.todo');
+                    fetchAllTasks();
                 });
             });
         };
+
+        $scope.delete = function (id) {
+            console.log(id);
+            TodoListService.deleteTask(id)
+                .then(
+                    function(d) {
+                        console.log("Task was deleted", d);
+                        fetchAllTasks();
+                    },
+                    function(errResponse){
+                        console.error('Error while deleting tasks -> from controller');
+                        $scope.errorMessage = "Oops, error while deleting task occurred :(\nPlease, try again later!";
+                    }
+                );
+        }
 
     }]);

@@ -8,7 +8,8 @@ app.factory('TodoListService', ['$http', '$q', '$rootScope', function($http, $q,
         fetchAllTasks: fetchAllTasks,
         fetchAllStatus: fetchAllStatus,
         fetchAllPriorities: fetchAllPriorities,
-        createTask:createTask
+        createTask:createTask,
+        deleteTask:deleteTask
     };
 
     return factory;
@@ -71,6 +72,21 @@ app.factory('TodoListService', ['$http', '$q', '$rootScope', function($http, $q,
                 },
                 function(errResponse){
                     console.error('Error while creating Task');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function deleteTask(id) {
+        var deferred = $q.defer();
+        $http.post(REST_SERVICE_URI + 'delete', id)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while deleting Task');
                     deferred.reject(errResponse);
                 }
             );

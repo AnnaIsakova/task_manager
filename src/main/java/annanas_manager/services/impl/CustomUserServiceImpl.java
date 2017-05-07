@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,11 +34,11 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
     }
 
     @Override
-    public CustomUser add(CustomUserDTO user) {
+    public void add(CustomUserDTO user) {
         CustomUser customUser = CustomUser.fromDTO(user);
         String encryptedPass = bCryptPasswordEncoder.encode(customUser.getPassword());
         customUser.setPassword(encryptedPass);
-        return userRepository.saveAndFlush(customUser);
+        userRepository.saveAndFlush(customUser);
     }
 
     @Override
@@ -46,28 +47,40 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
     }
 
     @Override
-    public CustomUser getByName(String name) {
-        return userRepository.findByName(name);
+    public CustomUserDTO getByName(String name) {
+        CustomUser user = userRepository.findByName(name);
+        return user.toDTO();
     }
 
     @Override
-    public CustomUser getByFullName(String firstName, String lastName) {
-        return userRepository.findByFullName(firstName, lastName);
+    public CustomUserDTO getByFullName(String firstName, String lastName) {
+        CustomUser user = userRepository.findByFullName(firstName, lastName);
+        return user.toDTO();
     }
 
     @Override
-    public CustomUser getByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public CustomUserDTO getByEmail(String email) {
+        CustomUser user = userRepository.findByEmail(email);
+        if (user != null){
+            return user.toDTO();
+        }
+        return null;
     }
 
     @Override
-    public CustomUser edit(CustomUser user) {
-        return userRepository.saveAndFlush(user);
+    public void edit(CustomUserDTO customUserDTO) {
+        CustomUser user = CustomUser.fromDTO(customUserDTO);
+        userRepository.saveAndFlush(user);
     }
 
     @Override
-    public List<CustomUser> getAll() {
-        return userRepository.findAll();
+    public List<CustomUserDTO> getAll() {
+        List<CustomUser> users = userRepository.findAll();
+        List<CustomUserDTO> userDTOs = new ArrayList<>();
+        for (CustomUser user:users) {
+            userDTOs.add(user.toDTO());
+        }
+        return userDTOs;
     }
 
     @Override

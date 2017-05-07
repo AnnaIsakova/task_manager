@@ -10,6 +10,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -33,12 +36,15 @@ public class TaskValidator implements Validator {
         }
     }
 
-    private boolean isDeadlineValid(Date deadline){
-        Date today = new Date(System.currentTimeMillis());
-        if (!deadline.before(today)){
+    private boolean isDeadlineValid(Calendar deadline){
+        Calendar now = Calendar.getInstance();
+        now.clear(Calendar.HOUR_OF_DAY);
+        now.clear(Calendar.MINUTE);
+        now.clear(Calendar.SECOND);
+        now.clear(Calendar.MILLISECOND);
+        if (!now.after(deadline)){
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

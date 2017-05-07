@@ -14,6 +14,8 @@
         </div>
     </div>
 
+    <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
+
 <div class="panel panel-red m-10">
     <div class="panel-heading height-50">
         <div class="f-l">All Tasks</div>
@@ -24,7 +26,8 @@
         </div>
     </div>
     <div class="panel-body">
-        <table class="table table-hover table-striped">
+        <div ng-if="tasks.length == 0">You have no tasks yet.</div>
+        <table class="table table-hover table-striped" ng-if="tasks.length > 0">
             <thead>
             <tr>
                 <th>Description</th>
@@ -60,8 +63,8 @@
                 </td>
                 <td>{{task.deadline | date:'mediumDate'}}</td>
                 <td>
-                    <i class="fa fa-pencil"></i>&nbsp;
-                    <i class="fa fa-trash-o"></i>&nbsp;
+                    <a><i class="fa fa-pencil"></i></a>&nbsp;
+                    <a href ng-click="delete(task.id)"><i class="fa fa-trash-o"></i></a>&nbsp;
                 </td>
             </tr>
             </tbody>

@@ -9,6 +9,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -24,7 +25,7 @@ public class Task {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private CustomUser createdBy;
 
@@ -41,26 +42,30 @@ public class Task {
     private Date createDate;
 
     @Column(name = "deadline", nullable = false)
-    @Type(type="timestamp")
-    private Date deadline;
+//    @Type(type="timestamp")
+    private Calendar deadline;
 
-    public Task(String description, CustomUser createdBy, TaskPriority priority, Date deadline) {
+    public Task(String description, TaskPriority priority, TaskStatus status, Date createDate, Calendar deadline) {
         this.description = description;
-        this.createdBy = createdBy;
         this.priority = priority;
-        this.status = TaskStatus.NEW;
-        this.createDate = new Date(System.currentTimeMillis());
+        this.status = status;
+        this.createDate = createDate;
         this.deadline = deadline;
     }
 
     public Task() {}
 
     public TaskDTO toDTO() {
-        return new TaskDTO(id, description, priority, status, createDate, deadline);
+        return new TaskDTO(id, description, createdBy.toDTO(), priority, status, createDate, deadline);
     }
 
     public static Task fromDTO(TaskDTO dto) {
-        return new Task(dto.getDescription(), CustomUser.fromDTO(dto.getCreatedBy()), dto.getPriority(), dto.getDeadline());
+        return new Task(
+                dto.getDescription(),
+                dto.getPriority(),
+                dto.getStatus(),
+                dto.getCreateDate(),
+                dto.getDeadline());
     }
 
     @Override
@@ -124,11 +129,11 @@ public class Task {
         this.createDate = createDate;
     }
 
-    public Date getDeadline() {
+    public Calendar getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(Calendar deadline) {
         this.deadline = deadline;
     }
 }

@@ -1,6 +1,7 @@
 package annanas_manager.controllers;
 
 
+import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.DTO.TaskDTO;
 import annanas_manager.entities.CustomUser;
 import annanas_manager.entities.Task;
@@ -16,9 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class TaskController {
@@ -47,33 +46,42 @@ public class TaskController {
     @RequestMapping(value = "api/tasks", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<TaskDTO>> getAllTasks(Principal principal){
-        CustomUser user = userService.getByEmail(principal.getName());
-        Set<Task> tasks = user.getTodoList();
-        System.out.println(tasks);
-        List<TaskDTO> tasksDTO = new ArrayList<>();
-        for(Task task : tasks){
-            TaskDTO taskDTO = task.toDTO();
-            taskDTO.setCreatedBy(user.toDTO());
-            tasksDTO.add(taskDTO);
-        }
-        System.out.println(tasksDTO);
+        CustomUserDTO userDTO = userService.getByEmail(principal.getName());
+        List<TaskDTO> tasks = taskService.findByUser(userDTO);
         if(tasks.isEmpty()){
             return new ResponseEntity<List<TaskDTO>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
-        return new ResponseEntity<List<TaskDTO>>(tasksDTO, HttpStatus.OK);
+        return new ResponseEntity<List<TaskDTO>>(tasks, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/new_task", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody TaskDTO taskDTO, Principal principal, BindingResult bindingResult) {
-        System.out.println(taskDTO.toString());
+    public ResponseEntity<Void> createTask(@RequestBody TaskDTO taskDTO, Principal principal, BindingResult bindingResult) {
+        ignoreDeadlineTime(taskDTO.getDeadline());
         taskValidator.validate(taskDTO, bindingResult);
         if (bindingResult.hasErrors()){
             System.out.println("errors from validator: " + bindingResult.getAllErrors());
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
-        CustomUser user = userService.getByEmail(principal.getName());
-        taskDTO.setCreatedBy(user.toDTO());
+        CustomUserDTO user = taskService.findUser(principal.getName());
+        taskDTO.setCreatedBy(user);
         taskService.add(taskDTO);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/api/delete", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteTask(@RequestBody long id, Principal principal, BindingResult bindingResult) {
+        System.out.println(id);
+        boolean isDeleted = taskService.delete(id, principal.getName());
+        if (isDeleted){
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
+        }
+        return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    }
+
+    private void ignoreDeadlineTime(Calendar deadline){
+        deadline.clear(Calendar.HOUR_OF_DAY);
+        deadline.clear(Calendar.MINUTE);
+        deadline.clear(Calendar.SECOND);
+        deadline.clear(Calendar.MILLISECOND);
     }
 }

@@ -12,6 +12,7 @@ public class SignInController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public Principal login(Principal principal) {
+        System.out.println(principal);
         return principal;
     }
 }
