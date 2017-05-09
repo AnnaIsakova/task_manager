@@ -43,7 +43,7 @@ public class TaskController {
         return TaskPriority.getPriorities();
     }
 
-    @RequestMapping(value = "api/tasks", method = RequestMethod.GET)
+    @RequestMapping(value = "api/todo", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<TaskDTO>> getAllTasks(Principal principal){
         CustomUserDTO userDTO = userService.getByEmail(principal.getName());
@@ -54,7 +54,7 @@ public class TaskController {
         return new ResponseEntity<List<TaskDTO>>(tasks, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/new_task", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/todo/new", method = RequestMethod.POST)
     public ResponseEntity<Void> createTask(@RequestBody TaskDTO taskDTO, Principal principal, BindingResult bindingResult) {
         ignoreDeadlineTime(taskDTO.getDeadline());
         taskValidator.validate(taskDTO, bindingResult);
@@ -68,7 +68,21 @@ public class TaskController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/api/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/todo/edit", method = RequestMethod.POST)
+    public ResponseEntity<Void> editTask(@RequestBody TaskDTO taskDTO, Principal principal, BindingResult bindingResult) {
+        System.out.println(taskDTO);
+        taskValidator.validate(taskDTO, bindingResult);
+        if (bindingResult.hasErrors()){
+            System.out.println("errors from validator: " + bindingResult.getAllErrors());
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        }
+         if (taskService.edit(taskDTO, principal.getName())){
+             return new ResponseEntity<Void>(HttpStatus.OK);
+        }
+        return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    }
+
+    @RequestMapping(value = "/api/todo/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteTask(@RequestBody long id, Principal principal, BindingResult bindingResult) {
         System.out.println(id);
         boolean isDeleted = taskService.delete(id, principal.getName());

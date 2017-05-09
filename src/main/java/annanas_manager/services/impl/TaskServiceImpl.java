@@ -47,9 +47,19 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public void edit(TaskDTO taskDTO) {
-        Task task = Task.fromDTO(taskDTO);
-        taskRepository.saveAndFlush(task);
+    public boolean edit(TaskDTO taskDTO, String email) {
+        Task task = taskRepository.findById(taskDTO.getId());
+        CustomUser user = userRepository.findByEmail(email);
+        if (task.getCreatedBy().equals(user)){
+            task.setDescription(taskDTO.getDescription());
+            task.setPriority(taskDTO.getPriority());
+            task.setStatus(taskDTO.getStatus());
+            task.setDeadline(taskDTO.getDeadline());
+            System.out.println("task from service: " + taskDTO);
+            taskRepository.saveAndFlush(task);
+            return true;
+        }
+        return false;
     }
 
     @Override

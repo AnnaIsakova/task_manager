@@ -11,7 +11,7 @@ import java.util.List;
 public interface TaskService {
     void add(TaskDTO taskDTO);
     boolean delete(long id, String email);
-    void edit(TaskDTO task);
+    boolean edit(TaskDTO task , String email);
     List<TaskDTO> findByUser(CustomUserDTO customUserDTO);
     CustomUserDTO findUser(String email);
 }

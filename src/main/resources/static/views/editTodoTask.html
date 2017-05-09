@@ -1,0 +1,118 @@
+<div class="modal fade m-r--16" id="editTodoTaskModal" xmlns:date="http://www.w3.org/1999/xhtml">
+    <div class="modal-dialog">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                Edit Task
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="rollback()">&times;</button>
+            </div>
+            <div class="panel-body pan">
+                <form name="editTodoTaskForm" role="form" novalidate>
+                    <div class="form-body pal">
+                        <div class="form-group">
+                            <label for="description" class="control-label">
+                                Description*
+                            </label>
+                            <div ng-class="{
+                                    'has-error' :
+                                        editTodoTaskForm.description.$invalid && !editTodoTaskForm.description.$pristine,
+                                    'has-success' :
+                                        editTodoTaskForm.description.$valid && !editTodoTaskForm.description.$pristine}">
+                                    <textarea
+                                            id="description"
+                                            name="description"
+                                            type="text"
+                                            rows="5"
+                                            class="form-control"
+                                            ng-model="task.description"
+                                            required
+                                    >{{task.description}}</textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="priority" class="control-label">
+                                        Priority*
+                                    </label>
+                                    <div ng-class="{
+                                                'has-error' :
+                                                    editTodoTaskForm.priority.$invalid && !editTodoTaskForm.priority.$pristine,
+                                                'has-success' :
+                                                        editTodoTaskForm.priority.$valid && !editTodoTaskForm.priority.$pristine}">
+                                        <select
+                                                class="form-control"
+                                                id="priority"
+                                                name="priority"
+                                                ng-model="task.priority"
+                                                ng-options="priority for priority in priorities track by priority"
+                                                required>
+                                            <option value="{{task.priority}}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="deadline" class="control-label">
+                                        Deadline</label>
+                                    <div class="has-error">
+                                        <div>
+                                            <input
+                                                    class="form-control"
+                                                    id="deadline"
+                                                    kendo-date-picker
+                                                    k-ng-model="task.deadline"
+                                                    k-options="datePickerOptions"
+                                                    placeholder="{{task.deadline | date:'MM/dd/yyyy'}}"
+                                            />
+                                        </div>
+                                    </div>
+                                    <small  ng-if="task.deadline < now">
+                                        Wrong deadline
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status" class="control-label">
+                                Status
+                            </label>
+                            <div id="status" class="row">
+                                <label ng-repeat="status in allStatus" class="col-md-4">
+                                    <input
+                                            type="radio"
+                                            name="status"
+                                            value="{{status}}"
+                                            ng-model="task.status"
+                                    >
+                                    {{status}}&nbsp;
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
+                    </div>
+                    <div class="form-actions text-right pal">
+                        <button
+                                type="submit"
+                                class="btn btn-danger"
+                                ng-disabled="editTodoTaskForm.$invalid"
+                                ng-click="edit(task)">
+                            Save
+                        </button>
+                        <button
+                                type="button"
+                                class="btn btn-default"
+                                data-dismiss="modal"
+                                ng-click="rollback()">
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -44,14 +44,5 @@ app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 
             console.log('deadline-> ', result.deadline);
             createTask(result);
         };
-        
-        function validateDate(deadline){
-            var today = new Date;
-            var result = deadline - today;
-            if (result > 0){
-                return true;
-            } else {
-                return false;
-            }
-        }
+
     }]);

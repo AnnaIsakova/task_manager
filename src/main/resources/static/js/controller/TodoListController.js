@@ -2,9 +2,13 @@
 
 app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http', 'TodoListService', 'ModalService',
     function($scope, $rootScope, $state, $http, TodoListService, ModalService) {
-        var self = this;
+
         $scope.task={};
         $scope.tasks=[];
+        $rootScope.taskForEdit={};
+
+        $scope.sortType     = 'status'; // set the default sort type
+        $scope.sortReverse  = true;  // set the default sort order
 
         fetchAllTasks();
 
@@ -34,6 +38,21 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
             });
         };
 
+        $scope.openEdit = function (task) {
+            console.log('open editing: ', task);
+            $rootScope.taskForEdit = task;
+            ModalService.showModal({
+                templateUrl: '/views/editTodoTask.html',
+                controller: "EditTodoController"
+            }).then(function(modal) {
+                modal.element.modal();
+                modal.close.then(function(result) {
+                    $state.go('dashboard.todo');
+                    fetchAllTasks();
+                });
+            });
+        };
+
         $scope.delete = function (id) {
             console.log(id);
             TodoListService.deleteTask(id)
@@ -47,6 +66,26 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
                         $scope.errorMessage = "Oops, error while deleting task occurred :(\nPlease, try again later!";
                     }
                 );
+        }
+
+        $scope.prioritiesComparator = function(v1, v2) {
+            // If we don't get strings, just compare by index
+            if (v1.value == 'LOW' && v2.value == 'NORMAL') {
+                return  -1;
+            } else if (v1.value == 'NORMAL' && v2.value == 'LOW') {
+                return 1;
+            } else if (v1.value == 'LOW' && v2.value == 'HIGH'){
+                return -1;
+            } else if (v1.value == 'HIGH' && v2.value == 'LOW'){
+                return 1;
+            } else if (v1.value == 'NORMAL' && v2.value == 'HIGH'){
+                return -1;
+            } else if (v1.value == 'HIGH' && v2.value == 'NORMAL'){
+                return 1;
+            } else {
+                return (v1.value > v2.value) ? 1 : -1;
+            }
+
         }
 
     }]);
