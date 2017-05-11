@@ -2,9 +2,11 @@ package annanas_manager.services.impl;
 
 import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.entities.CustomUser;
+import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.repositories.CustomUserRepository;
 import annanas_manager.services.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,13 +30,17 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
     public UserDetails loadUserByUsername(String email) {
         CustomUser user = userRepository.findByUsername(email);
         if (user == null) {
+            System.out.println("NOT FOUND");
             throw new UsernameNotFoundException(email);
         }
         return new CustomUserPrincipal(user);
     }
 
     @Override
-    public void add(CustomUserDTO user) {
+    public void add(CustomUserDTO user) throws CustomUserException {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new CustomUserException("Such user already exists", HttpStatus.CONFLICT);
+        }
         CustomUser customUser = CustomUser.fromDTO(user);
         String encryptedPass = bCryptPasswordEncoder.encode(customUser.getPassword());
         customUser.setPassword(encryptedPass);

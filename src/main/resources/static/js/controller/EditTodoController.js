@@ -65,7 +65,7 @@ app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'TodoList
                     },
                     function(errResponse){
                         console.error('Error while editing task -> from controller');
-                        $scope.errorMessage = "Oops, error while editing task occurred :(\nPlease, try again later!";
+                        $scope.errorMessage = errResponse.data.message;
                     }
                 );
         };

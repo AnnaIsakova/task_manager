@@ -2,6 +2,8 @@ package annanas_manager.controllers;
 
 import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.entities.enums.UserRole;
+import annanas_manager.exceptions.CustomUserException;
+import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.services.CustomUserService;
 import annanas_manager.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,13 @@ public class SignUpController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody CustomUserDTO user, BindingResult bindingResult) {
+    public ResponseEntity<Void> createUser(
+            @RequestBody CustomUserDTO user,
+            BindingResult bindingResult) throws CustomUserException {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()){
             System.out.println("errors from validator: " + bindingResult.getAllErrors());
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+            throw new CustomUserException("Invalid user form", HttpStatus.BAD_REQUEST);
         }
         customUserService.add(user);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
@@ -47,5 +51,13 @@ public class SignUpController {
         } else {
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
+    }
+
+    @ExceptionHandler(CustomUserException.class)
+    public ResponseEntity<ErrorResponse> exceptionHandler(CustomUserException ex) {
+        ErrorResponse error = new ErrorResponse();
+        error.setErrorCode(ex.getHttpStatus().value());
+        error.setMessage(ex.getMessage());
+        return new ResponseEntity<ErrorResponse>(error, ex.getHttpStatus());
     }
 }

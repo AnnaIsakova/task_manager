@@ -30,7 +30,6 @@ public class CustomUserPrincipal implements UserDetails {
         for (UserRole role : roles) {
             grntdAuths.add(new SimpleGrantedAuthority(role.name()));
         }
-
         return grntdAuths;
     }
 

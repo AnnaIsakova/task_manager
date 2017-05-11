@@ -32,24 +32,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             // be in a database, LDAP or in memory.
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
         auth.authenticationProvider(authenticationProvider());
-////
-// .jdbcAuthentication()
-////                .dataSource(dataSource)
-////                .usersByUsernameQuery(
-////                        "select email, password " +
-////                                "from CustomUser where email=?")
-////                .authoritiesByUsernameQuery(
-////                        "select email from CustomUser where email=?")
-////                .passwordEncoder(new BCryptPasswordEncoder());
-////                // using in memory authentication
-//                .inMemoryAuthentication()
-//                // adding Administrator user
-//                .withUser("admin").password("admin").authorities("ADMIN", "USER")
-//                // using add() method for adding new user
-//                .and()
-//                // adding a user without Administrator authority
-//                .withUser("user").password("user").authorities("USER");
     }
 
     @Bean

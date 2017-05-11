@@ -43,14 +43,13 @@ app.controller('SignUpController', ['$scope', '$rootScope', '$state', '$http', '
                             function(errResponse){
                                 console.error('Error while login User');
                                 $scope.errorMessage = "Wrong email or password :(";
-                                $timeout(function () { $scope.errorMessage = false; }, 2000);
                             }
                         );
                         //
                     },
                     function(errResponse){
-                        console.error('Error while creating User');
-                        $scope.errorMessage = "Oops, something went wrong :(\nPlease, try again!";
+                        console.error(errResponse);
+                        $scope.errorMessage = errResponse.data.message;
                     }
                 );
         }
@@ -58,6 +57,8 @@ app.controller('SignUpController', ['$scope', '$rootScope', '$state', '$http', '
 
         $scope.submit = function (result) {
             console.log(angular.toJson($scope.user));
+            console.log('email: ', $scope.user.email);
+            result.email = '';
             createUser(result);
         };
 

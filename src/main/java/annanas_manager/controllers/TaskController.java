@@ -7,6 +7,8 @@ import annanas_manager.entities.CustomUser;
 import annanas_manager.entities.Task;
 import annanas_manager.entities.enums.TaskPriority;
 import annanas_manager.entities.enums.TaskStatus;
+import annanas_manager.exceptions.ErrorResponse;
+import annanas_manager.exceptions.TaskException;
 import annanas_manager.services.CustomUserService;
 import annanas_manager.services.TaskService;
 import annanas_manager.validators.TaskValidator;
@@ -37,11 +39,13 @@ public class TaskController {
         return TaskStatus.getAllStatus();
     }
 
+
     @RequestMapping(value = "/api/priorities", method = RequestMethod.GET)
     @ResponseBody
     public List<TaskPriority> getPriorities(){
         return TaskPriority.getPriorities();
     }
+
 
     @RequestMapping(value = "api/todo", method = RequestMethod.GET)
     @ResponseBody
@@ -54,13 +58,17 @@ public class TaskController {
         return new ResponseEntity<List<TaskDTO>>(tasks, HttpStatus.OK);
     }
 
+
     @RequestMapping(value = "/api/todo/new", method = RequestMethod.POST)
-    public ResponseEntity<Void> createTask(@RequestBody TaskDTO taskDTO, Principal principal, BindingResult bindingResult) {
+    public ResponseEntity<Void> createTask(
+            @RequestBody TaskDTO taskDTO,
+            Principal principal,
+            BindingResult bindingResult) throws TaskException {
+
         ignoreDeadlineTime(taskDTO.getDeadline());
         taskValidator.validate(taskDTO, bindingResult);
         if (bindingResult.hasErrors()){
-            System.out.println("errors from validator: " + bindingResult.getAllErrors());
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+            throw new TaskException("Invalid task form", HttpStatus.BAD_REQUEST);
         }
         CustomUserDTO user = taskService.findUser(principal.getName());
         taskDTO.setCreatedBy(user);
@@ -68,34 +76,46 @@ public class TaskController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
+
     @RequestMapping(value = "/api/todo/edit", method = RequestMethod.POST)
-    public ResponseEntity<Void> editTask(@RequestBody TaskDTO taskDTO, Principal principal, BindingResult bindingResult) {
-        System.out.println(taskDTO);
+    public ResponseEntity<Void> editTask(
+            @RequestBody TaskDTO taskDTO,
+            Principal principal,
+            BindingResult bindingResult) throws TaskException {
+
         taskValidator.validate(taskDTO, bindingResult);
         if (bindingResult.hasErrors()){
-            System.out.println("errors from validator: " + bindingResult.getAllErrors());
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+            throw new TaskException("Invalid task form", HttpStatus.BAD_REQUEST);
         }
-         if (taskService.edit(taskDTO, principal.getName())){
-             return new ResponseEntity<Void>(HttpStatus.OK);
-        }
-        return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        taskService.edit(taskDTO, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+
     @RequestMapping(value = "/api/todo/delete", method = RequestMethod.POST)
-    public ResponseEntity<Void> deleteTask(@RequestBody long id, Principal principal, BindingResult bindingResult) {
+    public ResponseEntity<Void> deleteTask(
+            @RequestBody long id,
+            Principal principal) throws TaskException {
+
         System.out.println(id);
-        boolean isDeleted = taskService.delete(id, principal.getName());
-        if (isDeleted){
-            return new ResponseEntity<Void>(HttpStatus.CREATED);
-        }
-        return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        taskService.delete(id, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
+
 
     private void ignoreDeadlineTime(Calendar deadline){
         deadline.clear(Calendar.HOUR_OF_DAY);
         deadline.clear(Calendar.MINUTE);
         deadline.clear(Calendar.SECOND);
         deadline.clear(Calendar.MILLISECOND);
+    }
+
+
+    @ExceptionHandler(TaskException.class)
+    public ResponseEntity<ErrorResponse> exceptionHandler(TaskException ex) {
+        ErrorResponse error = new ErrorResponse();
+        error.setErrorCode(ex.getHttpStatus().value());
+        error.setMessage(ex.getMessage());
+        return new ResponseEntity<ErrorResponse>(error, ex.getHttpStatus());
     }
 }

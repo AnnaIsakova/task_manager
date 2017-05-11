@@ -63,7 +63,7 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
                     },
                     function(errResponse){
                         console.error('Error while deleting tasks -> from controller');
-                        $scope.errorMessage = "Oops, error while deleting task occurred :(\nPlease, try again later!";
+                        $scope.errorMessage = errResponse.data.message;
                     }
                 );
         }

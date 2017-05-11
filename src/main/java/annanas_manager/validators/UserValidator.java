@@ -2,9 +2,6 @@ package annanas_manager.validators;
 
 
 import annanas_manager.DTO.CustomUserDTO;
-import annanas_manager.entities.CustomUser;
-import annanas_manager.services.CustomUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -15,9 +12,6 @@ import java.util.regex.Pattern;
 
 @Component
 public class UserValidator implements Validator {
-
-    @Autowired
-    private CustomUserService userService;
 
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^(\\S+)@(\\S+)\\.(\\S+)$", Pattern.CASE_INSENSITIVE);
@@ -45,9 +39,6 @@ public class UserValidator implements Validator {
         }
         if (!isValidEmail(customUser.getEmail())){
             errors.rejectValue("email", "Invalid.email");
-        }
-        if (userService.getByEmail(customUser.getEmail()) != null) {
-            errors.rejectValue("email", "Duplicate.email");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         if (customUser.getPassword().length() < 5 || customUser.getPassword().length() > 32) {

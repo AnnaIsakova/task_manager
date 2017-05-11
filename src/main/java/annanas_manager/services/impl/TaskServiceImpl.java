@@ -6,10 +6,12 @@ import annanas_manager.DTO.TaskDTO;
 import annanas_manager.entities.CustomUser;
 import annanas_manager.entities.Task;
 import annanas_manager.entities.enums.TaskStatus;
+import annanas_manager.exceptions.TaskException;
 import annanas_manager.repositories.CustomUserRepository;
 import annanas_manager.repositories.TaskRepository;
 import annanas_manager.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,18 +38,17 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public boolean delete(long id, String email) {
+    public void delete(long id, String email) throws TaskException {
         Task task = taskRepository.findById(id);
         CustomUser user = userRepository.findByEmail(email);
         if (task.getCreatedBy().equals(user)){
             taskRepository.delete(id);
-            return true;
         }
-        return false;
+        throw new TaskException("You have no pesmission to delete this task", HttpStatus.FORBIDDEN);
     }
 
     @Override
-    public boolean edit(TaskDTO taskDTO, String email) {
+    public void edit(TaskDTO taskDTO, String email) throws TaskException {
         Task task = taskRepository.findById(taskDTO.getId());
         CustomUser user = userRepository.findByEmail(email);
         if (task.getCreatedBy().equals(user)){
@@ -57,9 +58,8 @@ public class TaskServiceImpl implements TaskService{
             task.setDeadline(taskDTO.getDeadline());
             System.out.println("task from service: " + taskDTO);
             taskRepository.saveAndFlush(task);
-            return true;
         }
-        return false;
+        throw new TaskException("You have no pesmission to edit this task", HttpStatus.FORBIDDEN);
     }
 
     @Override
