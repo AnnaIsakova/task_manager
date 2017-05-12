@@ -46,6 +46,22 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
             }
 
         })
+        .state('dashboard.projects.info', {
+            url: '/info',
+            views: {
+                "project-info": {
+                    templateProvider: function(TemplateService) {
+                        var result = TemplateService.getTemplate();
+                        console.log(result);
+                        // ngInclude template content based on the A/B test result
+                        return '<div ng-include="" src="\'views/projectInfo-tl.html\'\"</div>';
+
+                    },
+                    controller: 'NavBarController'
+                }
+            }
+
+        })
         .state('dashboard.todo', {
             url: '/todo',
             views: {
