@@ -40,26 +40,26 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public void delete(long id, String email) throws TaskException {
         Task task = taskRepository.findById(id);
-        CustomUser user = userRepository.findByEmail(email);
-        if (task.getCreatedBy().equals(user)){
+        if (task.getCreatedBy().getEmail().equals(email)){
             taskRepository.delete(id);
+        } else {
+            throw new TaskException("You have no pesmission to delete this task", HttpStatus.FORBIDDEN);
         }
-        throw new TaskException("You have no pesmission to delete this task", HttpStatus.FORBIDDEN);
     }
 
     @Override
     public void edit(TaskDTO taskDTO, String email) throws TaskException {
         Task task = taskRepository.findById(taskDTO.getId());
-        CustomUser user = userRepository.findByEmail(email);
-        if (task.getCreatedBy().equals(user)){
+        if (task.getCreatedBy().getEmail().equals(email)){
             task.setDescription(taskDTO.getDescription());
             task.setPriority(taskDTO.getPriority());
             task.setStatus(taskDTO.getStatus());
             task.setDeadline(taskDTO.getDeadline());
             System.out.println("task from service: " + taskDTO);
             taskRepository.saveAndFlush(task);
+        } else {
+            throw new TaskException("You have no pesmission to edit this task", HttpStatus.FORBIDDEN);
         }
-        throw new TaskException("You have no pesmission to edit this task", HttpStatus.FORBIDDEN);
     }
 
     @Override

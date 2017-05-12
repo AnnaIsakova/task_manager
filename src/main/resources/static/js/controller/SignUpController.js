@@ -58,7 +58,9 @@ app.controller('SignUpController', ['$scope', '$rootScope', '$state', '$http', '
         $scope.submit = function (result) {
             console.log(angular.toJson($scope.user));
             console.log('email: ', $scope.user.email);
-            result.email = '';
+            if ($scope.user.email == undefined){
+                result.email = '';
+            }
             createUser(result);
         };
 

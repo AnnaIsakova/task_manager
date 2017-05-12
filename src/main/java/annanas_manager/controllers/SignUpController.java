@@ -34,6 +34,9 @@ public class SignUpController {
     public ResponseEntity<Void> createUser(
             @RequestBody CustomUserDTO user,
             BindingResult bindingResult) throws CustomUserException {
+
+        System.out.println(user.toString());
+        System.out.println(user.getEmail());
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()){
             System.out.println("errors from validator: " + bindingResult.getAllErrors());

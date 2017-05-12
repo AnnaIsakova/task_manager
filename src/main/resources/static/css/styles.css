@@ -7,6 +7,24 @@ body {
     margin-bottom: 60px;
 }
 
+@media (min-width: 1200px) {
+    .project_blocks {
+        max-height: 150px;
+        min-height: 150px;
+    }
+}
+
+/* Большой дисплей */
+@media (min-width: 1200px) and (max-width: 1480px) {
+    .col-lg-4 {
+        width: 50% !important;
+    }
+}
+
+.p-t-b-10 {
+    padding: 6px !important;
+}
+
 .color-black {
     color: #000000;
 }
@@ -84,9 +102,9 @@ body {
     padding-left: 17px;
 }
 
-.p-t-b-10{
-    padding: 0 10px;
-}
+/*.p-t-b-10{*/
+    /*padding: 0 10px;*/
+/*}*/
 
 .usr-name-li{
     height: 49px;

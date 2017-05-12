@@ -42,7 +42,6 @@ public class Task {
     private Date createDate;
 
     @Column(name = "deadline", nullable = false)
-//    @Type(type="timestamp")
     private Calendar deadline;
 
     public Task(String description, TaskPriority priority, TaskStatus status, Date createDate, Calendar deadline) {

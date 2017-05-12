@@ -1,7 +1,7 @@
 package annanas_manager.validators;
 
 
-import annanas_manager.DTO.TaskDTO;
+import annanas_manager.DTO.ProjectDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -9,24 +9,25 @@ import org.springframework.validation.Validator;
 
 import java.util.Calendar;
 
-
 @Component
-public class TaskValidator implements Validator {
+public class ProjectValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return TaskDTO.class.equals(aClass);
+        return ProjectDTO.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        TaskDTO task = (TaskDTO) o;
+        ProjectDTO projectDTO = (ProjectDTO) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "priority", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "details", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "deadline", "NotEmpty");
-        if (!DeadlineValidator.isDeadlineValid(task.getDeadline())){
+        if (!DeadlineValidator.isDeadlineValid(projectDTO.getDeadline())){
             errors.rejectValue("deadline", "Before.deadline");
         }
     }
+
+
 }

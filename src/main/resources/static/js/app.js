@@ -41,7 +41,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
                         return '<div ng-include="" src="\'views/projects-' + result + '.html\'\"</div>';
 
                     },
-                    controller: 'NavBarController'
+                    controller: 'ProjectListController'
                 }
             }
 

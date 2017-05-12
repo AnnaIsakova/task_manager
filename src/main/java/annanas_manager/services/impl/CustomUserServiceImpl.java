@@ -2,6 +2,9 @@ package annanas_manager.services.impl;
 
 import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.entities.CustomUser;
+import annanas_manager.entities.Developer;
+import annanas_manager.entities.Teamlead;
+import annanas_manager.entities.enums.UserRole;
 import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.repositories.CustomUserRepository;
 import annanas_manager.services.CustomUserService;
@@ -41,7 +44,13 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new CustomUserException("Such user already exists", HttpStatus.CONFLICT);
         }
-        CustomUser customUser = CustomUser.fromDTO(user);
+        CustomUser customUser = null;
+        if (user.getUserRole().equals(UserRole.DEVELOPER)){
+            customUser = Developer.fromDTO(user);
+        } else if (user.getUserRole().equals(UserRole.TEAMLEAD)){
+            customUser = Teamlead.fromDTO(user);
+        }
+
         String encryptedPass = bCryptPasswordEncoder.encode(customUser.getPassword());
         customUser.setPassword(encryptedPass);
         userRepository.saveAndFlush(customUser);
@@ -75,8 +84,13 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
 
     @Override
     public void edit(CustomUserDTO customUserDTO) {
-        CustomUser user = CustomUser.fromDTO(customUserDTO);
-        userRepository.saveAndFlush(user);
+        CustomUser customUser = null;
+        if (customUserDTO.getUserRole().equals(UserRole.DEVELOPER)){
+            customUser = Developer.fromDTO(customUserDTO);
+        } else if (customUserDTO.getUserRole().equals(UserRole.TEAMLEAD)){
+            customUser = Teamlead.fromDTO(customUserDTO);
+        }
+        userRepository.saveAndFlush(customUser);
     }
 
     @Override

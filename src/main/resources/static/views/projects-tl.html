@@ -4,6 +4,9 @@
             <div class="page-title">
                 Projects
             </div>
+            <div class="p-t-7 m-l-10 f-r">
+                <a href class="info-project"><i class="fa fa-plus fa-font-16" aria-hidden="true"></i></a>
+            </div>
             <div>
                 Here are your projects. As team leader you are allowed to create your own projects.
                 You can invite developers into a project and create tasks for them.
@@ -17,365 +20,254 @@
     <div ng-if="errorMessage" class="alert alert-danger m-t-15"><strong>Oops! </strong>{{ errorMessage }}</div>
 
     <div class="mbl p-t-15">
-        <div class="new-proj-btn">
-            <button class="btn btn-grey">
-                New Project
-            </button>
-        </div>
-        <div class="col-lg-4">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="profile">
-                        <div style="margin-bottom: 15px" class="row">
-                            <div class="p-t-b-10">
-                                <div>
-                                    <div class="project-name">
-                                        <h2>
-                                            Project Name
-                                        </h2>
+        <div ng-if="projects.length == 0" class="m-l-10"><h4>You have no projects now. Maybe it's time to create one!</h4></div>
+
+        <div ng-if="projects.length > 0">
+            <div class="col-lg-4">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="profile">
+                            <div style="margin-bottom: 15px" class="row">
+                                <div class="p-t-b-10">
+                                    <div>
+                                        <div class="project-name">
+                                            <h2>
+                                                Project Name
+                                            </h2>
+                                        </div>
+                                        <div class="p-t-7 f-r">
+                                            <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
+                                        </div>
                                     </div>
-                                    <div class="p-t-7 f-r">
-                                        <a ui-sref="dashboard.projects.info" class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
+                                    <div class="project_blocks">
+                                        <p>
+                                            <strong>Description:</strong>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+                                        </p>
                                     </div>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id est laborum.
-                                    </p>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Deadline:</strong>
-                                        10/10/2010
-                                    </p>
+                                    <div>
+                                        <p>
+                                            <strong>Deadline:</strong>
+                                            10/10/2010
+                                        </p>
+                                    </div>
                                 </div>
 
                             </div>
-
+                            <div class="row text-center divider">
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <h2>
+                                        <strong>20</strong></h2>
+                                    <p>
+                                        <small>Developers</small>
+                                    </p>
+                                    <button class="btn btn-yellow btn-block">
+                                        <span class="fa fa-user"></span>&nbsp; Show team
+                                    </button>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <h2>
+                                        <strong>245</strong></h2>
+                                    <p>
+                                        <small>Tasks</small>
+                                    </p>
+                                    <button class="btn btn-blue btn-block">
+                                        <span class="fa fa-list"></span>&nbsp; Show tasks
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>20</strong></h2>
-                                <p>
-                                    <small>Developers</small>
-                                </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-user"></span>&nbsp; Show team
-                                </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="profile">
+                            <div style="margin-bottom: 15px" class="row">
+                                <div class="p-t-b-10">
+                                    <div>
+                                        <div class="project-name">
+                                            <h2>
+                                                Project Name
+                                            </h2>
+                                        </div>
+                                        <div class="p-t-7 f-r">
+                                            <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="project_blocks">
+                                        <p>
+                                            <strong>Description:</strong>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                            Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                            laboris nisi ut aliquip ex ea commodo consequat.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <strong>Deadline:</strong>
+                                            10/10/2010
+                                        </p>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>245</strong></h2>
-                                <p>
-                                    <small>Tasks</small>
-                                </p>
-                                <button class="btn btn-blue btn-block">
-                                    <span class="fa fa-list"></span>&nbsp; Show tasks
-                                </button>
+                            <div class="row text-center divider">
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <h2>
+                                        <strong>20</strong></h2>
+                                    <p>
+                                        <small>Developers</small>
+                                    </p>
+                                    <button class="btn btn-yellow btn-block">
+                                        <span class="fa fa-user"></span>&nbsp; Show team
+                                    </button>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <h2>
+                                        <strong>245</strong></h2>
+                                    <p>
+                                        <small>Tasks</small>
+                                    </p>
+                                    <button class="btn btn-blue btn-block">
+                                        <span class="fa fa-list"></span>&nbsp; Show tasks
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="profile">
+                            <div style="margin-bottom: 15px" class="row">
+                                <div class="p-t-b-10">
+                                    <div>
+                                        <div class="project-name">
+                                            <h2>
+                                                Project Name
+                                            </h2>
+                                        </div>
+                                        <div class="p-t-7 f-r">
+                                            <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="project_blocks">
+                                        <p>
+                                            <strong>Description:</strong>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                            Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                                            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <strong>Deadline:</strong>
+                                            10/10/2010
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row text-center divider">
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <h2>
+                                        <strong>20</strong></h2>
+                                    <p>
+                                        <small>Developers</small>
+                                    </p>
+                                    <button class="btn btn-yellow btn-block">
+                                        <span class="fa fa-user"></span>&nbsp; Show team
+                                    </button>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <h2>
+                                        <strong>245</strong></h2>
+                                    <p>
+                                        <small>Tasks</small>
+                                    </p>
+                                    <button class="btn btn-blue btn-block">
+                                        <span class="fa fa-list"></span>&nbsp; Show tasks
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="profile">
+                            <div style="margin-bottom: 15px" class="row">
+                                <div class="p-t-b-10">
+                                    <div>
+                                        <div class="project-name">
+                                            <h2>
+                                                Project Name
+                                            </h2>
+                                        </div>
+                                        <div class="p-t-7 f-r">
+                                            <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="project_blocks">
+                                        <p>
+                                            <strong>Description:</strong>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                            Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                                            in reprehenderit in voluptate velit esse cillum
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <strong>Deadline:</strong>
+                                            10/10/2010
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row text-center divider">
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <h2>
+                                        <strong>20</strong></h2>
+                                    <p>
+                                        <small>Developers</small>
+                                    </p>
+                                    <button class="btn btn-yellow btn-block">
+                                        <span class="fa fa-user"></span>&nbsp; Show team
+                                    </button>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <h2>
+                                        <strong>245</strong></h2>
+                                    <p>
+                                        <small>Tasks</small>
+                                    </p>
+                                    <button class="btn btn-blue btn-block">
+                                        <span class="fa fa-list"></span>&nbsp; Show tasks
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="profile">
-                        <div style="margin-bottom: 15px" class="row">
-                            <div class="p-t-b-10">
-                                <div>
-                                    <div class="project-name">
-                                        <h2>
-                                            Project Name
-                                        </h2>
-                                    </div>
-                                    <div class="p-t-7 f-r">
-                                        <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id est laborum.
-                                    </p>
-                                </div>
 
-                            </div>
-
-                        </div>
-                        <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>20</strong></h2>
-                                <p>
-                                    <small>Developers</small>
-                                </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-user"></span>&nbsp; Show team
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>245</strong></h2>
-                                <p>
-                                    <small>Tasks</small>
-                                </p>
-                                <button class="btn btn-blue btn-block">
-                                    <span class="fa fa-list"></span>&nbsp; Show tasks
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="profile">
-                        <div style="margin-bottom: 15px" class="row">
-                            <div class="p-t-b-10">
-                                <div>
-                                    <div class="project-name">
-                                        <h2>
-                                            Project Name IIII I II IIIIIII Ha Eh LL Oworld
-                                        </h2>
-                                    </div>
-                                    <div class="p-t-7 f-r">
-                                        <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id est laborum.
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>20</strong></h2>
-                                <p>
-                                    <small>Developers</small>
-                                </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-user"></span>&nbsp; Show team
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>245</strong></h2>
-                                <p>
-                                    <small>Tasks</small>
-                                </p>
-                                <button class="btn btn-blue btn-block">
-                                    <span class="fa fa-plus-circle"></span>&nbsp; Show tasks
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="profile">
-                        <div style="margin-bottom: 15px" class="row">
-                            <div class="p-t-b-10">
-                                <div>
-                                    <div class="project-name">
-                                        <h2>
-                                            Project Name IIII I II IIIIIII Ha Eh LL Oworld
-                                        </h2>
-                                    </div>
-                                    <div class="p-t-7 f-r">
-                                        <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id est laborum.
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>20</strong></h2>
-                                <p>
-                                    <small>Developers</small>
-                                </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-user"></span>&nbsp; Show team
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>245</strong></h2>
-                                <p>
-                                    <small>Tasks</small>
-                                </p>
-                                <button class="btn btn-blue btn-block">
-                                    <span class="fa fa-plus-circle"></span>&nbsp; Show tasks
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="profile">
-                        <div style="margin-bottom: 15px" class="row">
-                            <div class="p-t-b-10">
-                                <div>
-                                    <div class="project-name">
-                                        <h2>
-                                            Project Name
-                                        </h2>
-                                    </div>
-                                    <div class="p-t-7 f-r">
-                                        <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id est laborum.
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>20</strong></h2>
-                                <p>
-                                    <small>Developers</small>
-                                </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-user"></span>&nbsp; Show team
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>245</strong></h2>
-                                <p>
-                                    <small>Tasks</small>
-                                </p>
-                                <button class="btn btn-blue btn-block">
-                                    <span class="fa fa-list"></span>&nbsp; Show tasks
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="profile">
-                        <div style="margin-bottom: 15px" class="row">
-                            <div class="p-t-b-10">
-                                <div>
-                                    <div class="project-name">
-                                        <h2>
-                                            Project Name
-                                        </h2>
-                                    </div>
-                                    <div class="p-t-7 f-r">
-                                        <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id est laborum.
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>20</strong></h2>
-                                <p>
-                                    <small>Developers</small>
-                                </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-user"></span>&nbsp; Show team
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <h2>
-                                    <strong>245</strong></h2>
-                                <p>
-                                    <small>Tasks</small>
-                                </p>
-                                <button class="btn btn-blue btn-block">
-                                    <span class="fa fa-list"></span>&nbsp; Show tasks
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 

@@ -1,7 +1,6 @@
 package annanas_manager.entities;
 
 import annanas_manager.DTO.CustomUserDTO;
-import annanas_manager.DTO.TaskDTO;
 import annanas_manager.entities.enums.UserRole;
 import org.hibernate.annotations.*;
 
@@ -10,18 +9,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class CustomUser {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "u_role")
+public abstract class CustomUser {
 
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
-    @Column(name = "id", length = 6, nullable = false)
+    @Column(name = "id", length = 6)
     private long id;
 
     @Size(min = 3)
@@ -31,8 +30,8 @@ public class CustomUser {
     @Column(name = "lastName", length = 32, nullable = false)
     private String lastName;
 
-    @Size(min = 3)
-    @Column(name = "password", length = 32, nullable = false)
+    @Size
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Size(min = 3)
@@ -48,20 +47,15 @@ public class CustomUser {
 
     public CustomUser() {}
 
-    public CustomUser(String firstName, String lastName, String password, String email, UserRole role) {
+    public CustomUser(String firstName, String lastName, String password, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
-        this.role = role;
     }
 
     public CustomUserDTO toDTO() {
         return new CustomUserDTO(id, firstName, lastName, password, email, role);
-    }
-
-    public static CustomUser fromDTO(CustomUserDTO dto) {
-        return new CustomUser(dto.getFirstName(), dto.getLastName(), dto.getPassword(), dto.getEmail(), dto.getUserRole());
     }
 
     @Override
