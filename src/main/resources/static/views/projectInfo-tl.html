@@ -15,18 +15,19 @@
         <div class="clearfix">
         </div>
     </div>
+
     <div ng-if="errorMessage" class="alert alert-danger m-t-15"><strong>Oops! </strong>{{ errorMessage }}</div>
+
     <div class="mbl p-t-15">
         <div class="col-lg-7">
             <h4>Description:</h4>
-            <p>
-                {{project.description}}
-            </p>
+            <p>{{project.description}}</p>
             <hr class="light-grey">
 
             <h4>Details:</h4>
             <p ng-bind-html="project.details"></p>
             <hr class="light-grey">
+
             <h4>Comments:</h4>
             <div class="m-b-10">
                 <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;<strong>User from</strong>
@@ -34,23 +35,6 @@
                     Ut enim ad minim veniam, quis nostrud exercitation ullamco
                     laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
                     in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                </div>
-            </div>
-            <div class="m-b-10">
-                <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;<strong>User from</strong>
-                <div class="p-l-17">
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                </div>
-            </div>
-            <div class="m-b-10">
-                <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;<strong>User from</strong>
-                <div class="p-l-17">
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
                 </div>
             </div>
             <div>
@@ -66,6 +50,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-5 col-sm-6 col-md-3" id="sum_box">
             <div class="panel profit mbm">
                 <div class="panel-body">
@@ -108,19 +93,22 @@
                     </div>
                 </div>
             </div>
+
             <div class="panel task mbm">
                 <div class="panel-body">
                     <p class="icon">
                         <i class="icon fa fa-files-o"></i>
                     </p>
                     <h4 class="value">
-                        <span>10</span></h4>
+                        <span>{{project.files.length}}</span></h4>
                     <p class="description">
-                        Attached files
+                        Attached
+                        <span ng-if="project.files.length == 1">file</span>
+                        <span ng-if="project.files.length != 1">files</span>
                     </p>
-                    <div class="attached-files-list">
+                    <div ng-repeat="file in project.files" class="attached-files-list">
                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i>&nbsp;
-                        <span>dfdff</span>
+                        <span>{{file.name}}</span>
                         <div class="f-r">
                             <i class="fa fa-download" aria-hidden="true"></i>&nbsp;
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -128,20 +116,22 @@
                     </div>
                     <div class="attached-files-list">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-                        <span><input type="text" placeholder="Upload file" class="border-none" style="width: 90%"></span>
-                        <i class="fa fa-check f-r" aria-hidden="true"></i>
+                        <span><input type = "file" file-model = "myFile"></span>
+                        <a href ng-click = "uploadFile()"><i class="fa fa-check f-r" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>
+
             <div class="panel visit mbm">
                 <div class="panel-body">
                     <p class="icon">
                         <i class="icon fa fa-group"></i>
                     </p>
                     <h4 class="value">
-                        <span>128</span></h4>
+                        <span>{{project.developers.length}}</span></h4>
                     <p class="description">
-                        Developers
+                        <span ng-if="project.developers.length == 1">Developer</span>
+                        <span ng-if="project.developers.length != 1">Developers</span>
                     </p>
                     <div ng-repeat="developer in project.developers" class="attached-files-list">
                         <i class="fa fa-user" aria-hidden="true"></i>&nbsp;

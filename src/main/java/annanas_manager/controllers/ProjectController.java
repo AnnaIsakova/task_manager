@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.Calendar;
@@ -83,6 +84,17 @@ public class ProjectController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/api/projects/uploadFile", method = RequestMethod.POST)
+    public ResponseEntity<Void> uploadFile(
+            @RequestParam("id") long id,
+            @RequestBody MultipartFile file,
+            Principal principal
+            ) throws ProjectException
+    {
+        projectService.addFile(id, file, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
     @ExceptionHandler(ProjectException.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(ProjectException ex) {
         ErrorResponse error = new ErrorResponse();
@@ -90,6 +102,7 @@ public class ProjectController {
         error.setMessage(ex.getMessage());
         return new ResponseEntity<ErrorResponse>(error, ex.getHttpStatus());
     }
+
 
     private void ignoreDeadlineTime(Calendar deadline){
         deadline.clear(Calendar.HOUR_OF_DAY);

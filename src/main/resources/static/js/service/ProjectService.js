@@ -10,7 +10,8 @@ app.factory('ProjectService', ['$http', '$q', '$rootScope', function($http, $q, 
         createProject:createProject,
         editProject:editProject,
         deleteProject:deleteProject,
-        addDeveloper:addDeveloper
+        addDeveloper:addDeveloper,
+        uploadFile:uploadFile
     };
 
     return factory;
@@ -101,6 +102,27 @@ app.factory('ProjectService', ['$http', '$q', '$rootScope', function($http, $q, 
         $http.post(REST_SERVICE_URI + '/add_developer?id=' + id + '&email=' + email)
             .then(
                 function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while adding developer');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function uploadFile(id, file){
+        var deferred = $q.defer();
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(REST_SERVICE_URI + '/uploadFile?id=' + id, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+            .then(
+                function (response) {
+                    console.log("file uploaded");
                     deferred.resolve(response.data);
                 },
                 function(errResponse){

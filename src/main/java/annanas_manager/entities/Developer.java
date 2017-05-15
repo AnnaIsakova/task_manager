@@ -32,4 +32,12 @@ public class Developer extends CustomUser{
     public DeveloperDTO toDTO() {
         return new DeveloperDTO(id, firstName, lastName, password, email, role);
     }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
 }

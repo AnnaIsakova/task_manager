@@ -2,6 +2,7 @@ package annanas_manager.entities;
 
 
 import annanas_manager.DTO.DeveloperDTO;
+import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.DTO.ProjectDTO;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -46,6 +47,9 @@ public class Project {
     @Column(name = "deadline", nullable = false)
     private Calendar deadline;
 
+    @OneToMany(mappedBy = "project", cascade= CascadeType.ALL)
+    private List<FileForProject> files;
+
     public Project() {
     }
 
@@ -62,7 +66,11 @@ public class Project {
         for (Developer dev : this.developers) {
             developersDTO.add(dev.toDTO());
         }
-        return new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline, developersDTO);
+        List<FileForProjectDTO> filesDTO = new ArrayList<>();
+        for (FileForProject file : this.files) {
+            filesDTO.add(file.toDTO());
+        }
+        return new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline, developersDTO, filesDTO);
     }
 
     public static Project fromDTO(ProjectDTO dto) {
@@ -136,5 +144,13 @@ public class Project {
 
     public void setDeadline(Calendar deadline) {
         this.deadline = deadline;
+    }
+
+    public List<FileForProject> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<FileForProject> files) {
+        this.files = files;
     }
 }

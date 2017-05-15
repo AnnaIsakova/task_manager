@@ -17,7 +17,6 @@ public class CustomUserDTO {
     private String password;
     private String email;
     private UserRole role;
-//    private List<TaskDTO> todoList;
 
     public CustomUserDTO() {}
 
@@ -28,7 +27,6 @@ public class CustomUserDTO {
         this.password = password;
         this.email = email;
         this.role = role;
-//        this.todoList = todoList;
     }
 
     @JsonProperty("role")

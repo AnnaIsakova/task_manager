@@ -53,6 +53,24 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 );
         };
 
+        $scope.uploadFile = function(){
+            var file = $rootScope.file;
+
+            console.log('file is ', file);
+            console.dir(file);
+
+            ProjectService.uploadFile($scope.id, file)
+                .then(
+                    function(d) {
+                        fetchProject();
+                    },
+                    function(errResponse){
+                        console.error('Error while uploading file -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        };
+
         function getDeadlineProgress(){
             var now = moment().startOf('day');
             var deadline = moment($scope.project.deadline).startOf('day');
@@ -66,7 +84,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             var durationTotal = moment.duration(diffTotal);
             var daysTotal = durationTotal.days();
 
-            if (daysTotal >= daysPass){
+            if (daysTotal <= daysPass){
                 $scope.progressDeadline = 100;
             } else {
                 $scope.progressDeadline = (100 * daysPass)/daysTotal;

@@ -2,20 +2,24 @@ package annanas_manager.services.impl;
 
 
 import annanas_manager.DTO.CustomUserDTO;
+import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.DTO.ProjectDTO;
-import annanas_manager.entities.CustomUser;
-import annanas_manager.entities.Developer;
-import annanas_manager.entities.Project;
-import annanas_manager.entities.Teamlead;
+import annanas_manager.entities.*;
 import annanas_manager.entities.enums.UserRole;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.repositories.CustomUserRepository;
+import annanas_manager.repositories.FileForProjectRepository;
 import annanas_manager.repositories.ProjectRepository;
 import annanas_manager.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +31,10 @@ public class ProjectServiceImpl implements ProjectService{
     private ProjectRepository projectRepository;
     @Autowired
     private CustomUserRepository userRepository;
+    @Autowired
+    private FileForProjectRepository forProjectRepository;
+
+    private static final String DIR_PATH = "D:\\Study_prog\\Java\\AnnanasManager\\src\\main\\resources\\static\\uploaded_files\\";
 
     @Override
     public void add(ProjectDTO projectDTO, String email) {
@@ -102,6 +110,27 @@ public class ProjectServiceImpl implements ProjectService{
             }
         } else {
             throw new ProjectException("You have no permission to add developer to this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
+    public void addFile(long id, MultipartFile multipartFile, String emailCreatedBy) throws ProjectException {
+        CustomUser createdBy = userRepository.findByEmail(emailCreatedBy);
+        Project project = projectRepository.findById(id);
+        if (project.getCreatedBy().equals(createdBy)){
+            File convFile = new File(DIR_PATH + multipartFile.getOriginalFilename());
+            try {
+                multipartFile.transferTo(convFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            FileForProject forProject = new FileForProject(convFile.getName(), convFile);
+            forProject.setProject(project);
+            project.getFiles().add(forProject);
+            forProjectRepository.saveAndFlush(forProject);
+//            projectRepository.saveAndFlush(project);
+        } else {
+            throw new ProjectException("You have no permission to add file to this project", HttpStatus.FORBIDDEN);
         }
     }
 }
