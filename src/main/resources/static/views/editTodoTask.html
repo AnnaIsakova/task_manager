@@ -70,7 +70,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <small  ng-if="task.deadline < now">
+                                    <small  ng-if="now - task.deadline > 86400000">
                                         Wrong deadline
                                     </small>
                                 </div>

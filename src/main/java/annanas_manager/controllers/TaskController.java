@@ -83,8 +83,10 @@ public class TaskController {
             Principal principal,
             BindingResult bindingResult) throws TaskException {
 
+        ignoreDeadlineTime(taskDTO.getDeadline());
         taskValidator.validate(taskDTO, bindingResult);
         if (bindingResult.hasErrors()){
+            System.out.println(bindingResult.getAllErrors());
             throw new TaskException("Invalid task form", HttpStatus.BAD_REQUEST);
         }
         taskService.edit(taskDTO, principal.getName());
@@ -104,10 +106,10 @@ public class TaskController {
 
 
     private void ignoreDeadlineTime(Calendar deadline){
-        deadline.clear(Calendar.HOUR_OF_DAY);
-        deadline.clear(Calendar.MINUTE);
-        deadline.clear(Calendar.SECOND);
-        deadline.clear(Calendar.MILLISECOND);
+//        deadline.set(Calendar.HOUR_OF_DAY, 0);
+        deadline.set(Calendar.MINUTE, 0);
+        deadline.set(Calendar.SECOND, 0);
+        deadline.set(Calendar.MILLISECOND, 0);
     }
 
 

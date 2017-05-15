@@ -21,29 +21,29 @@ public abstract class CustomUser {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
     @Column(name = "id", length = 6)
-    private long id;
+    protected long id;
 
     @Size(min = 3)
     @Column(name = "firstName", length = 32, nullable = false)
-    private String firstName;
+    protected String firstName;
 
     @Column(name = "lastName", length = 32, nullable = false)
-    private String lastName;
+    protected String lastName;
 
     @Size
     @Column(name = "password", nullable = false)
-    private String password;
+    protected String password;
 
     @Size(min = 3)
     @Column(name = "email", length = 32, nullable = false, unique = true)
-    private String email;
+    protected String email;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    protected UserRole role;
 
     @OneToMany(mappedBy = "createdBy", cascade= CascadeType.ALL)
-    private List<Task> todoList;
+    protected List<Task> todoList;
 
     public CustomUser() {}
 

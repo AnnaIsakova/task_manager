@@ -7,10 +7,12 @@ public class DeadlineValidator {
 
     public static boolean isDeadlineValid(Calendar deadline){
         Calendar now = Calendar.getInstance();
-        now.clear(Calendar.HOUR_OF_DAY);
-        now.clear(Calendar.MINUTE);
-        now.clear(Calendar.SECOND);
-        now.clear(Calendar.MILLISECOND);
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        now.set(Calendar.MILLISECOND, 0);
+        System.out.println("deadline: " + deadline.getTime());
+        System.out.println("now: " + now.getTime());
         if (!now.after(deadline)){
             return true;
         }

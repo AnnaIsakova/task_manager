@@ -9,7 +9,7 @@ app.controller('MainController', function($scope, $state, ModalService) {
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
-                $state.go('dashboard.projects');
+                $state.go('home.projects');
             });
         });
     };
@@ -21,7 +21,7 @@ app.controller('MainController', function($scope, $state, ModalService) {
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
-                $state.go('dashboard.projects');
+                $state.go('home.projects');
             });
         });
     };

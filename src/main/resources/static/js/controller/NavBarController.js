@@ -6,7 +6,7 @@ app.controller('NavBarController', ['$http', '$scope', '$rootScope', '$state', '
         $scope.name = $scope.user.principal.fullName;
 
         $scope.logout = function () {
-            $state.go('home');
+            $state.go('login');
             UserService.logout();
         };
     }]);

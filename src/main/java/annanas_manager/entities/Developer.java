@@ -2,12 +2,10 @@ package annanas_manager.entities;
 
 
 import annanas_manager.DTO.CustomUserDTO;
+import annanas_manager.DTO.DeveloperDTO;
 import annanas_manager.entities.enums.UserRole;
 
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,4 +28,8 @@ public class Developer extends CustomUser{
         return new Developer(dto.getFirstName(), dto.getLastName(), dto.getPassword(), dto.getEmail());
     }
 
+    @Override
+    public DeveloperDTO toDTO() {
+        return new DeveloperDTO(id, firstName, lastName, password, email, role);
+    }
 }

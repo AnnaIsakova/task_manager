@@ -32,7 +32,7 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
             }).then(function(modal) {
                 modal.element.modal();
                 modal.close.then(function(result) {
-                    $state.go('dashboard.todo');
+                    $state.go('home.todo');
                     fetchAllTasks();
                 });
             });
@@ -47,7 +47,7 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
             }).then(function(modal) {
                 modal.element.modal();
                 modal.close.then(function(result) {
-                    $state.go('dashboard.todo');
+                    $state.go('home.todo');
                     fetchAllTasks();
                 });
             });

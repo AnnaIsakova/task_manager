@@ -7,25 +7,25 @@
 
                 <div class="clearfix"></div>
                 <li ng-class="{active: $state.current.name == 'dashboard.projects'}">
-                    <a ui-sref="dashboard.projects"><i class="fa fa-folder-open fa-fw">
+                    <a ui-sref="home.projects"><i class="fa fa-folder-open fa-fw">
                     <div class="icon-bg bg-orange"></div>
                 </i><span class="menu-title">Projects</span></a>
                 </li>
 
                 <li ng-class="{active: $state.current.name == 'dashboard.todo'}">
-                    <a ui-sref="dashboard.todo"><i class="fa fa-tasks fa-fw">
+                    <a ui-sref="home.todo"><i class="fa fa-tasks fa-fw">
                     <div class="icon-bg bg-pink"></div>
                 </i><span class="menu-title">ToDo List</span></a>
                 </li>
 
                 <li ng-class="{active: $state.current.name == 'dashboard.calendar'}">
-                    <a ui-sref="dashboard.calendar"><i class="fa fa-calendar fa-fw">
+                    <a ui-sref="home.calendar"><i class="fa fa-calendar fa-fw">
                     <div class="icon-bg bg-green"></div>
                 </i><span class="menu-title">Calendar</span></a>
                 </li>
 
                 <li ng-class="{active: $state.current.name == 'dashboard.charts'}">
-                    <a ui-sref="dashboard.charts"><i class="fa fa-bar-chart-o fa-fw">
+                    <a ui-sref="home.charts"><i class="fa fa-bar-chart-o fa-fw">
                     <div class="icon-bg bg-orange"></div>
                 </i><span class="menu-title">Charts</span></a>
                 </li>
@@ -34,7 +34,4 @@
         </div>
     </nav>
     <!--END SIDEBAR MENU-->
-</div>
-<div id="page-wrapper" class="page-content">
-    <div ui-view="content"></div>
 </div>

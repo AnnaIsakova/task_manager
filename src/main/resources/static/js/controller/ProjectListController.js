@@ -5,7 +5,7 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
 
         $scope.project={};
         $scope.projects=[];
-        $rootScope.infoProject={};
+        $rootScope.projectInfo={};
 
         fetchAllProjects();
 
@@ -22,48 +22,17 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
                 );
         }
 
-        $scope.showNewTodo = function() {
+        $scope.showNewProject = function() {
             ModalService.showModal({
-                templateUrl: '/views/newTodoTask.html',
-                controller: "NewTodoController"
+                templateUrl: '/views/newProject.html',
+                controller: "NewProjectController"
             }).then(function(modal) {
                 modal.element.modal();
                 modal.close.then(function(result) {
-                    $state.go('dashboard.todo');
-                    fetchAllTasks();
+                    $state.go('home.projects');
+                    fetchAllProjects();
                 });
             });
         };
-
-        $scope.openEdit = function (task) {
-            console.log('open editing: ', task);
-            $rootScope.taskForEdit = task;
-            ModalService.showModal({
-                templateUrl: '/views/editTodoTask.html',
-                controller: "EditTodoController"
-            }).then(function(modal) {
-                modal.element.modal();
-                modal.close.then(function(result) {
-                    $state.go('dashboard.todo');
-                    fetchAllTasks();
-                });
-            });
-        };
-
-        $scope.delete = function (id) {
-            console.log(id);
-            TodoListService.deleteTask(id)
-                .then(
-                    function(d) {
-                        console.log("Task was deleted", d);
-                        fetchAllTasks();
-                    },
-                    function(errResponse){
-                        console.error('Error while deleting tasks -> from controller');
-                        $scope.errorMessage = errResponse.data.message;
-                    }
-                );
-        }
-
 
     }]);

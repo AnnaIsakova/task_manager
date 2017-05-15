@@ -9,8 +9,10 @@ import java.util.List;
 
 public interface ProjectService {
 
-    void add(ProjectDTO taskDTO);
+    void add(ProjectDTO taskDTO, String email);
     void delete(long id, String email) throws ProjectException;
     void edit(ProjectDTO task , String email) throws ProjectException;
-    List<ProjectDTO> findByUser(CustomUserDTO customUserDTO);
+    List<ProjectDTO> findByUser(String email);
+    ProjectDTO findById(long id, String email) throws ProjectException;
+    void addDeveloper(long id, String emailDev, String emailCreatedBy) throws ProjectException;
 }

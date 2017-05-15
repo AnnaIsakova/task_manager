@@ -2,10 +2,13 @@
     <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
         <div class="page-header pull-left">
             <div class="page-title">
-                Project Name
+                {{project.name}}
             </div>
-            <div class="p-t-7 m-l-10 f-r">
-                <a href class="info-project"><i class="fa fa-pencil fa-font-16" aria-hidden="true"></i></a>
+            <div>
+                Created at: {{project.createDate | date:'mediumDate'}}
+            </div>
+            <div class="p-t-7 m-l-10 f-r plus_ico">
+                <a href class="info-project" ng-click="openEdit(project)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
             </div>
         </div>
 
@@ -15,39 +18,14 @@
     <div ng-if="errorMessage" class="alert alert-danger m-t-15"><strong>Oops! </strong>{{ errorMessage }}</div>
     <div class="mbl p-t-15">
         <div class="col-lg-7">
-                <h4>Description:</h4>
+            <h4>Description:</h4>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
+                {{project.description}}
             </p>
             <hr class="light-grey">
-                <h4>Details:</h4>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
-            </p>
+
+            <h4>Details:</h4>
+            <p ng-bind-html="project.details"></p>
             <hr class="light-grey">
             <h4>Comments:</h4>
             <div class="m-b-10">
@@ -77,7 +55,7 @@
             </div>
             <div>
                 <h5><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add comment</h5>
-                <div class="panel db mbm m-l-14">
+                <div class="panel db mbm m-l-14 comment_f">
                     <div class="panel-body">
                         <textarea type="text" rows="3" class="width-100 input-border-light"></textarea>
                         <div class="text-right">
@@ -89,24 +67,24 @@
             </div>
         </div>
         <div class="col-lg-5 col-sm-6 col-md-3" id="sum_box">
-            <div class="panel profit db mbm">
+            <div class="panel profit mbm">
                 <div class="panel-body">
                     <p class="icon">
                         <i class="icon fa fa-clock-o"></i>
                     </p>
                     <h4 class="value">
-                        <span>10 April 2010</span></h4>
+                        <span>{{project.deadline | date:'mediumDate'}}</span></h4>
                     <p class="description">
                         Deadline</p>
                     <div class="progress progress-sm mbn">
-                        <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"
-                             style="width: 80%;" class="progress-bar progress-bar-danger">
-                            <span class="sr-only">80% Complete (success)</span></div>
+                        <div role="progressbar" aria-valuenow="{{progressDeadline}}" aria-valuemin="0" aria-valuemax="100"
+                             ng-style="{'width':progressDeadline+'%'}" class="progress-bar progress-bar-danger">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="panel task db mbm">
+            <div class="panel task mbm">
                 <div class="panel-body">
                     <p class="icon">
                         <i class="icon fa fa-signal"></i>
@@ -122,15 +100,15 @@
                     </div>
                     <hr class="light-grey">
                     <div>
-                        <i class="fa fa-tasks"></i>&nbsp;
-                        <i class="fa fa-bell-o"></i>&nbsp;
-                        <i class="fa fa-spinner"></i>&nbsp;
-                        <i class="fa fa-check"></i>&nbsp;
-                        <i class="fa fa-thumbs-o-up"></i>
+                        <i class="fa fa-tasks ico-padding"></i>&nbsp;
+                        <i class="fa fa-bell-o ico-padding"></i>&nbsp;
+                        <i class="fa fa-spinner ico-padding"></i>&nbsp;
+                        <i class="fa fa-check ico-padding"></i>&nbsp;
+                        <i class="fa fa-thumbs-o-up ico-padding"></i>
                     </div>
                 </div>
             </div>
-            <div class="panel task db mbm">
+            <div class="panel task mbm">
                 <div class="panel-body">
                     <p class="icon">
                         <i class="icon fa fa-files-o"></i>
@@ -143,26 +121,19 @@
                     <div class="attached-files-list">
                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i>&nbsp;
                         <span>dfdff</span>
-                        <i class="fa fa-download f-r" aria-hidden="true"></i>
-                    </div>
-                    <div class="attached-files-list">
-                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>&nbsp;
-                        <span>dfdff</span>
-                        <i class="fa fa-download f-r" aria-hidden="true"></i>
-                    </div>
-                    <div class="attached-files-list">
-                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>&nbsp;
-                        <span>dfdff</span>
-                        <i class="fa fa-download f-r" aria-hidden="true"></i>
+                        <div class="f-r">
+                            <i class="fa fa-download" aria-hidden="true"></i>&nbsp;
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </div>
                     </div>
                     <div class="attached-files-list">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-                        <span><input type="text" placeholder="Upload file"></span>
+                        <span><input type="text" placeholder="Upload file" class="border-none" style="width: 90%"></span>
                         <i class="fa fa-check f-r" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>
-            <div class="panel visit db mbm">
+            <div class="panel visit mbm">
                 <div class="panel-body">
                     <p class="icon">
                         <i class="icon fa fa-group"></i>
@@ -172,25 +143,22 @@
                     <p class="description">
                         Developers
                     </p>
-                    <div class="attached-files-list">
+                    <div ng-repeat="developer in project.developers" class="attached-files-list">
                         <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
-                        <span>dfdff</span>
-                        <i class="fa fa-ban f-r" aria-hidden="true"></i>
-                    </div>
-                    <div class="attached-files-list">
-                        <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
-                        <span>dfdff</span>
-                        <i class="fa fa-ban f-r" aria-hidden="true"></i>
-                    </div>
-                    <div class="attached-files-list">
-                        <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
-                        <span>dfdff</span>
+                        <span>{{developer.firstName}} {{developer.lastName}}</span>
                         <i class="fa fa-ban f-r" aria-hidden="true"></i>
                     </div>
                     <div class="attached-files-list">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-                        <span><input type="text" placeholder="Search new developer" class="border-none"></span>
-                        <i class="fa fa-check f-r" aria-hidden="true"></i>
+                        <span>
+                            <input
+                                    type="text"
+                                    placeholder="Add new developer (type email here)"
+                                    class="border-none"
+                                    style="width: 90%"
+                                    ng-model="newDeveloper">
+                        </span>
+                        <a href ng-click="addDeveloper(newDeveloper)"><i class="fa fa-check f-r" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,7 @@ public class ProjectValidator implements Validator {
     public void validate(Object o, Errors errors) {
         ProjectDTO projectDTO = (ProjectDTO) o;
 
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "details", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "deadline", "NotEmpty");

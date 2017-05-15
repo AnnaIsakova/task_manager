@@ -1,25 +1,25 @@
 'use strict';
 
-var app = angular.module('app',['ui.router', 'angularModalService', 'ngCookies', 'kendo.directives']);
+var app = angular.module('app',['ui.router', 'angularModalService', 'ngCookies', 'kendo.directives', 'angularMoment', 'ckeditor', 'ngSanitize']);
 
 app.run(function ($state, $rootScope, $http, UserService) {
     $rootScope.$state = $state;
     $http.defaults.headers.common['Authorization'] = UserService.getCookieHeader();
 });
 
-app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
 
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/login');
     $stateProvider
-        .state('home', {
-            url: '/',
+        .state('login', {
+            url: '/login',
             templateUrl: '/views/home.html'
         })
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
-        .state('dashboard', {
-            url: '/dashboard',
+        .state('home', {
+            url: '',
             views: {
                 "navBar": {
                     templateUrl: '/views/navBar.html',
@@ -27,13 +27,16 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
                 },
                 "sideMenu": {
                     templateUrl: '/views/sideMenu.html'
+                },
+                "content": {
+                    templateUrl: '/views/content.html'
                 }
             }
         })
-        .state('dashboard.projects', {
+        .state('home.projects', {
             url: '/projects',
             views: {
-                "content": {
+                "inner_content": {
                     templateProvider: function(TemplateService) {
                         var result = TemplateService.getTemplate();
                         console.log(result);
@@ -46,10 +49,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
             }
 
         })
-        .state('dashboard.projects.info', {
-            url: '/info',
+        .state('home.project', {
+            url: '/projects/:projectID',
             views: {
-                "project-info": {
+                "inner_content": {
                     templateProvider: function(TemplateService) {
                         var result = TemplateService.getTemplate();
                         console.log(result);
@@ -57,33 +60,33 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
                         return '<div ng-include="" src="\'views/projectInfo-tl.html\'\"</div>';
 
                     },
-                    controller: 'NavBarController'
+                    controller: 'ProjectInfoController'
                 }
             }
 
         })
-        .state('dashboard.todo', {
+        .state('home.todo', {
             url: '/todo',
             views: {
-                "content": {
+                "inner_content": {
                     templateUrl: '/views/todoList.html',
                     controller: 'TodoListController'
                 }
             }
         })
-        .state('dashboard.calendar', {
+        .state('home.calendar', {
             url: '/calendar',
             views: {
-                "content": {
+                "inner_content": {
                     templateUrl: '/views/calendar.html',
                     controller: 'NavBarController'
                 }
             }
         })
-        .state('dashboard.charts', {
+        .state('home.charts', {
             url: '/charts',
             views: {
-                "content": {
+                "inner_content": {
                     templateUrl: '/views/charts.html',
                     controller: 'NavBarController'
                 }

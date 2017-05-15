@@ -2,29 +2,36 @@ package annanas_manager.DTO;
 
 
 import annanas_manager.entities.CustomUser;
+import annanas_manager.entities.Developer;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class ProjectDTO {
 
     private long id;
+    private String name;
     private String description;
     private String details;
     private CustomUserDTO createdBy;
     private Date createDate;
     private Calendar deadline;
+    private List<DeveloperDTO> developers;
 
     public ProjectDTO() {
     }
 
-    public ProjectDTO(long id, String description, String details, CustomUserDTO createdBy, Date createDate, Calendar deadline) {
+    public ProjectDTO(long id, String name, String description, String details, CustomUserDTO createdBy, Date createDate, Calendar deadline, List<DeveloperDTO> developers) {
+        this.name = name;
         this.id = id;
         this.description = description;
         this.details = details;
         this.createdBy = createdBy;
         this.createDate = createDate;
         this.deadline = deadline;
+        this.developers = developers;
     }
 
     public long getId() {
@@ -33,6 +40,14 @@ public class ProjectDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -73,6 +88,14 @@ public class ProjectDTO {
 
     public void setDeadline(Calendar deadline) {
         this.deadline = deadline;
+    }
+
+    public List<DeveloperDTO> getDevelopers() {
+        return developers;
+    }
+
+    public void setDevelopers(List<DeveloperDTO> developers) {
+        this.developers = developers;
     }
 
     @Override

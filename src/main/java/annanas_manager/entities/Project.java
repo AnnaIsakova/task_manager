@@ -1,6 +1,7 @@
 package annanas_manager.entities;
 
 
+import annanas_manager.DTO.DeveloperDTO;
 import annanas_manager.DTO.ProjectDTO;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -21,6 +22,9 @@ public class Project {
     @Column(name = "id", length = 6)
     private long id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "description", nullable = false)
     private String description;
 
@@ -28,15 +32,11 @@ public class Project {
     private String details;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "created_by_id")
     private CustomUser createdBy;
 
-    @ManyToMany
-    @JoinTable(
-            name="project-developer",
-            joinColumns = {@JoinColumn(name="project_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "developer_id", referencedColumnName = "id")}
-    )
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name="projects_developers", joinColumns=@JoinColumn(name="project_id"), inverseJoinColumns=@JoinColumn(name="developer_id"))
     private List<Developer> developers = new ArrayList<>();
 
     @Column(nullable = false)
@@ -49,7 +49,8 @@ public class Project {
     public Project() {
     }
 
-    public Project(String description, String details, Date createDate, Calendar deadline) {
+    public Project(String name, String description, String details, Date createDate, Calendar deadline) {
+        this.name = name;
         this.description = description;
         this.details = details;
         this.createDate = createDate;
@@ -57,11 +58,16 @@ public class Project {
     }
 
     public ProjectDTO toDTO() {
-        return new ProjectDTO(id, description, details, createdBy.toDTO(), createDate, deadline);
+        List<DeveloperDTO> developersDTO = new ArrayList<>();
+        for (Developer dev : this.developers) {
+            developersDTO.add(dev.toDTO());
+        }
+        return new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline, developersDTO);
     }
 
     public static Project fromDTO(ProjectDTO dto) {
         return new Project(
+                dto.getName(),
                 dto.getDescription(),
                 dto.getDetails(),
                 dto.getCreateDate(),
@@ -74,6 +80,14 @@ public class Project {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

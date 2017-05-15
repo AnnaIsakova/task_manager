@@ -1,0 +1,92 @@
+<div class="modal fade m-r--16" id="newProjectModal">
+    <div class="modal-dialog">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                New Project
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="panel-body pan">
+                <form name="newProjectForm" role="form" novalidate>
+                    <div class="form-body pal">
+
+                        <div class="form-group">
+                            <label for="name" class="control-label">
+                                Name*
+                            </label>
+                            <div ng-class="{
+                                    'has-error' :
+                                        newProjectForm.name.$invalid && !newProjectForm.name.$pristine,
+                                    'has-success' :
+                                        newProjectForm.name.$valid && !newProjectForm.name.$pristine}">
+                                    <input
+                                            id="name"
+                                            name="name"
+                                            type="text"
+                                            class="form-control"
+                                            ng-model="project.name"
+                                            required
+                                    >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="proj_description" class="control-label">
+                                Description*
+                            </label>
+                            <div ng-class="{
+                                    'has-error' :
+                                        newProjectForm.proj_description.$invalid && !newProjectForm.proj_description.$pristine,
+                                    'has-success' :
+                                        newProjectForm.proj_description.$valid && !newProjectForm.proj_description.$pristine}">
+                                    <textarea
+                                            id="proj_description"
+                                            name="proj_description"
+                                            type="text"
+                                            rows="5"
+                                            class="form-control"
+                                            ng-model="project.description"
+                                            required
+                                    ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="details" class="control-label">
+                                Details
+                            </label>
+                            <div>
+                                <div id="details" ckeditor="options" ng-model="project.details"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="deadline" class="control-label">
+                                Deadline</label>
+                            <div>
+                                <input
+                                        class="form-control"
+                                        id="deadline"
+                                        kendo-date-picker
+                                        k-ng-model="project.deadline"
+                                        k-options="datePickerOptions"
+                                />
+                            </div>
+                        </div>
+
+
+                        <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
+                    </div>
+                    <div class="form-actions text-right pal">
+                        <button
+                                type="submit"
+                                class="btn btn-blue"
+                                ng-disabled="newProjectForm.$invalid"
+                                ng-click="submit(project)">
+                            Add task
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

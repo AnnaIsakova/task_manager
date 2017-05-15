@@ -33,6 +33,7 @@ app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'TodoList
                 .then(
                     function(d) {
                         $scope.priorities = d;
+                        console.log($scope.task.deadline - new Date());
                     },
                     function(errResponse){
                         console.error('Error while fetching priorities -> from controller');

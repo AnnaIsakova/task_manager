@@ -22,7 +22,7 @@ body {
 }
 
 .p-t-b-10 {
-    padding: 6px !important;
+    padding: 15px !important;
 }
 
 .color-black {
@@ -179,4 +179,45 @@ body {
 
 .border-none{
     border: none;
+}
+
+/* projectInfo-tl.html */
+/* позиция карандаша */
+.pencil_pos {
+    position: absolute;
+    right: 30px;
+    top: 12px;
+    font-size: 19px !important;
+}
+/* projectInfo-tl.html */
+/* форма комментария */
+.comment_f {
+    border: 2px solid #e5e5e5 !important;
+}
+.comment_f > .panel-body {
+padding: 9px !important;
+}
+.comment_f > .panel-body > .text-right {
+    padding-top: 5px !important;
+}
+
+/* projectInfo-tl.html */
+/* "+" icon */
+.plus_ico {
+    position: absolute !important;
+    right: 30px !important;
+    top: 10px  !important;
+}
+.plus_ico > a > i {
+    font-size: 20px !important;
+}
+/* projectInfo-tl.html */
+/* отступ между иконками в Tasks completed */
+.ico-padding {
+    padding-right: 16px !important;
+}
+
+/* projects-tl.html */
+.panel-width {
+    width: 100% !important;
 }
