@@ -1,13 +1,13 @@
 'use strict';
 
-var app = angular.module('app',['ui.router', 'angularModalService', 'ngCookies', 'kendo.directives', 'angularMoment', 'ckeditor', 'ngSanitize']);
+var app = angular.module('app',['ui.router', 'angularModalService', 'ngCookies', 'kendo.directives', 'angularMoment', 'ckeditor', 'ngSanitize', 'ngFileSaver']);
 
 app.run(function ($state, $rootScope, $http, UserService) {
     $rootScope.$state = $state;
     $http.defaults.headers.common['Authorization'] = UserService.getCookieHeader();
 });
 
-app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $compileProvider) {
 
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

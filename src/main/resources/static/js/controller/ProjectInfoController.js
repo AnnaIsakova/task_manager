@@ -7,6 +7,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         $scope.project = {};
         $scope.progressDeadline = 0;
         $scope.newDeveloper = '';
+        $scope.fileIcon = 'fa-file-pdf-o';
 
         fetchProject();
 
@@ -17,6 +18,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                     function(d) {
                         $scope.project = d;
                         getDeadlineProgress();
+
                     },
                     function(errResponse){
                         console.error('Error while fetching project -> from controller');
@@ -70,6 +72,26 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                     }
                 );
         };
+        
+        $scope.getFileExt = function (fileName) {
+            return fileName.substr(fileName.lastIndexOf('.')+1);
+        };
+        
+        $scope.download = function (fileId) {
+            ProjectService.downloadFile($scope.id, fileId)
+                .then(
+                    function(d) {
+                    },
+                    function(errResponse){
+                        console.error('Error while downloading file -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                        if($scope.errorMessage == undefined){
+                            $scope.errorMessage = "Something went wrong"
+                        }
+                        console.log($scope.errorMessage)
+                    }
+                );
+        };
 
         function getDeadlineProgress(){
             var now = moment().startOf('day');
@@ -91,6 +113,5 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             }
 
         }
-
-
+        
     }]);

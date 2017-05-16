@@ -6,6 +6,7 @@ import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.DTO.ProjectDTO;
 import annanas_manager.entities.*;
 import annanas_manager.entities.enums.UserRole;
+import annanas_manager.exceptions.CustomFileException;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.repositories.CustomUserRepository;
 import annanas_manager.repositories.FileForProjectRepository;
@@ -34,7 +35,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Autowired
     private FileForProjectRepository forProjectRepository;
 
-    private static final String DIR_PATH = "D:\\Study_prog\\Java\\AnnanasManager\\src\\main\\resources\\static\\uploaded_files\\";
+    public static final String DIR_PATH = "D:\\Study_prog\\Java\\AnnanasManager\\src\\main\\resources\\static\\uploaded_files\\";
 
     @Override
     public void add(ProjectDTO projectDTO, String email) {
@@ -131,6 +132,22 @@ public class ProjectServiceImpl implements ProjectService{
 //            projectRepository.saveAndFlush(project);
         } else {
             throw new ProjectException("You have no permission to add file to this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
+    public FileForProjectDTO getFile(long projectID, long fileId, String email) throws ProjectException, CustomFileException {
+        CustomUser user = userRepository.findByEmail(email);
+        Project project = projectRepository.findById(projectID);
+        if (project.getCreatedBy().equals(user) || project.getDevelopers().contains(user)){
+            FileForProject file = forProjectRepository.getOne(fileId);
+            if (project.getFiles().contains(file)){
+                return file.toDTO();
+            } else {
+                throw new CustomFileException("This file doesn't belong to this project", HttpStatus.CONFLICT);
+            }
+        } else {
+            throw new ProjectException("You have no permission to download file from this project", HttpStatus.FORBIDDEN);
         }
     }
 }

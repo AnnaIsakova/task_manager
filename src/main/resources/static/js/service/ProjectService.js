@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('ProjectService', ['$http', '$q', '$rootScope', function($http, $q, $rootScope){
+app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'FileSaver', function($http, $q, $window, $rootScope, Blob, FileSaver){
 
     var REST_SERVICE_URI = 'http://localhost:8080/api/projects';
 
@@ -11,7 +11,8 @@ app.factory('ProjectService', ['$http', '$q', '$rootScope', function($http, $q, 
         editProject:editProject,
         deleteProject:deleteProject,
         addDeveloper:addDeveloper,
-        uploadFile:uploadFile
+        uploadFile:uploadFile,
+        downloadFile:downloadFile
     };
 
     return factory;
@@ -128,6 +129,30 @@ app.factory('ProjectService', ['$http', '$q', '$rootScope', function($http, $q, 
                 function(errResponse){
                     console.error('Error while adding developer');
                     deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+    
+    function downloadFile(projectId, fileId) {
+
+        var deferred = $q.defer();
+        console.log(projectId);
+        console.log(fileId);
+        $http({
+            method: 'GET',
+            url: REST_SERVICE_URI + '/' + projectId + '/download/' + fileId,
+            responseType: 'arraybuffer'
+        })
+            .then(
+                function (response) {
+                    var contentType = response.headers(["content-type"]);
+                    var fileName = response.headers(["file-name"]);
+                    var blob = new Blob([response.data], {type: contentType});
+                    FileSaver.saveAs(blob, fileName);
+                },
+                function(errResponse){
+                    console.log(errResponse);
                 }
             );
         return deferred.promise;
