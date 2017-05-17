@@ -16,7 +16,10 @@ app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'F
         uploadFile:uploadFile,
         downloadFile:downloadFile,
         deleteFile:deleteFile,
-        fetchAllFiles:fetchAllFiles
+        fetchAllFiles:fetchAllFiles,
+        addComment:addComment,
+        fetchAllComments:fetchAllComments,
+        deleteComment:deleteComment
     };
 
     return factory;
@@ -220,6 +223,55 @@ app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'F
                 },
                 function(errResponse){
                     console.error('Error while fetching this files');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function addComment(projectID, comment){
+        var deferred = $q.defer();
+        console.log(comment);
+        $http.post(REST_SERVICE_URI + '/addComment?id=' + projectID, comment)
+            .then(
+                function (response) {
+                    console.log("comment added");
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while adding comment');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function fetchAllComments(projectID) {
+        var deferred = $q.defer();
+        $http.get(REST_SERVICE_URI + '/' + projectID + '/getComments')
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                    console.log(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while fetching comments');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function deleteComment(projectId, commentId) {
+        var deferred = $q.defer();
+        console.log(commentId)
+        $http.post(REST_SERVICE_URI + '/deleteComment?projectId=' + projectId + '&commentId=' + commentId)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while deleting comment');
                     deferred.reject(errResponse);
                 }
             );

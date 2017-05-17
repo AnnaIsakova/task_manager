@@ -1,10 +1,9 @@
 package annanas_manager.services;
 
 
-import annanas_manager.DTO.CustomUserDTO;
-import annanas_manager.DTO.DeveloperDTO;
-import annanas_manager.DTO.FileForProjectDTO;
-import annanas_manager.DTO.ProjectDTO;
+import annanas_manager.DTO.*;
+import annanas_manager.entities.CommentForProject;
+import annanas_manager.exceptions.CommentException;
 import annanas_manager.exceptions.CustomFileException;
 import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.exceptions.ProjectException;
@@ -31,4 +30,9 @@ public interface ProjectService {
     FileForProjectDTO getFile(long projectID, long fileId, String email) throws ProjectException, CustomFileException;
     void deleteFile(long projectID, long fileId, String email) throws ProjectException, CustomFileException;
     List<FileForProjectDTO> getAllFiles(long id, String email) throws ProjectException;
+
+    //methods for comments
+    void addComment(long id, CommentForProjectDTO commentDTO, String email) throws ProjectException;
+    void deleteComment(long projectID, long commentId, String email) throws ProjectException, CommentException;
+    List<CommentForProjectDTO> getAllComments(long id, String email) throws ProjectException;
 }

@@ -2,6 +2,7 @@ package annanas_manager.entities;
 
 
 import annanas_manager.DTO.CustomUserDTO;
+import annanas_manager.DTO.TeamleadDTO;
 import annanas_manager.entities.enums.UserRole;
 
 import javax.persistence.CascadeType;
@@ -27,6 +28,11 @@ public class Teamlead extends CustomUser{
 
     public static Teamlead fromDTO(CustomUserDTO dto) {
         return new Teamlead(dto.getFirstName(), dto.getLastName(), dto.getPassword(), dto.getEmail());
+    }
+
+    @Override
+    public TeamleadDTO toDTO() {
+        return new TeamleadDTO(id, firstName, lastName, password, email, role);
     }
 
     public List<Project> getProjects() {

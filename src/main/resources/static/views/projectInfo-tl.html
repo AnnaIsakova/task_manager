@@ -29,22 +29,50 @@
             <hr class="light-grey">
 
             <h4>Comments:</h4>
-            <div class="m-b-10">
-                <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;<strong>User from</strong>
-                <div class="p-l-17">
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            <div ng-repeat="comment in project.comments" class="m-b-10">
+                <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;
+                <strong>{{comment.userFrom.firstName}} {{comment.userFrom.lastName}}</strong>&nbsp;
+                <span>on {{comment.createDate | date:'mediumDate'}}</span>
+                <div class="f-r" ng-if="comment.userFrom.email == user.name">
+                    <a href ng-click="toggleEditingComment(comment)"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
+                    <a href ng-click="deleteComment(comment.id)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                </div>
+                <div class="p-l-20">
+                    <span ng-hide="comment.editingComment">{{comment.text}}</span>
+                    <form ng-show="comment.editingComment" ng-submit="editingComment = false">
+                        <input
+                                type="text"
+                                ng-model="comment.text"
+                                class="width-100 input-border-light"
+                        />
+                        <br/>
+                        <button class="btn" type="submit">Save</button>
+                    </form>
                 </div>
             </div>
             <div>
-                <h5><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add comment</h5>
-                <div class="panel db mbm m-l-14 comment_f">
+                <a href ng-click="toggleCommentForm()"><h5><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add comment</h5></a>
+                <div class="panel db mbm m-l-14 comment_f" ng-show="commentForm">
                     <div class="panel-body">
-                        <textarea type="text" rows="3" class="width-100 input-border-light"></textarea>
+                        <textarea
+                                type="text"
+                                rows="3"
+                                class="width-100 input-border-light"
+                                ng-model="newComment.text">
+                        </textarea>
                         <div class="text-right">
-                            <button type="button" class="btn btn-grey">Submit</button>
-                            <button type="button" class="btn btn-default">Cancel</button>
+                            <button
+                                    type="button"
+                                    class="btn btn-grey"
+                                    ng-click="addComment(newComment)">
+                                Submit
+                            </button>
+                            <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    ng-click="toggleCommentForm()">
+                                Cancel
+                            </button>
                         </div>
                     </div>
                 </div>

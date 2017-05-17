@@ -20,7 +20,6 @@ public class FileForProject extends CustomFile {
 
     public FileForProject(String name, File file) {
         super(name, file);
-        this.project = project;
     }
 
     public FileForProject() {

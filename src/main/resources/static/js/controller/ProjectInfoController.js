@@ -1,13 +1,25 @@
 'use strict';
 
-app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'moment', 'ProjectService', 'ModalService',
-    function($scope, $rootScope, $state, $http, $stateParams, moment, ProjectService, ModalService) {
+app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'moment', 'ProjectService', 'ModalService', 'UserService',
+    function($scope, $rootScope, $state, $http, $stateParams, moment, ProjectService, ModalService, UserService) {
 
         $scope.id = 0;
         $scope.project = {};
         $scope.progressDeadline = 0;
         $scope.newDeveloper = '';
-        $scope.fileIcon = 'fa-file-pdf-o';
+        $scope.newComment = {text:''};
+        $scope.confirmMessage = 'hello';
+        $scope.user = JSON.parse(UserService.getCookieUser());
+        $scope.comment = {};
+        $scope.comment.editingComment = false;
+        $scope.toggleEditingComment = function(comment) {
+            comment.editingComment = !comment.editingComment;
+        };
+
+        $scope.commentForm = false;
+        $scope.toggleCommentForm = function() {
+            $scope.commentForm = !$scope.commentForm;
+        };
 
         fetchProject();
 
@@ -18,6 +30,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                     function(d) {
                         $scope.project = d;
                         getDeadlineProgress();
+                        console.log($scope.user);
 
                     },
                     function(errResponse){
@@ -36,6 +49,20 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                     },
                     function(errResponse){
                         console.error('Error while fetching files -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        }
+
+        function fetchAllComments(){
+            $scope.id = $stateParams.projectID;
+            ProjectService.fetchAllComments($scope.id)
+                .then(
+                    function(d) {
+                        $scope.project.comments = d;
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching comments -> from controller');
                         $scope.errorMessage = errResponse.data.message;
                     }
                 );
@@ -69,6 +96,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 });
             });
         };
+        
         
         $scope.addDeveloper = function (email) {
             ProjectService.addDeveloper($scope.id, email)
@@ -135,7 +163,6 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
 
         $scope.deleteFile = function (fileId) {
-            alert("Are you sure?");
             ProjectService.deleteFile($scope.id, fileId)
                 .then(
                     function(d) {
@@ -143,6 +170,34 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                     },
                     function(errResponse){
                         $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        };
+
+        $scope.deleteComment = function (commentId) {
+            ProjectService.deleteComment($scope.id, commentId)
+                .then(
+                    function(d) {
+                        fetchAllComments();
+                    },
+                    function(errResponse){
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        };
+
+        $scope.addComment = function (comment) {
+            ProjectService.addComment($scope.id, comment)
+                .then(
+                    function(d) {
+                        fetchAllComments();
+                        $scope.newComment = {};
+                        $scope.commentForm = !$scope.commentForm;
+                    },
+                    function(errResponse){
+                        console.error('Error while adding developer -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                        $scope.newComment = {};
                     }
                 );
         };

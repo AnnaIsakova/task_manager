@@ -1,6 +1,7 @@
 package annanas_manager.DTO;
 
 
+import annanas_manager.entities.CommentForProject;
 import annanas_manager.entities.CustomUser;
 import annanas_manager.entities.Developer;
 import annanas_manager.entities.FileForProject;
@@ -21,6 +22,7 @@ public class ProjectDTO {
     private Calendar deadline;
     private List<DeveloperDTO> developers;
     private List<FileForProjectDTO> files;
+    private List<CommentForProjectDTO> comments;
 
     public ProjectDTO() {
     }
@@ -33,7 +35,8 @@ public class ProjectDTO {
                       Date createDate,
                       Calendar deadline,
                       List<DeveloperDTO> developers,
-                      List<FileForProjectDTO> files) {
+                      List<FileForProjectDTO> files,
+                      List<CommentForProjectDTO> comments) {
         this.name = name;
         this.id = id;
         this.description = description;
@@ -43,6 +46,7 @@ public class ProjectDTO {
         this.deadline = deadline;
         this.developers = developers;
         this.files = files;
+        this.comments = comments;
     }
 
     public long getId() {
@@ -115,6 +119,14 @@ public class ProjectDTO {
 
     public void setFiles(List<FileForProjectDTO> files) {
         this.files = files;
+    }
+
+    public List<CommentForProjectDTO> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentForProjectDTO> comments) {
+        this.comments = comments;
     }
 
     @Override

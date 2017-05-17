@@ -17,7 +17,7 @@ public abstract class CustomFile {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
-    @Column(name = "id", length = 6)
+    @Column(name = "id")
     protected long id;
 
     @Column(name = "name", nullable = false)

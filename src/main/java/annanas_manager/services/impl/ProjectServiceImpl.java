@@ -1,15 +1,14 @@
 package annanas_manager.services.impl;
 
 
-import annanas_manager.DTO.CustomUserDTO;
-import annanas_manager.DTO.DeveloperDTO;
-import annanas_manager.DTO.FileForProjectDTO;
-import annanas_manager.DTO.ProjectDTO;
+import annanas_manager.DTO.*;
 import annanas_manager.entities.*;
 import annanas_manager.entities.enums.UserRole;
+import annanas_manager.exceptions.CommentException;
 import annanas_manager.exceptions.CustomFileException;
 import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.exceptions.ProjectException;
+import annanas_manager.repositories.CommentForProjectRepository;
 import annanas_manager.repositories.CustomUserRepository;
 import annanas_manager.repositories.FileForProjectRepository;
 import annanas_manager.repositories.ProjectRepository;
@@ -35,7 +34,9 @@ public class ProjectServiceImpl implements ProjectService{
     @Autowired
     private CustomUserRepository userRepository;
     @Autowired
-    private FileForProjectRepository forProjectRepository;
+    private FileForProjectRepository filesRepository;
+    @Autowired
+    private CommentForProjectRepository commentRepository;
 
     public static final String DIR_PATH = "D:\\Study_prog\\Java\\AnnanasManager\\src\\main\\resources\\static\\uploaded_files\\";
 
@@ -163,7 +164,7 @@ public class ProjectServiceImpl implements ProjectService{
             forProject.setProject(project);
             forProject.setCurrentTime(currTime);
             project.getFiles().add(forProject);
-            forProjectRepository.saveAndFlush(forProject);
+            filesRepository.saveAndFlush(forProject);
         } else {
             throw new ProjectException("You have no permission to add file to this project", HttpStatus.FORBIDDEN);
         }
@@ -173,7 +174,7 @@ public class ProjectServiceImpl implements ProjectService{
     public FileForProjectDTO getFile(long projectID, long fileId, String email) throws ProjectException, CustomFileException {
         Project project = projectRepository.findById(projectID);
         if (hasUserPermission(project, email)){
-            FileForProject file = forProjectRepository.getOne(fileId);
+            FileForProject file = filesRepository.getOne(fileId);
             if (project.getFiles().contains(file)){
                 return file.toDTO();
             } else {
@@ -188,10 +189,10 @@ public class ProjectServiceImpl implements ProjectService{
     public void deleteFile(long projectID, long fileId, String emailCreatedBy) throws ProjectException, CustomFileException {
         Project project = projectRepository.findById(projectID);
         if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
-            FileForProject file = forProjectRepository.getOne(fileId);
+            FileForProject file = filesRepository.getOne(fileId);
             if (project.getFiles().contains(file)){
                 project.getFiles().remove(file);
-                forProjectRepository.delete(fileId);
+                filesRepository.delete(fileId);
                 File file1 = new File(DIR_PATH + file.getCurrentTime() + "-" + file.getName());
                 file1.delete();
                 System.out.println(fileId);
@@ -207,7 +208,7 @@ public class ProjectServiceImpl implements ProjectService{
     public List<FileForProjectDTO> getAllFiles(long id, String email) throws ProjectException {
         Project project = projectRepository.findById(id);
         if (hasUserPermission(project, email)){
-            List<FileForProject> files = forProjectRepository.findByProject(project);
+            List<FileForProject> files = filesRepository.findByProject(project);
             List<FileForProjectDTO> filesDTO = new ArrayList<>();
             for (FileForProject file:files) {
                 filesDTO.add(file.toDTO());
@@ -215,6 +216,51 @@ public class ProjectServiceImpl implements ProjectService{
             return filesDTO;
         } else {
             throw new ProjectException("You have no permission to download file from this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    //comments
+    @Override
+    public void addComment(long id, CommentForProjectDTO commentDTO, String email) throws ProjectException {
+        Project project = projectRepository.findById(id);
+        if (hasUserPermission(project, email)){
+            CommentForProject comment = CommentForProject.fromDTO(commentDTO);
+            comment.setCreateDate(new Date(System.currentTimeMillis()));
+            comment.setUserFrom(userRepository.findByEmail(email));
+            comment.setProject(project);
+            commentRepository.saveAndFlush(comment);
+        } else {
+            throw new ProjectException("You have no permission to add comment to this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
+    public void deleteComment(long projectID, long commentId, String email) throws ProjectException, CommentException {
+        Project project = projectRepository.findById(projectID);
+        if (hasUserPermission(project, email)){
+            CommentForProject comment = commentRepository.findOne(commentId);
+            if (comment.getUserFrom().getEmail().equals(email)){
+                commentRepository.delete(commentId);
+            } else {
+                throw new CommentException("You have no permission to delete this comment", HttpStatus.FORBIDDEN);
+            }
+        } else {
+            throw new ProjectException("You have no permission to delete comment from this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
+    public List<CommentForProjectDTO> getAllComments(long id, String email) throws ProjectException {
+        Project project = projectRepository.findById(id);
+        if (hasUserPermission(project, email)){
+            List<CommentForProject> comments = commentRepository.findByProject(project);
+            List<CommentForProjectDTO> commentsDTO = new ArrayList<>();
+            for (CommentForProject comment:comments) {
+                commentsDTO.add(comment.toDTO());
+            }
+            return commentsDTO;
+        } else {
+            throw new ProjectException("You have no permission to fetch comments from this project", HttpStatus.FORBIDDEN);
         }
     }
 

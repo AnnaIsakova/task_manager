@@ -1,6 +1,7 @@
 package annanas_manager.entities;
 
 
+import annanas_manager.DTO.CommentForProjectDTO;
 import annanas_manager.DTO.DeveloperDTO;
 import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.DTO.ProjectDTO;
@@ -50,6 +51,9 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade= CascadeType.ALL)
     private List<FileForProject> files;
 
+    @OneToMany(mappedBy = "project", cascade= CascadeType.ALL)
+    private List<CommentForProject> comments;
+
     public Project() {
     }
 
@@ -70,7 +74,11 @@ public class Project {
         for (FileForProject file : this.files) {
             filesDTO.add(file.toDTO());
         }
-        return new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline, developersDTO, filesDTO);
+        List<CommentForProjectDTO> commentsDTO = new ArrayList<>();
+        for (CommentForProject comment:this.comments) {
+            commentsDTO.add(comment.toDTO());
+        }
+        return new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline, developersDTO, filesDTO, commentsDTO);
     }
 
     public static Project fromDTO(ProjectDTO dto) {
@@ -152,5 +160,13 @@ public class Project {
 
     public void setFiles(List<FileForProject> files) {
         this.files = files;
+    }
+
+    public List<CommentForProject> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentForProject> comments) {
+        this.comments = comments;
     }
 }
