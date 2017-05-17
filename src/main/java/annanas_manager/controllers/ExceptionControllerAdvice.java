@@ -14,8 +14,11 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
         ErrorResponse error = new ErrorResponse();
         error.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        error.setMessage("Server error occurred");
-        System.out.println(ex.getMessage());
+        if (ex.getMessage() == null){
+            error.setMessage("Server error occurred");
+        } else {
+            error.setMessage(ex.getMessage());
+        }
         return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -129,8 +129,8 @@
                         <i ng-switch-default class="fa fa-file-o" aria-hidden="true"></i>
                         <span>&nbsp;{{file.name}}</span>
                         <div class="f-r">
-                            <a href ng-click="download(file.id)" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>&nbsp;
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <a href ng-click="downloadFile(file.id)" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>&nbsp;
+                            <a href ng-click="deleteFile(file.id)" target="_blank"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                         </div>
                     </div>
                     <div class="attached-files-list">

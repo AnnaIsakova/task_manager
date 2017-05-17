@@ -7,6 +7,7 @@ import annanas_manager.DTO.ProjectDTO;
 import annanas_manager.entities.*;
 import annanas_manager.entities.enums.UserRole;
 import annanas_manager.exceptions.CustomFileException;
+import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.repositories.CustomUserRepository;
 import annanas_manager.repositories.FileForProjectRepository;
@@ -84,19 +85,17 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public ProjectDTO findById(long id, String email) throws ProjectException {
-        CustomUser customUser = userRepository.findByEmail(email);
         Project project = projectRepository.findById(id);
-        if (project.getCreatedBy().equals(customUser) || project.getDevelopers().contains(customUser)){
+        if (hasUserPermission(project, email)){
             return project.toDTO();
         }
         throw new ProjectException("You have no permission to view this project", HttpStatus.FORBIDDEN);
     }
 
     @Override
-    public void addDeveloper(long id, String emailDev, String emailCreatedBy) throws ProjectException {
-        CustomUser createdBy = userRepository.findByEmail(emailCreatedBy);
+    public void addDeveloper(long id, String emailDev, String emailCreatedBy) throws ProjectException, CustomUserException {
         Project project = projectRepository.findById(id);
-        if (project.getCreatedBy().equals(createdBy)){
+        if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
             CustomUser userDev = userRepository.findByEmail(emailDev);
             if (userDev instanceof Developer){
                 Developer developer = (Developer) userDev;
@@ -107,7 +106,7 @@ public class ProjectServiceImpl implements ProjectService{
                     throw new ProjectException("Such developer is already in your team", HttpStatus.CONFLICT);
                 }
             } else {
-                throw new ProjectException("Such developer does not exist", HttpStatus.NOT_FOUND);
+                throw new CustomUserException("Such developer does not exist", HttpStatus.NOT_FOUND);
             }
         } else {
             throw new ProjectException("You have no permission to add developer to this project", HttpStatus.FORBIDDEN);
@@ -116,17 +115,18 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public void addFile(long id, MultipartFile multipartFile, String emailCreatedBy) throws ProjectException {
-        CustomUser createdBy = userRepository.findByEmail(emailCreatedBy);
         Project project = projectRepository.findById(id);
-        if (project.getCreatedBy().equals(createdBy)){
-            File convFile = new File(DIR_PATH + multipartFile.getOriginalFilename());
+        if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
+            long currTime = System.currentTimeMillis();
+            File convFile = new File(DIR_PATH + currTime + "-" + multipartFile.getOriginalFilename());
             try {
                 multipartFile.transferTo(convFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            FileForProject forProject = new FileForProject(convFile.getName(), convFile);
+            FileForProject forProject = new FileForProject(multipartFile.getOriginalFilename(), convFile);
             forProject.setProject(project);
+            forProject.setCurrentTime(currTime);
             project.getFiles().add(forProject);
             forProjectRepository.saveAndFlush(forProject);
 //            projectRepository.saveAndFlush(project);
@@ -137,9 +137,8 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public FileForProjectDTO getFile(long projectID, long fileId, String email) throws ProjectException, CustomFileException {
-        CustomUser user = userRepository.findByEmail(email);
         Project project = projectRepository.findById(projectID);
-        if (project.getCreatedBy().equals(user) || project.getDevelopers().contains(user)){
+        if (hasUserPermission(project, email)){
             FileForProject file = forProjectRepository.getOne(fileId);
             if (project.getFiles().contains(file)){
                 return file.toDTO();
@@ -149,5 +148,47 @@ public class ProjectServiceImpl implements ProjectService{
         } else {
             throw new ProjectException("You have no permission to download file from this project", HttpStatus.FORBIDDEN);
         }
+    }
+
+    @Override
+    public void deleteFile(long projectID, long fileId, String emailCreatedBy) throws ProjectException, CustomFileException {
+        Project project = projectRepository.findById(projectID);
+        if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
+            FileForProject file = forProjectRepository.getOne(fileId);
+            if (project.getFiles().contains(file)){
+                project.getFiles().remove(file);
+                forProjectRepository.delete(fileId);
+                File file1 = new File(DIR_PATH + file.getCurrentTime() + "-" + file.getName());
+                file1.delete();
+                System.out.println(fileId);
+            } else {
+                throw new CustomFileException("This file doesn't belong to this project", HttpStatus.CONFLICT);
+            }
+        } else {
+            throw new ProjectException("You have no permission to delete file from this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
+    public List<FileForProjectDTO> getAllFiles(long id, String email) throws ProjectException {
+        Project project = projectRepository.findById(id);
+        if (hasUserPermission(project, email)){
+            List<FileForProject> files = forProjectRepository.findByProject(project);
+            List<FileForProjectDTO> filesDTO = new ArrayList<>();
+            for (FileForProject file:files) {
+                filesDTO.add(file.toDTO());
+            }
+            return filesDTO;
+        } else {
+            throw new ProjectException("You have no permission to download file from this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    private boolean hasUserPermission(Project project, String email){
+        CustomUser user = userRepository.findByEmail(email);
+        if (project.getCreatedBy().equals(user) || project.getDevelopers().contains(user)){
+            return true;
+        }
+        return false;
     }
 }

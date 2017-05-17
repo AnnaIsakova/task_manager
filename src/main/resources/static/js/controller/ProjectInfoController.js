@@ -27,6 +27,20 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 );
         }
 
+        function fetchFiles(){
+            $scope.id = $stateParams.projectID;
+            ProjectService.fetchAllFiles($scope.id)
+                .then(
+                    function(d) {
+                        $scope.project.files = d;
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching project -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        }
+
         $scope.openEdit = function (project) {
             console.log('open editing: ', project);
             $rootScope.projectForEdit = project;
@@ -64,7 +78,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             ProjectService.uploadFile($scope.id, file)
                 .then(
                     function(d) {
-                        fetchProject();
+                        fetchFiles();
                     },
                     function(errResponse){
                         console.error('Error while uploading file -> from controller');
@@ -77,18 +91,29 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             return fileName.substr(fileName.lastIndexOf('.')+1);
         };
         
-        $scope.download = function (fileId) {
+        $scope.downloadFile = function (fileId) {
             ProjectService.downloadFile($scope.id, fileId)
                 .then(
                     function(d) {
                     },
                     function(errResponse){
                         console.error('Error while downloading file -> from controller');
+                        var decodedString = String.fromCharCode.apply(null, new Uint8Array(errResponse.data));
+                        var obj = JSON.parse(decodedString);
+                        $scope.errorMessage = obj['message'];
+                    }
+                );
+        };
+
+        $scope.deleteFile = function (fileId) {
+            alert("Are you sure?");
+            ProjectService.deleteFile($scope.id, fileId)
+                .then(
+                    function(d) {
+                        fetchFiles();
+                    },
+                    function(errResponse){
                         $scope.errorMessage = errResponse.data.message;
-                        if($scope.errorMessage == undefined){
-                            $scope.errorMessage = "Something went wrong"
-                        }
-                        console.log($scope.errorMessage)
                     }
                 );
         };
