@@ -1,6 +1,8 @@
 package annanas_manager.controllers;
 
 
+import annanas_manager.DTO.DeveloperDTO;
+import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
@@ -8,13 +10,12 @@ import annanas_manager.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
+@RestController
 public class ProjectDevelopersController {
 
     @Autowired
@@ -28,6 +29,28 @@ public class ProjectDevelopersController {
     ) throws ProjectException, CustomUserException {
         projectService.addDeveloper(id, email, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/projects/deleteDeveloper", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteDeveloper(
+            @RequestParam("projectId") long projectId,
+            @RequestParam("devId") long devId,
+            Principal principal
+    ) throws ProjectException, CustomUserException {
+        projectService.deleteDeveloper(projectId, devId, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/projects/{project_id}/getDevelopers", method = RequestMethod.GET)
+    public ResponseEntity<List<DeveloperDTO>> getAllFiles(
+            @PathVariable("project_id") long project_id,
+            Principal principal) throws ProjectException {
+        List<DeveloperDTO> files = projectService.getAllDevs(project_id, principal.getName());
+        if (files.isEmpty()){
+            return new ResponseEntity<List<DeveloperDTO>>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<List<DeveloperDTO>>(files, HttpStatus.OK);
+        }
     }
 
     @ExceptionHandler(ProjectException.class)

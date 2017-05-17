@@ -11,6 +11,8 @@ app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'F
         editProject:editProject,
         deleteProject:deleteProject,
         addDeveloper:addDeveloper,
+        deleteDeveloper:deleteDeveloper,
+        fetchAllDevelopers:fetchAllDevelopers,
         uploadFile:uploadFile,
         downloadFile:downloadFile,
         deleteFile:deleteFile,
@@ -109,6 +111,37 @@ app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'F
                 },
                 function(errResponse){
                     console.error('Error while adding developer');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+    
+    function deleteDeveloper(projectId, devId) {
+        var deferred = $q.defer();
+        $http.post(REST_SERVICE_URI + '/deleteDeveloper?projectId=' + projectId + '&devId=' + devId)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while deleting developer');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function fetchAllDevelopers(projectID) {
+        var deferred = $q.defer();
+        $http.get(REST_SERVICE_URI + '/' + projectID + '/getDevelopers')
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                    console.log(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while fetching this files');
                     deferred.reject(errResponse);
                 }
             );

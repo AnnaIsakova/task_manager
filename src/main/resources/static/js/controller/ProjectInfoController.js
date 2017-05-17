@@ -35,7 +35,21 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                         $scope.project.files = d;
                     },
                     function(errResponse){
-                        console.error('Error while fetching project -> from controller');
+                        console.error('Error while fetching files -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        }
+
+        function fetchDevs(){
+            $scope.id = $stateParams.projectID;
+            ProjectService.fetchAllDevelopers($scope.id)
+                .then(
+                    function(d) {
+                        $scope.project.developers = d;
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching devs -> from controller');
                         $scope.errorMessage = errResponse.data.message;
                     }
                 );
@@ -60,7 +74,22 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             ProjectService.addDeveloper($scope.id, email)
                 .then(
                     function(d) {
-                        fetchProject();
+                        fetchDevs();
+                        $scope.newDeveloper = '';
+                    },
+                    function(errResponse){
+                        console.error('Error while adding developer -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                        $scope.newDeveloper = '';
+                    }
+                );
+        };
+        
+        $scope.deleteDeveloper = function (devId) {
+            ProjectService.deleteDeveloper($scope.id, devId)
+                .then(
+                    function(d) {
+                        fetchDevs();
                     },
                     function(errResponse){
                         console.error('Error while adding developer -> from controller');

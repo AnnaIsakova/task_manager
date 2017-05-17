@@ -2,6 +2,7 @@ package annanas_manager.services.impl;
 
 
 import annanas_manager.DTO.CustomUserDTO;
+import annanas_manager.DTO.DeveloperDTO;
 import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.DTO.ProjectDTO;
 import annanas_manager.entities.*;
@@ -38,6 +39,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     public static final String DIR_PATH = "D:\\Study_prog\\Java\\AnnanasManager\\src\\main\\resources\\static\\uploaded_files\\";
 
+    //project
     @Override
     public void add(ProjectDTO projectDTO, String email) {
         Project project = Project.fromDTO(projectDTO);
@@ -92,6 +94,7 @@ public class ProjectServiceImpl implements ProjectService{
         throw new ProjectException("You have no permission to view this project", HttpStatus.FORBIDDEN);
     }
 
+    //developers
     @Override
     public void addDeveloper(long id, String emailDev, String emailCreatedBy) throws ProjectException, CustomUserException {
         Project project = projectRepository.findById(id);
@@ -114,6 +117,38 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    public void deleteDeveloper(long projectId, long devId, String emailCreatedBy) throws ProjectException, CustomUserException {
+        Project project = projectRepository.findById(projectId);
+        if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
+            CustomUser userDev = userRepository.findOne(devId);
+            if (userDev instanceof Developer){
+                project.getDevelopers().remove(userDev);
+                projectRepository.saveAndFlush(project);
+            } else {
+                throw new CustomUserException("Such developer does not exist", HttpStatus.NOT_FOUND);
+            }
+        } else {
+            throw new ProjectException("You have no permission to delete developer from this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
+    public List<DeveloperDTO> getAllDevs(long projectId, String emailCreatedBy) throws ProjectException {
+        Project project = projectRepository.findById(projectId);
+        if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
+            List<Developer> devs = project.getDevelopers();
+            List<DeveloperDTO> devsDTO = new ArrayList<>();
+            for (Developer dev:devs) {
+                devsDTO.add(dev.toDTO());
+            }
+            return devsDTO;
+        } else {
+            throw new ProjectException("You have no permission to fetch developers from this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    //files
+    @Override
     public void addFile(long id, MultipartFile multipartFile, String emailCreatedBy) throws ProjectException {
         Project project = projectRepository.findById(id);
         if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
@@ -129,7 +164,6 @@ public class ProjectServiceImpl implements ProjectService{
             forProject.setCurrentTime(currTime);
             project.getFiles().add(forProject);
             forProjectRepository.saveAndFlush(forProject);
-//            projectRepository.saveAndFlush(project);
         } else {
             throw new ProjectException("You have no permission to add file to this project", HttpStatus.FORBIDDEN);
         }

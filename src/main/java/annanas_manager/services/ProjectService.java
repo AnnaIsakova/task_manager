@@ -2,6 +2,7 @@ package annanas_manager.services;
 
 
 import annanas_manager.DTO.CustomUserDTO;
+import annanas_manager.DTO.DeveloperDTO;
 import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.DTO.ProjectDTO;
 import annanas_manager.exceptions.CustomFileException;
@@ -22,9 +23,11 @@ public interface ProjectService {
 
     //methods for project developers
     void addDeveloper(long id, String emailDev, String emailCreatedBy) throws ProjectException, CustomUserException;
-    void addFile(long id, MultipartFile multipartFile, String emailCreatedBy) throws ProjectException;
+    void deleteDeveloper(long projectId, long devId, String emailCreatedBy) throws ProjectException, CustomUserException;
+    List<DeveloperDTO> getAllDevs(long projectId, String emailCreatedBy) throws ProjectException;
 
     //methods for project files
+    void addFile(long id, MultipartFile multipartFile, String emailCreatedBy) throws ProjectException;
     FileForProjectDTO getFile(long projectID, long fileId, String email) throws ProjectException, CustomFileException;
     void deleteFile(long projectID, long fileId, String email) throws ProjectException, CustomFileException;
     List<FileForProjectDTO> getAllFiles(long id, String email) throws ProjectException;

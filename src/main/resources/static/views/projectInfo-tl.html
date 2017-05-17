@@ -155,19 +155,21 @@
                     <div ng-repeat="developer in project.developers" class="attached-files-list">
                         <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
                         <span>{{developer.firstName}} {{developer.lastName}}</span>
-                        <i class="fa fa-ban f-r" aria-hidden="true"></i>
+                        <a href ng-click="deleteDeveloper(developer.id)"><i class="fa fa-ban f-r" aria-hidden="true"></i></a>
                     </div>
                     <div class="attached-files-list">
-                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-                        <span>
-                            <input
-                                    type="text"
-                                    placeholder="Add new developer (type email here)"
-                                    class="border-none"
-                                    style="width: 90%"
-                                    ng-model="newDeveloper">
-                        </span>
-                        <a href ng-click="addDeveloper(newDeveloper)"><i class="fa fa-check f-r" aria-hidden="true"></i></a>
+                        <form name="addNewDeveloper">
+                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                            <span>
+                                <input
+                                        type="text"
+                                        placeholder="Add new developer (type email here)"
+                                        class="border-none"
+                                        style="width: 90%"
+                                        ng-model="newDeveloper">
+                            </span>
+                            <a href ng-click="addDeveloper(newDeveloper)"><i class="fa fa-check f-r" aria-hidden="true"></i></a>
+                        </form>
                     </div>
                 </div>
             </div>
