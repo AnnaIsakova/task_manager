@@ -250,6 +250,23 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    public void editComment(long projectID, CommentForProjectDTO commentDTO, String email) throws CommentException, ProjectException {
+        Project project = projectRepository.findById(projectID);
+        if (hasUserPermission(project, email)){
+            CommentForProject comment = commentRepository.findOne(commentDTO.getId());
+            if (comment.getUserFrom().getEmail().equals(email)){
+                comment.setText(commentDTO.getText());
+                comment.setLastModified(new Date(System.currentTimeMillis()));
+                commentRepository.saveAndFlush(comment);
+            } else {
+                throw new CommentException("You have no permission to edit this comment", HttpStatus.FORBIDDEN);
+            }
+        } else {
+            throw new ProjectException("You have no permission to edit comment from this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
     public List<CommentForProjectDTO> getAllComments(long id, String email) throws ProjectException {
         Project project = projectRepository.findById(id);
         if (hasUserPermission(project, email)){

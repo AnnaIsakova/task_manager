@@ -202,6 +202,22 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 );
         };
 
+        $scope.editComment = function (comment) {
+            ProjectService.editComment($scope.id, comment)
+                .then(
+                    function(d) {
+                        fetchAllComments();
+                        comment.editingComment = !comment.editingComment;
+                        console.log("new text: ", comment.text)
+                    },
+                    function(errResponse){
+                        console.error('Error while adding developer -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                        $scope.newComment = {};
+                    }
+                );
+        };
+
         function getDeadlineProgress(){
             var now = moment().startOf('day');
             var deadline = moment($scope.project.deadline).startOf('day');
@@ -217,7 +233,9 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
 
             if (daysTotal <= daysPass){
                 $scope.progressDeadline = 100;
-            } else {
+            } else if(daysTotal == 1 && now.isSame(createdAt)){
+                $scope.progressDeadline = 50;
+            }else {
                 $scope.progressDeadline = (100 * daysPass)/daysTotal;
             }
 

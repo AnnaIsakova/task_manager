@@ -18,6 +18,7 @@ app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'F
         deleteFile:deleteFile,
         fetchAllFiles:fetchAllFiles,
         addComment:addComment,
+        editComment:editComment,
         fetchAllComments:fetchAllComments,
         deleteComment:deleteComment
     };
@@ -240,6 +241,23 @@ app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'F
                 },
                 function(errResponse){
                     console.error('Error while adding comment');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function editComment(projectID, comment){
+        var deferred = $q.defer();
+        console.log(comment);
+        $http.post(REST_SERVICE_URI + '/editComment?projectId=' + projectID, comment)
+            .then(
+                function (response) {
+                    console.log("comment edited");
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while editing comment');
                     deferred.reject(errResponse);
                 }
             );

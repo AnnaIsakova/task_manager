@@ -20,6 +20,7 @@ public abstract class Comment {
     @Column(name = "id")
     protected long id;
 
+    @Lob
     @Column(name = "text", nullable = false)
     protected String text;
 
@@ -31,6 +32,10 @@ public abstract class Comment {
     @Type(type="timestamp")
     protected Date createDate;
 
+    @Column
+    @Type(type="timestamp")
+    protected Date lastModified;
+
     public Comment() {
     }
 
@@ -39,7 +44,7 @@ public abstract class Comment {
     }
 
     public CommentDTO toDTO() {
-        return new CommentDTO(id, text, userFrom.toDTO(), createDate);
+        return new CommentDTO(id, text, userFrom.toDTO(), createDate, lastModified);
     }
 
 
@@ -73,5 +78,13 @@ public abstract class Comment {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 }

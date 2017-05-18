@@ -66,6 +66,22 @@ public class ProjectController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/api/projects/edit", method = RequestMethod.POST)
+    public ResponseEntity<Void> editProject(
+            @RequestBody ProjectDTO projectDTO,
+            Principal principal,
+            BindingResult bindingResult) throws ProjectException
+    {
+        ignoreDeadlineTime(projectDTO.getDeadline());
+        projectValidator.validate(projectDTO, bindingResult);
+        if (bindingResult.hasErrors()){
+            throw new ProjectException("Invalid project form", HttpStatus.BAD_REQUEST);
+        }
+
+        projectService.edit(projectDTO, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
     @ExceptionHandler(ProjectException.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(ProjectException ex) {
         ErrorResponse error = new ErrorResponse();

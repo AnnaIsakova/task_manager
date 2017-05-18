@@ -28,7 +28,7 @@ public class CommentForProject extends Comment{
 
     @Override
     public CommentForProjectDTO toDTO() {
-        return new CommentForProjectDTO(id, text, userFrom.toDTO(), createDate);
+        return new CommentForProjectDTO(id, text, userFrom.toDTO(), createDate, lastModified);
     }
 
     public static CommentForProject fromDTO(CommentForProjectDTO dto){

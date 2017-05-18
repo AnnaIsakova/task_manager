@@ -55,6 +55,16 @@ public class ProjectCommentsController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/api/projects/editComment", method = RequestMethod.POST)
+    public ResponseEntity<Void> editComment(
+            @RequestParam("projectId") long projectId,
+            @RequestBody CommentForProjectDTO commentDTO,
+            Principal principal
+    ) throws ProjectException, CommentException {
+        projectService.editComment(projectId, commentDTO, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
     @ExceptionHandler(ProjectException.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(ProjectException ex) {
         ErrorResponse error = new ErrorResponse();

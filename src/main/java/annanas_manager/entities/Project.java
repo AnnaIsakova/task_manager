@@ -30,6 +30,7 @@ public class Project {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Lob
     @Column(name = "details")
     private String details;
 

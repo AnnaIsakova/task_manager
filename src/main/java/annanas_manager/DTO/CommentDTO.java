@@ -9,12 +9,14 @@ public class CommentDTO {
     protected String text;
     protected CustomUserDTO userFrom;
     protected Date createDate;
+    protected Date lastModified;
 
-    public CommentDTO(long id, String text, CustomUserDTO userFrom, Date createDate) {
+    public CommentDTO(long id, String text, CustomUserDTO userFrom, Date createDate, Date lastModified) {
         this.id = id;
         this.text = text;
         this.userFrom = userFrom;
         this.createDate = createDate;
+        this.lastModified = lastModified;
     }
 
     public CommentDTO() {
@@ -50,5 +52,13 @@ public class CommentDTO {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 }
