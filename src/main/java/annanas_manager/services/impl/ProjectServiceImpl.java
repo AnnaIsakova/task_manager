@@ -65,9 +65,9 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(projectDTO.getId());
         if (project.getCreatedBy().getEmail().equals(email)){
             project.setDescription(projectDTO.getDescription());
-            project.setDetails(projectDTO.getDescription());
+            project.setDetails(projectDTO.getDetails());
             project.setDeadline(projectDTO.getDeadline());
-            System.out.println("task from service: " + projectDTO);
+            System.out.println("project from service: " + projectDTO);
             projectRepository.saveAndFlush(project);
         } else {
             throw new ProjectException("You have no permission to edit this task", HttpStatus.FORBIDDEN);

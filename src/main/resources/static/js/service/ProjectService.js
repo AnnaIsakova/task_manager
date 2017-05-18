@@ -75,8 +75,9 @@ app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'F
 
     function editProject(project) {
         var deferred = $q.defer();
-        var task_json = angular.toJson(project);
-        $http.post(REST_SERVICE_URI + '/edit', task_json)
+        var project_json = angular.toJson(project);
+        console.log("project from service: ", project);
+        $http.post(REST_SERVICE_URI + '/edit', project_json)
             .then(
                 function (response) {
                     deferred.resolve(response.data);

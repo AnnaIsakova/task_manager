@@ -91,7 +91,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             }).then(function(modal) {
                 modal.element.modal();
                 modal.close.then(function(result) {
-                    // $state.go('home.projects', {projectID: project.id});
+                    fetchProject();
                     // fetchAllTasks();
                 });
             });
