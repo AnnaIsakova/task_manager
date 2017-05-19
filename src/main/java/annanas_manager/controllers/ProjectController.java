@@ -82,6 +82,15 @@ public class ProjectController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/api/projects/delete", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteProject(
+            @RequestBody long id,
+            Principal principal) throws ProjectException
+    {
+        projectService.delete(id, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
     @ExceptionHandler(ProjectException.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(ProjectException ex) {
         ErrorResponse error = new ErrorResponse();

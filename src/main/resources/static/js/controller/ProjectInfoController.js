@@ -11,6 +11,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         $scope.confirmMessage = 'hello';
         $scope.user = JSON.parse(UserService.getCookieUser());
         $scope.comment = {};
+
         $scope.comment.editingComment = false;
         $scope.toggleEditingComment = function(comment) {
             comment.editingComment = !comment.editingComment;
@@ -19,7 +20,9 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         $scope.commentForm = false;
         $scope.toggleCommentForm = function() {
             $scope.commentForm = !$scope.commentForm;
+            console.log($scope.commentForm)
         };
+
 
         fetchProject();
 
@@ -96,8 +99,21 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 });
             });
         };
-        
-        
+
+        $scope.openDelete = function (project) {
+            console.log('open deleting: ', project);
+            $rootScope.projectId = $scope.id;
+            ModalService.showModal({
+                templateUrl: '/views/confirmProjectDelete.html',
+                controller: "DeleteProjectController"
+            }).then(function(modal) {
+                modal.element.modal();
+                modal.close.then(function(result) {
+                    $state.go('home.projects');
+                });
+            });
+        };
+
         $scope.addDeveloper = function (email) {
             ProjectService.addDeveloper($scope.id, email)
                 .then(
