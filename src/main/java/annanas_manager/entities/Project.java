@@ -38,7 +38,7 @@ public class Project {
     @JoinColumn(name = "created_by_id")
     private CustomUser createdBy;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.PERSIST)
     @JoinTable(name="projects_developers", joinColumns=@JoinColumn(name="project_id"), inverseJoinColumns=@JoinColumn(name="developer_id"))
     private List<Developer> developers = new ArrayList<>();
 

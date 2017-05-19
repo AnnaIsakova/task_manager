@@ -54,6 +54,12 @@ public class ProjectServiceImpl implements ProjectService{
     public void delete(long id, String email) throws ProjectException {
         Project project = projectRepository.findById(id);
         if (project.getCreatedBy().getEmail().equals(email)){
+            List<FileForProject> files = project.getFiles();
+            File file1;
+            for (FileForProject file:files) {
+                file1 = new File(DIR_PATH + file.getCurrentTime() + "-" + file.getName());
+                file1.delete();
+            }
             projectRepository.delete(id);
         } else {
             throw new ProjectException("You have no permission to delete this project", HttpStatus.FORBIDDEN);
@@ -78,7 +84,12 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public List<ProjectDTO> findByUser(String email) {
         CustomUser customUser = userRepository.findByEmail(email);
-        List<Project> projects = projectRepository.findByUsername(customUser);
+        List<Project> projects = null;
+        if (customUser instanceof Teamlead){
+            projects = ((Teamlead) customUser).getProjects();
+        } else if (customUser instanceof Developer){
+            projects = ((Developer) customUser).getProjects();
+        }
         List<ProjectDTO> projectDTOs = new ArrayList<>();
         for (Project project:projects) {
             projectDTOs.add(project.toDTO());
@@ -88,7 +99,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public ProjectDTO findById(long id, String email) throws ProjectException {
-        Project project = projectRepository.findById(id);
+        Project project = projectRepository.findOne(id);
         if (hasUserPermission(project, email)){
             return project.toDTO();
         }

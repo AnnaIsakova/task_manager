@@ -1,326 +1,74 @@
-<div>
-    <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
-        <div class="page-header pull-left">
-            <div class="page-title">
-                Projects
-            </div>
-            <div>
-                Here are projects you were invited to by your team leader.
-                As developer you are not allowed to create your own projects.
-            </div>
+<div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
+    <div class="page-header pull-left">
+        <div class="page-title">
+            Projects
         </div>
-
-        <div class="clearfix">
+        <div>
+            Here are projects you were invited to by your team leader.
+            As developer you are not allowed to create your own projects.
         </div>
     </div>
+    <div class="clearfix">
+    </div>
+</div>
+<div ng-if="errorMessage" class="alert alert-danger m-t-15"><strong>Oops! </strong>{{ errorMessage }}</div>
 
-    <div ng-if="errorMessage" class="alert alert-danger m-t-15"><strong>Oops! </strong>{{ errorMessage }}</div>
+<div class="mbl p-t-15">
+    <div ng-if="projects.length == 0" class="m-l-10"><h4>Relax, you have no projects now :)</h4></div>
 
-    <div class="mbl p-t-15">
-        <div class="col-lg-4">
+    <div ng-if="projects.length > 0">
+        <div class="col-lg-4" ng-repeat="project in projects">
             <div class="panel">
                 <div class="panel-body">
-                    <div class="profile">
+                    <div class="profile panel-width">
                         <div style="margin-bottom: 15px" class="row">
                             <div class="p-t-b-10">
                                 <div>
                                     <div class="project-name">
                                         <h2>
-                                            Project Name
+                                            {{project.name}}
                                         </h2>
                                     </div>
                                     <div class="p-t-7 f-r">
-                                        <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
+                                        <a ui-sref="home.project({projectID: project.id})" class="info-project plus_ico"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
-                                <div class="project_blocks">
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-                                    </p>
-                                </div>
                                 <div>
-                                    <p>
-                                        <strong>Deadline:</strong>
-                                        10/10/2010
-                                    </p>
+                                    <div class="project_blocks">
+                                        <p>
+                                            <strong>Description:</strong>
+                                            {{project.description}}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <strong>Deadline:</strong>
+                                            {{project.deadline | date:'mediumDate'}}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p>
-                                        <strong>Team leader:</strong>
-                                        Ootka Shoobakova
-                                    </p>
-                                </div>
-
                             </div>
 
                         </div>
                         <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-4 emphasis">
+                            <div class="col-xs-12 col-sm-6 emphasis">
                                 <h2>
                                     <strong>20</strong></h2>
                                 <p>
-                                    <small>New tasks</small>
+                                    <small>Developers</small>
                                 </p>
-                                <button class="btn btn-red btn-block">
-                                    <span class="fa fa-plus-circle"></span>&nbsp; New
+                                <button class="btn btn-yellow btn-block">
+                                    <span class="fa fa-user"></span>&nbsp; Show team
                                 </button>
                             </div>
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>157</strong></h2>
-                                <p>
-                                    <small>Approved tasks</small>
-                                </p>
-                                <button class="btn btn-green btn-block">
-                                    <span class="fa fa-check-circle"></span>&nbsp; Approved
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-4 emphasis">
+                            <div class="col-xs-12 col-sm-6 emphasis">
                                 <h2>
                                     <strong>245</strong></h2>
                                 <p>
-                                    <small>All tasks</small>
+                                    <small>Tasks</small>
                                 </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-list"></span>&nbsp; All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="profile">
-                        <div style="margin-bottom: 15px" class="row">
-                            <div class="p-t-b-10">
-                                <div>
-                                    <div class="project-name">
-                                        <h2>
-                                            Project Name
-                                        </h2>
-                                    </div>
-                                    <div class="p-t-7 f-r">
-                                        <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div class="project_blocks">
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat.
-                                    </p>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Deadline:</strong>
-                                        10/10/2010
-                                    </p>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Team leader:</strong>
-                                        Ootka Shoobakova
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>20</strong></h2>
-                                <p>
-                                    <small>New tasks</small>
-                                </p>
-                                <button class="btn btn-red btn-block">
-                                    <span class="fa fa-plus-circle"></span>&nbsp; New
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>157</strong></h2>
-                                <p>
-                                    <small>Approved tasks</small>
-                                </p>
-                                <button class="btn btn-green btn-block">
-                                    <span class="fa fa-check-circle"></span>&nbsp; Approved
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>245</strong></h2>
-                                <p>
-                                    <small>All tasks</small>
-                                </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-list"></span>&nbsp; All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="profile">
-                        <div style="margin-bottom: 15px" class="row">
-                            <div class="p-t-b-10">
-                                <div>
-                                    <div class="project-name">
-                                        <h2>
-                                            Project Name
-                                        </h2>
-                                    </div>
-                                    <div class="p-t-7 f-r">
-                                        <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div class="project_blocks">
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-                                    </p>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Deadline:</strong>
-                                        10/10/2010
-                                    </p>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Team leader:</strong>
-                                        Ootka Shoobakova
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>20</strong></h2>
-                                <p>
-                                    <small>New tasks</small>
-                                </p>
-                                <button class="btn btn-red btn-block">
-                                    <span class="fa fa-plus-circle"></span>&nbsp; New
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>157</strong></h2>
-                                <p>
-                                    <small>Approved tasks</small>
-                                </p>
-                                <button class="btn btn-green btn-block">
-                                    <span class="fa fa-check-circle"></span>&nbsp; Approved
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>245</strong></h2>
-                                <p>
-                                    <small>All tasks</small>
-                                </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-list"></span>&nbsp; All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="profile">
-                        <div style="margin-bottom: 15px" class="row">
-                            <div class="p-t-b-10">
-                                <div>
-                                    <div class="project-name">
-                                        <h2>
-                                            Project Name
-                                        </h2>
-                                    </div>
-                                    <div class="p-t-7 f-r">
-                                        <a href class="info-project"><i class="fa fa-info-circle fa-font-16" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div class="project_blocks">
-                                    <p>
-                                        <strong>Description:</strong>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                        in reprehenderit in voluptate velit esse cillum
-                                    </p>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Deadline:</strong>
-                                        10/10/2010
-                                    </p>
-                                </div>
-                                <div>
-                                    <p>
-                                        <strong>Team leader:</strong>
-                                        Ootka Shoobakova
-                                    </p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>20</strong></h2>
-                                <p>
-                                    <small>New tasks</small>
-                                </p>
-                                <button class="btn btn-red btn-block">
-                                    <span class="fa fa-plus-circle"></span>&nbsp; New
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>157</strong></h2>
-                                <p>
-                                    <small>Approved tasks</small>
-                                </p>
-                                <button class="btn btn-green btn-block">
-                                    <span class="fa fa-check-circle"></span>&nbsp; Approved
-                                </button>
-                            </div>
-                            <div class="col-xs-12 col-sm-4 emphasis">
-                                <h2>
-                                    <strong>245</strong></h2>
-                                <p>
-                                    <small>All tasks</small>
-                                </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-list"></span>&nbsp; All
+                                <button class="btn btn-blue btn-block">
+                                    <span class="fa fa-list"></span>&nbsp; Show tasks
                                 </button>
                             </div>
                         </div>
@@ -330,3 +78,4 @@
         </div>
     </div>
 </div>
+

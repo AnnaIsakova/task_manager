@@ -1,0 +1,116 @@
+<div>
+    <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
+        <div class="page-header pull-left">
+            <div class="page-title">
+                Project name
+            </div>
+            <div>
+                Created at May, 18, 2017
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+
+    <div ng-if="errorMessage" class="alert alert-danger m-t-15"><strong>Oops! </strong>{{ errorMessage }}</div>
+
+    <div class="panel panel-green m-10">
+        <div class="panel-heading height-50">
+            <div class="f-l">All Tasks / New / In progress / Complete / Approved</div>
+            <div class="m-r--14 f-r">
+                <button class="btn btn-default" data-toggle="modal" ng-click="showNewTodo()">
+                    New task
+                </button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <!--<div ng-if="tasks.length == 0">You have no tasks! Maybe, it's time to create some.</div>-->
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        <a href ng-click="sortType = 'description'; sortReverse = !sortReverse">
+                            Description
+                            <span ng-show="sortType == 'description' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'description' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a href ng-click="sortType = 'priority'; sortReverse = !sortReverse">
+                            Priority
+                            <span ng-show="sortType == 'priority' && sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'priority' && !sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a href ng-click="sortType = 'createDate'; sortReverse = !sortReverse">
+                            Date added
+                            <span ng-show="sortType == 'createDate' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'createDate' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a href ng-click="sortType = 'status'; sortReverse = !sortReverse">
+                            Status
+                            <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a href ng-click="sortType = 'deadline'; sortReverse = !sortReverse">
+                            Deadline
+                            <span ng-show="sortType == 'deadline' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'deadline' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a href ng-click="sortType = 'deadline'; sortReverse = !sortReverse">
+                            Assigned to
+                            <span ng-show="sortType == 'deadline' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'deadline' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a href ng-click="sortType = 'deadline'; sortReverse = !sortReverse">
+                            Approved
+                            <span ng-show="sortType == 'deadline' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'deadline' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="task in tasks | orderBy:sortType:sortReverse:prioritiesComparator">
+                    <td>{{task.description}}</td>
+                    <td>
+                    <span
+                            ng-class="{
+                            'label label-sm label-danger': task.priority == 'HIGH',
+                            'label label-sm label-success': task.priority == 'NORMAL',
+                            'label label-sm label-info': task.priority == 'LOW'
+                        }">
+                        {{task.priority}}
+                    </span>
+                    </td>
+                    <td>{{task.createDate | date:'mediumDate'}}</td>
+                    <td>
+                    <span ng-class="{
+                            'label label-sm label-default': task.status == 'NEW',
+                            'label label-sm label-warning': task.status == 'IN_PROGRESS',
+                            'label label-sm label-success': task.status == 'COMPLETE'
+                        }">
+                        {{task.status}}
+                    </span>
+                    </td>
+                    <td>{{task.deadline | date:'mediumDate'}}</td>
+                    <td>
+                        <a href ng-click="openEdit(task)"><i class="fa fa-pencil"></i></a>&nbsp;
+                        <a href ng-click="delete(task.id)"><i class="fa fa-trash-o"></i></a>&nbsp;
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
