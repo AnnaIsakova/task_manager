@@ -14,35 +14,38 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tasks")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "u_role")
+@DiscriminatorValue(value = "T")
 public class Task {
 
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
     @Column(name = "id", length = 6, nullable = false)
-    private long id;
+    protected long id;
 
     @Column(name = "description", nullable = false)
-    private String description;
+    protected String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private CustomUser createdBy;
+    protected CustomUser createdBy;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private TaskPriority priority;
+    protected TaskPriority priority;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private TaskStatus status;
+    protected TaskStatus status;
 
     @Column(nullable = false)
     @Type(type="timestamp")
-    private Date createDate;
+    protected Date createDate;
 
     @Column(name = "deadline", nullable = false)
-    private Calendar deadline;
+    protected Calendar deadline;
 
     public Task(String description, TaskPriority priority, TaskStatus status, Date createDate, Calendar deadline) {
         this.description = description;

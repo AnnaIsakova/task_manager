@@ -20,7 +20,9 @@ app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'F
         addComment:addComment,
         editComment:editComment,
         fetchAllComments:fetchAllComments,
-        deleteComment:deleteComment
+        deleteComment:deleteComment,
+        fetchAllTasks:fetchAllTasks,
+        addTask:addTask
     };
 
     return factory;
@@ -291,6 +293,39 @@ app.factory('ProjectService', ['$http', '$q', '$window', '$rootScope','Blob', 'F
                 },
                 function(errResponse){
                     console.error('Error while deleting comment');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function fetchAllTasks(id) {
+        var deferred = $q.defer();
+        $http.get(REST_SERVICE_URI + '/' + id + '/getTasks')
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                    console.log(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while fetching tasks');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function addTask(projectId, task){
+        var deferred = $q.defer();
+        console.log(task);
+        $http.post(REST_SERVICE_URI + '/' + projectId + '/tasks/new', task)
+            .then(
+                function (response) {
+                    console.log("task added");
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while adding task');
                     deferred.reject(errResponse);
                 }
             );

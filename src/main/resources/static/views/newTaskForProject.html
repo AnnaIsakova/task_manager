@@ -1,0 +1,114 @@
+<div class="modal fade m-r--16" id="newProjectTaskModal">
+    <div class="modal-dialog">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                New Task
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="panel-body pan">
+                <form name="newProjectTaskForm" role="form" novalidate>
+                    <div class="form-body pal">
+                        <div class="form-group">
+                            <label for="t_p_description" class="control-label">
+                                Description*
+                            </label>
+                            <div ng-class="{
+                                    'has-error' :
+                                        newProjectTaskForm.t_p_description.$invalid && !newProjectTaskForm.t_p_description.$pristine,
+                                    'has-success' :
+                                        newProjectTaskForm.t_p_description.$valid && !newProjectTaskForm.t_p_description.$pristine}">
+                                    <textarea
+                                            id="t_p_description"
+                                            name="t_p_description"
+                                            type="text"
+                                            rows="5"
+                                            class="form-control"
+                                            ng-model="task.description"
+                                            required
+                                    ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="t_p_details" class="control-label">
+                                Details
+                            </label>
+                            <div>
+                                <div id="t_p_details" ckeditor="options" ng-model="task.details"></div>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{
+                            'has-error' :
+                                newProjectTaskForm.assignedTo.$invalid && !newProjectTaskForm.assignedTo.$pristine,
+                            'has-success' :
+                                newProjectTaskForm.assignedTo.$valid && !newProjectTaskForm.assignedTo.$pristine}">
+                            <select
+                                    class="form-control input-sm"
+                                    id="assignedTo"
+                                    name="assignedTo"
+                                    ng-model="task.assignedTo"
+                                    ng-options="developer as developer.firstName + ' ' + developer.lastName for developer in developers"
+                                    required>
+                                <option value="">Choose who will do the task</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="t_p_priority" class="control-label">
+                                        Priority*
+                                    </label>
+                                    <div ng-class="{
+                                                'has-error' :
+                                                    newProjectTaskForm.t_p_priority.$invalid && !newProjectTaskForm.t_p_priority.$pristine,
+                                                'has-success' :
+                                                        newProjectTaskForm.t_p_priority.$valid && !newProjectTaskForm.t_p_priority.$pristine}">
+                                        <select
+                                                class="form-control"
+                                                id="t_p_priority"
+                                                name="t_p_priority"
+                                                ng-model="task.priority"
+                                                ng-options="priority for priority in priorities track by priority"
+                                                required>
+                                            <option value="">Please select task priority</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="t_p_deadline" class="control-label">
+                                        Deadline*
+                                    </label>
+                                    <div>
+                                        <input
+                                                class="form-control"
+                                                id="t_p_deadline"
+                                                kendo-date-picker
+                                                k-ng-model="task.deadline"
+                                                k-options="datePickerOptions"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
+                    </div>
+                    <div class="form-actions text-right pal">
+                        <button
+                                type="submit"
+                                class="btn btn-green"
+                                ng-disabled="newProjectTaskForm.$invalid"
+                                ng-click="submit(task)">
+                            Add task
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

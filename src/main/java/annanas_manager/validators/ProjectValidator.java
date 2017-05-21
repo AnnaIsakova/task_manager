@@ -23,7 +23,6 @@ public class ProjectValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "details", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "deadline", "NotEmpty");
         if (!DeadlineValidator.isDeadlineValid(projectDTO.getDeadline())){
             errors.rejectValue("deadline", "Before.deadline");

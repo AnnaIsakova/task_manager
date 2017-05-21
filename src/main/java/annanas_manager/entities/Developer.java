@@ -16,6 +16,9 @@ public class Developer extends CustomUser{
     @ManyToMany(mappedBy = "developers", cascade = CascadeType.ALL)
     private List<Project> projects  = new ArrayList<>();
 
+    @OneToMany(mappedBy = "assignedTo", cascade= CascadeType.ALL)
+    private List<TaskForProject> tasks = new ArrayList<>();
+
     public Developer() {
     }
 
@@ -39,5 +42,13 @@ public class Developer extends CustomUser{
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public List<TaskForProject> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskForProject> tasks) {
+        this.tasks = tasks;
     }
 }

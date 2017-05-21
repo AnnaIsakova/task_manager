@@ -67,7 +67,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 
         })
         .state('home.tasks', {
-            url: '/projects/:projectID/tasks',
+            url: '/projects/:projectID/tasks/:filter',
             views: {
                 "inner_content": {
                     templateProvider: function(TemplateService) {
@@ -77,7 +77,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
                         return '<div ng-include="" src="\'views/tasksProjectList-' + result + '.html\'\"</div>';
 
                     },
-                    controller: 'ProjectInfoController'
+                    controller: 'ProjectTasksController'
                 }
             }
 

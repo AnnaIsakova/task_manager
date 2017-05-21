@@ -3,15 +3,13 @@ package annanas_manager.services.impl;
 
 import annanas_manager.DTO.*;
 import annanas_manager.entities.*;
+import annanas_manager.entities.enums.TaskStatus;
 import annanas_manager.entities.enums.UserRole;
 import annanas_manager.exceptions.CommentException;
 import annanas_manager.exceptions.CustomFileException;
 import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.exceptions.ProjectException;
-import annanas_manager.repositories.CommentForProjectRepository;
-import annanas_manager.repositories.CustomUserRepository;
-import annanas_manager.repositories.FileForProjectRepository;
-import annanas_manager.repositories.ProjectRepository;
+import annanas_manager.repositories.*;
 import annanas_manager.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +35,8 @@ public class ProjectServiceImpl implements ProjectService{
     private FileForProjectRepository filesRepository;
     @Autowired
     private CommentForProjectRepository commentRepository;
+    @Autowired
+    private TaskForProjectRepository taskRepository;
 
     public static final String DIR_PATH = "D:\\Study_prog\\Java\\AnnanasManager\\src\\main\\resources\\static\\uploaded_files\\";
 
@@ -289,6 +289,49 @@ public class ProjectServiceImpl implements ProjectService{
             return commentsDTO;
         } else {
             throw new ProjectException("You have no permission to fetch comments from this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    //tasks
+    @Override
+    public void addTask(long projectId, TaskForProjectDTO taskDTO, String email) throws ProjectException {
+        Project project = projectRepository.findById(projectId);
+        if (project.getCreatedBy().getEmail().equals(email)){
+            taskDTO.setStatus(TaskStatus.NEW);
+            taskDTO.setCreateDate(new Date(System.currentTimeMillis()));
+            TaskForProject task = TaskForProject.fromDTO(taskDTO);
+            task.setCreatedBy(userRepository.findByEmail(email));
+            task.setProject(project);
+            task.setAssignedTo((Developer) userRepository.findOne(taskDTO.getAssignedTo().getId()));
+            System.out.println(task);
+            taskRepository.saveAndFlush(task);
+        } else {
+            throw new ProjectException("You have no permission to add task to this project", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
+    public void deleteTask(long projectId, long taskId, String email) {
+
+    }
+
+    @Override
+    public void editTask(long projectId, TaskForProjectDTO taskDTO, String email) {
+
+    }
+
+    @Override
+    public List<TaskForProjectDTO> getAllTasks(long projectId, String email) throws ProjectException {
+        Project project = projectRepository.findById(projectId);
+        if (project.getCreatedBy().getEmail().equals(email)){
+            List<TaskForProject> tasks = taskRepository.findByProject(project);
+            List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
+            for (TaskForProject task:tasks) {
+                tasksDTO.add(task.toDTO());
+            }
+            return tasksDTO;
+        } else {
+            throw new ProjectException("You have no permission to fetch tasks from this project", HttpStatus.FORBIDDEN);
         }
     }
 

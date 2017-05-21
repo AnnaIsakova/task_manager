@@ -1,32 +1,35 @@
 package annanas_manager.entities;
 
 
-import annanas_manager.DTO.FileForTaskDTO;
+import annanas_manager.DTO.CommentForTaskDTO;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.io.File;
 
 @Entity
 @DiscriminatorValue(value = "T")
-public class FileForTask extends CustomFile {
+public class CommentForTask extends Comment{
 
     @ManyToOne
     @JoinColumn(name = "task_id")
     protected TaskForProject task;
 
-    public FileForTask(String name, File file) {
-        super(name, file);
+    public CommentForTask() {
     }
 
-    public FileForTask() {
+    public CommentForTask(String text) {
+        super(text);
     }
 
     @Override
-    public FileForTaskDTO toDTO() {
-        return new FileForTaskDTO(id, name);
+    public CommentForTaskDTO toDTO() {
+        return new CommentForTaskDTO(id, text, userFrom.toDTO(), createDate, lastModified);
+    }
+
+    public static CommentForTask fromDTO(CommentForTaskDTO dto){
+        return new CommentForTask(dto.getText());
     }
 
     public TaskForProject getTask() {

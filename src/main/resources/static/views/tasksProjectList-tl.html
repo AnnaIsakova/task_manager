@@ -2,10 +2,10 @@
     <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
         <div class="page-header pull-left">
             <div class="page-title">
-                Project name
+                {{project.name}}
             </div>
             <div>
-                Created at May, 18, 2017
+                Created at {{project.createDate | date:'mediumDate'}}
             </div>
         </div>
 
@@ -16,7 +16,7 @@
 
     <div class="panel panel-green m-10">
         <div class="panel-heading height-50">
-            <div class="f-l">All Tasks / New / In progress / Complete / Approved</div>
+            <div class="f-l">{{header}}</div>
             <div class="m-r--14 f-r">
                 <button class="btn btn-default" data-toggle="modal" ng-click="showNewTodo()">
                     New task
@@ -104,6 +104,8 @@
                     </span>
                     </td>
                     <td>{{task.deadline | date:'mediumDate'}}</td>
+                    <td>{{task.assignedTo.firsName}} {{task.assignedTo.lastName}}</td>
+                    <td>{{task.approved}}</td>
                     <td>
                         <a href ng-click="openEdit(task)"><i class="fa fa-pencil"></i></a>&nbsp;
                         <a href ng-click="delete(task.id)"><i class="fa fa-trash-o"></i></a>&nbsp;

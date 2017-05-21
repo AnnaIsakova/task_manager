@@ -55,6 +55,9 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade= CascadeType.ALL)
     private List<CommentForProject> comments;
 
+    @OneToMany(mappedBy = "project", cascade= CascadeType.ALL)
+    private List<TaskForProject> tasks = new ArrayList<>();
+
     public Project() {
     }
 

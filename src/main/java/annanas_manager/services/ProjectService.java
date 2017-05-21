@@ -36,4 +36,10 @@ public interface ProjectService {
     void deleteComment(long projectID, long commentId, String email) throws ProjectException, CommentException;
     void editComment(long projectID, CommentForProjectDTO commentDTO, String email) throws CommentException, ProjectException;
     List<CommentForProjectDTO> getAllComments(long id, String email) throws ProjectException;
+
+    //methods for tasks
+    void addTask(long projectId, TaskForProjectDTO taskDTO, String email) throws ProjectException;
+    void deleteTask(long projectId, long taskId, String email);
+    void editTask (long projectId, TaskForProjectDTO taskDTO, String email);
+    List<TaskForProjectDTO> getAllTasks(long projectId, String email) throws ProjectException;
 }

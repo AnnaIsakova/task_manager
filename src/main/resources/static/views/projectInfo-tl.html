@@ -5,7 +5,7 @@
                 {{project.name}}
             </div>
             <div>
-                Created at: {{project.createDate | date:'mediumDate'}}
+                Created at {{project.createDate | date:'mediumDate'}}
             </div>
             <div class="p-t-7 m-l-10 f-r plus_ico">
                 <a href class="info-project" ng-click="openEdit(project)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -117,8 +117,8 @@
                     </div>
                     <hr class="light-grey">
                     <div>
-                        <a  ui-sref="home.tasks"><i class="fa fa-tasks ico-padding"></i></a>&nbsp;
-                        <i class="fa fa-bell-o ico-padding"></i>&nbsp;
+                        <a ui-sref="home.tasks({projectID: project.id, filter: 'all'})"><i class="fa fa-tasks ico-padding"></i></a>&nbsp;
+                        <a ui-sref="home.tasks({projectID: project.id, filter: 'new'})"><i class="fa fa-bell-o ico-padding"></i></a>&nbsp;
                         <i class="fa fa-spinner ico-padding"></i>&nbsp;
                         <i class="fa fa-check ico-padding"></i>&nbsp;
                         <i class="fa fa-thumbs-o-up ico-padding"></i>
