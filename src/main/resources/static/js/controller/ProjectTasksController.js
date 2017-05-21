@@ -9,6 +9,9 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
         $scope.project = {};
         $scope.header = '';
 
+        $scope.sortType     = 'status'; // set the default sort type
+        $scope.sortReverse  = true;  // set the default sort order
+
         getHeader();
         fetchAllTasks();
         fetchProject();
@@ -39,12 +42,14 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
                             }
                         } else if ($stateParams.filter == 'approved'){
                             for(var i=0; i<arr.length; i++){
-                                if (arr[i].status == 'APPROVED'){
+                                if (arr[i].approved){
                                     $scope.tasks.push(arr[i]);
                                 }
                             }
-                        } else {
+                        } else if ($stateParams.filter == 'all'){
                             $scope.tasks = d;
+                        } else {
+                            $state.go('home.tasks', {filter: 'all'});
                         }
                     },
                     function(errResponse){
@@ -73,6 +78,12 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
                 $scope.header = 'All Tasks';
             } else if ($stateParams.filter == 'new'){
                 $scope.header = 'New Tasks';
+            } else if ($stateParams.filter == 'in_progress'){
+                $scope.header = 'Tasks In Progress';
+            } else if ($stateParams.filter == 'complete'){
+                $scope.header = 'Complete Tasks';
+            } else if ($stateParams.filter == 'approved'){
+                $scope.header = 'Approved Tasks';
             }
         }
 
@@ -83,9 +94,29 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
             }).then(function(modal) {
                 modal.element.modal();
                 modal.close.then(function(result) {
-                    $state.go('home.tasks');
+                    $state.go('home.tasks', {filter: 'all'});
                     fetchAllTasks();
                 });
             });
         };
+
+        $scope.prioritiesComparator = function(v1, v2) {
+            // If we don't get strings, just compare by index
+            if (v1.value == 'LOW' && v2.value == 'NORMAL') {
+                return  -1;
+            } else if (v1.value == 'NORMAL' && v2.value == 'LOW') {
+                return 1;
+            } else if (v1.value == 'LOW' && v2.value == 'HIGH'){
+                return -1;
+            } else if (v1.value == 'HIGH' && v2.value == 'LOW'){
+                return 1;
+            } else if (v1.value == 'NORMAL' && v2.value == 'HIGH'){
+                return -1;
+            } else if (v1.value == 'HIGH' && v2.value == 'NORMAL'){
+                return 1;
+            } else {
+                return (v1.value > v2.value) ? 1 : -1;
+            }
+
+        }
     }]);

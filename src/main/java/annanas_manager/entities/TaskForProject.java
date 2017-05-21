@@ -24,10 +24,10 @@ public class TaskForProject extends Task{
     protected String details;
 
     @ManyToOne
-    @JoinColumn(name = "assigned_to_id", nullable = false)
+    @JoinColumn(name = "assigned_to_id")
     protected Developer assignedTo;
 
-    @Column (nullable = false)
+    @Column
     @Type(type = "org.hibernate.type.NumericBooleanType")
     protected boolean approved;
 

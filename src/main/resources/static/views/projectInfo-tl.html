@@ -107,21 +107,23 @@
                         <i class="icon fa fa-signal"></i>
                     </p>
                     <h4 class="value">
-                        <span>215</span></h4>
+                        <span>{{tasksCompleted}}</span></h4>
                     <p class="description">
-                        Tasks completed</p>
+                        <span ng-if="tasksCompleted == 1">Task</span>
+                        <span ng-if="tasksCompleted != 1">Tasks</span>
+                        completed</p>
                     <div class="progress progress-sm mbn">
-                        <div role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
-                             style="width: 50%;" class="progress-bar progress-bar-success">
+                        <div role="progressbar" aria-valuenow="{{taskProgress}}" aria-valuemin="0" aria-valuemax="100"
+                             ng-style="{'width':taskProgress+'%'}" class="progress-bar progress-bar-success">
                             <span class="sr-only">50% Complete (success)</span></div>
                     </div>
                     <hr class="light-grey">
                     <div>
-                        <a ui-sref="home.tasks({projectID: project.id, filter: 'all'})"><i class="fa fa-tasks ico-padding"></i></a>&nbsp;
-                        <a ui-sref="home.tasks({projectID: project.id, filter: 'new'})"><i class="fa fa-bell-o ico-padding"></i></a>&nbsp;
-                        <i class="fa fa-spinner ico-padding"></i>&nbsp;
-                        <i class="fa fa-check ico-padding"></i>&nbsp;
-                        <i class="fa fa-thumbs-o-up ico-padding"></i>
+                        <a ui-sref="home.tasks({projectID: project.id, filter: 'all'})"><i class="fa fa-tasks ico-padding"></i></a>
+                        <a ui-sref="home.tasks({projectID: project.id, filter: 'new'})"><i class="fa fa-bell-o ico-padding"></i></a>
+                        <a ui-sref="home.tasks({projectID: project.id, filter: 'in_progress'})"><i class="fa fa-spinner ico-padding"></i></a>
+                        <a ui-sref="home.tasks({projectID: project.id, filter: 'complete'})"><i class="fa fa-check ico-padding"></i></a>
+                        <a ui-sref="home.tasks({projectID: project.id, filter: 'approved'})"><i class="fa fa-thumbs-o-up ico-padding"></i></a>
                     </div>
                 </div>
             </div>

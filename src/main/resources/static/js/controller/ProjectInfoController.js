@@ -11,6 +11,8 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         $scope.confirmMessage = 'hello';
         $scope.user = JSON.parse(UserService.getCookieUser());
         $scope.comment = {};
+        $scope.tasksCompleted = 0;
+        $scope.taskProgress = 0;
 
         $scope.comment.editingComment = false;
         $scope.toggleEditingComment = function(comment) {
@@ -33,8 +35,8 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                     function(d) {
                         $scope.project = d;
                         getDeadlineProgress();
-                        console.log($scope.user);
-
+                        getTaskCompleted();
+                        getTaskCompletedProgress();
                     },
                     function(errResponse){
                         console.error('Error while fetching project -> from controller');
@@ -255,6 +257,21 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 $scope.progressDeadline = (100 * daysPass)/daysTotal;
             }
 
+        }
+
+        function getTaskCompleted(){
+            for (var i=0; i<$scope.project.tasks.length; i++){
+                if ($scope.project.tasks[i].approved){
+                    $scope.tasksCompleted++;
+                }
+            }
+        }
+        
+        function getTaskCompletedProgress() {
+            var tasks = $scope.project.tasks.length;
+            var completed = $scope.tasksCompleted;
+            $scope.taskProgress = (100 * completed) / tasks;
+            console.log($scope.taskProgress);
         }
         
     }]);

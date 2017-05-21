@@ -56,22 +56,24 @@
                             <div class="row text-center divider">
                                 <div class="col-xs-12 col-sm-6 emphasis">
                                     <h2>
-                                        <strong>20</strong></h2>
+                                        <strong>{{project.developers.length}}</strong></h2>
                                     <p>
-                                        <small>Developers</small>
+                                        <small ng-if="project.developers.length != 1">Developers</small>
+                                        <small ng-if="project.developers.length == 1">Developer</small>
                                     </p>
                                     <button class="btn btn-yellow btn-block">
-                                        <span class="fa fa-user"></span>&nbsp; Show team
+                                        <span class="fa fa-user"></span>&nbsp;Show team
                                     </button>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 emphasis">
                                     <h2>
-                                        <strong>245</strong></h2>
+                                        <strong>{{project.tasks.length}}</strong></h2>
                                     <p>
-                                        <small>Tasks</small>
+                                        <small ng-if="project.tasks.length != 1">Tasks</small>
+                                        <small ng-if="project.tasks.length == 1">Task</small>
                                     </p>
                                     <button class="btn btn-blue btn-block">
-                                        <span class="fa fa-list"></span>&nbsp; Show tasks
+                                        <span class="fa fa-list"></span>&nbsp;Show tasks
                                     </button>
                                 </div>
                             </div>

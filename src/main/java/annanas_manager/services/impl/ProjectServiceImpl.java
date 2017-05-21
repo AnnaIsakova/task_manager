@@ -93,6 +93,7 @@ public class ProjectServiceImpl implements ProjectService{
         List<ProjectDTO> projectDTOs = new ArrayList<>();
         for (Project project:projects) {
             projectDTOs.add(project.toDTO());
+            System.out.println(project.getTasks().size());
         }
         return projectDTOs;
     }

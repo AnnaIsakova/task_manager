@@ -23,6 +23,7 @@ public class ProjectDTO {
     private List<DeveloperDTO> developers;
     private List<FileForProjectDTO> files;
     private List<CommentForProjectDTO> comments;
+    private List<TaskForProjectDTO> tasks;
 
     public ProjectDTO() {
     }
@@ -36,7 +37,8 @@ public class ProjectDTO {
                       Calendar deadline,
                       List<DeveloperDTO> developers,
                       List<FileForProjectDTO> files,
-                      List<CommentForProjectDTO> comments) {
+                      List<CommentForProjectDTO> comments,
+                      List<TaskForProjectDTO> tasks) {
         this.name = name;
         this.id = id;
         this.description = description;
@@ -47,6 +49,7 @@ public class ProjectDTO {
         this.developers = developers;
         this.files = files;
         this.comments = comments;
+        this.tasks = tasks;
     }
 
     public long getId() {
@@ -127,6 +130,14 @@ public class ProjectDTO {
 
     public void setComments(List<CommentForProjectDTO> comments) {
         this.comments = comments;
+    }
+
+    public List<TaskForProjectDTO> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskForProjectDTO> tasks) {
+        this.tasks = tasks;
     }
 
     @Override

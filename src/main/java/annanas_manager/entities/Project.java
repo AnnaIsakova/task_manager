@@ -1,10 +1,7 @@
 package annanas_manager.entities;
 
 
-import annanas_manager.DTO.CommentForProjectDTO;
-import annanas_manager.DTO.DeveloperDTO;
-import annanas_manager.DTO.FileForProjectDTO;
-import annanas_manager.DTO.ProjectDTO;
+import annanas_manager.DTO.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -82,7 +79,11 @@ public class Project {
         for (CommentForProject comment:this.comments) {
             commentsDTO.add(comment.toDTO());
         }
-        return new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline, developersDTO, filesDTO, commentsDTO);
+        List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
+        for (TaskForProject task:this.tasks) {
+            tasksDTO.add(task.toDTO());
+        }
+        return new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline, developersDTO, filesDTO, commentsDTO, tasksDTO);
     }
 
     public static Project fromDTO(ProjectDTO dto) {
@@ -172,5 +173,13 @@ public class Project {
 
     public void setComments(List<CommentForProject> comments) {
         this.comments = comments;
+    }
+
+    public List<TaskForProject> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskForProject> tasks) {
+        this.tasks = tasks;
     }
 }
