@@ -35,7 +35,7 @@ public class ProjectDevelopersController {
     @RequestMapping(value = "/api/projects/{id}/devs/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteDeveloper(
             @PathVariable("id") long projectId,
-            @RequestParam("devId") long devId,
+            @RequestParam("id") long devId,
             Principal principal
     ) throws ProjectException, CustomUserException {
         developerService.deleteDeveloper(projectId, devId, principal.getName());

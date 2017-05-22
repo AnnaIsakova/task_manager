@@ -11,6 +11,7 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
             parseFormats: ["yyyy-MM-dd"]
         };
 
+
         fetchAllPriorities();
         fetchAllDevelopers();
 
@@ -63,5 +64,14 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
             }
             createTask(result);
         };
+
+        $scope.close = function (){
+            var name;
+            for (name in CKEDITOR.instances) {
+                CKEDITOR.instances[name].destroy(true);
+            }
+            close(null, 500);
+            $('#newProjectTaskModal').modal('hide');
+        }
 
     }]);

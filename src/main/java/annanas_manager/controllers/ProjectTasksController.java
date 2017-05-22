@@ -52,7 +52,7 @@ public class ProjectTasksController {
         if (bindingResult.hasErrors()){
             throw new ProjectException("Invalid task form", HttpStatus.BAD_REQUEST);
         }
-
+        System.out.println("assTo = " + taskDTO.getAssignedTo().getEmail());
         taskService.addTask(project_id, taskDTO, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
@@ -87,7 +87,7 @@ public class ProjectTasksController {
     @RequestMapping(value = "/api/projects/{id}/tasks/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteTask(
             @PathVariable("id") long projectId,
-            @RequestParam("taskId") long taskId,
+            @RequestParam("id") long taskId,
             Principal principal
     ) throws ProjectException, TaskException {
         taskService.deleteTask(projectId, taskId, principal.getName());

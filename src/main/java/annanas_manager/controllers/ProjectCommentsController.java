@@ -47,7 +47,7 @@ public class ProjectCommentsController {
     @RequestMapping(value = "/api/projects/{id}/comments/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteComment(
             @PathVariable("id") long projectId,
-            @RequestParam("commentId") long commentId,
+            @RequestParam("id") long commentId,
             Principal principal
     ) throws ProjectException, CommentException {
         commentForProjectService.deleteComment(projectId, commentId, principal.getName());

@@ -70,7 +70,7 @@ public class ProjectFilesController {
     @RequestMapping(value = "/api/projects/{id}/files/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFile(
             @PathVariable("id") long projectId,
-            @RequestParam("fileId") long fileId,
+            @RequestParam("id") long fileId,
             Principal principal
     ) throws ProjectException, CustomFileException {
         filesForProjectService.deleteFile(projectId, fileId, principal.getName());

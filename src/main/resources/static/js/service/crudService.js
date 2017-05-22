@@ -83,6 +83,7 @@ app.factory('CrudService', ['$http', '$q', function($http, $q){
 
     function deleteObj(name, id) {
         var deferred = $q.defer();
+        console.log(REST_SERVICE_URI + name + '/delete?id=' + id)
         $http.post(REST_SERVICE_URI + name + '/delete?id=' + id)
             .then(
                 function (response) {

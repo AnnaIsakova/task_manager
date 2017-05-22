@@ -94,7 +94,7 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
             }).then(function(modal) {
                 modal.element.modal();
                 modal.close.then(function(result) {
-                    $state.go('home.tasks', {filter: 'all'});
+                    $state.go('home.tasks', {projectID:$stateParams.projectID, filter: 'all'});
                     fetchAllTasks();
                 });
             });

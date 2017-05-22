@@ -4,10 +4,12 @@ import annanas_manager.DTO.DeveloperDTO;
 import annanas_manager.entities.CustomUser;
 import annanas_manager.entities.Developer;
 import annanas_manager.entities.Project;
+import annanas_manager.entities.TaskForProject;
 import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.repositories.CustomUserRepository;
 import annanas_manager.repositories.ProjectRepository;
+import annanas_manager.repositories.TaskForProjectRepository;
 import annanas_manager.services.DeveloperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,8 @@ public class DeveloperServiceImpl implements DeveloperService {
     private ProjectRepository projectRepository;
     @Autowired
     private CustomUserRepository userRepository;
+    @Autowired
+    private TaskForProjectRepository taskRepository;
 
     @Override
     public void addDeveloper(long id, String emailDev, String emailCreatedBy) throws ProjectException, CustomUserException {
@@ -64,6 +68,10 @@ public class DeveloperServiceImpl implements DeveloperService {
             if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
                 CustomUser userDev = userRepository.findOne(devId);
                 if (userDev instanceof Developer){
+                    List<TaskForProject> tasks = taskRepository.findByDeveloper((Developer) userDev);
+                    for (TaskForProject task:tasks) {
+                        taskRepository.delete(task.getId());
+                    }
                     project.getDevelopers().remove(userDev);
                     projectRepository.saveAndFlush(project);
                 } else {

@@ -12,6 +12,9 @@ public class TaskForProjectValidator extends TaskValidator{
     public void validate(Object o, Errors errors) {
         super.validate(o, errors);
         TaskForProjectDTO task = (TaskForProjectDTO) o;
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "assignedTo", "NotEmpty");
+        if (task.getAssignedTo().getEmail() == null){
+            System.out.println("Ok");
+            errors.rejectValue("assignedTo", "Null.assignedTo");
+        }
     }
 }

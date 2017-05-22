@@ -82,7 +82,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/api/projects/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteProject(
-            @RequestParam long id,
+            @RequestParam("id") long id,
             Principal principal) throws ProjectException
     {
         projectService.delete(id, principal.getName());
