@@ -5,6 +5,7 @@ import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.exceptions.CustomFileException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
+import annanas_manager.services.FilesForProjectService;
 import annanas_manager.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -26,32 +27,31 @@ import java.nio.file.Files;
 import java.security.Principal;
 import java.util.List;
 
-import static annanas_manager.services.impl.ProjectServiceImpl.DIR_PATH;
+import static annanas_manager.services.impl.FilesForProjectServiceImpl.DIR_PATH;
 
 @RestController
 public class ProjectFilesController {
 
     @Autowired
-    ProjectService projectService;
+    FilesForProjectService filesForProjectService;
 
-    @RequestMapping(value = "/api/projects/uploadFile", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/projects/{id}/files/new", method = RequestMethod.POST)
     public ResponseEntity<Void> uploadFile(
-            @RequestParam("id") long id,
+            @PathVariable("id") long id,
             @RequestBody MultipartFile file,
             Principal principal
-    ) throws ProjectException
-    {
-        projectService.addFile(id, file, principal.getName());
+    ) throws ProjectException, CustomFileException {
+        filesForProjectService.addFile(id, file, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/projects/{project_id}/download/{file_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/projects/{id}/files/{file_id}", method = RequestMethod.GET)
     public ResponseEntity<Resource> getFile(
-            @PathVariable("project_id") long project_id,
+            @PathVariable("id") long project_id,
             @PathVariable("file_id") long file_id,
             Principal principal,
             HttpServletResponse response) throws ProjectException, CustomFileException, IOException {
-        FileForProjectDTO fileDTO = projectService.getFile(project_id, file_id, principal.getName());
+        FileForProjectDTO fileDTO = filesForProjectService.getFile(project_id, file_id, principal.getName());
         try {
             File file = new File(DIR_PATH + fileDTO.getName());
             InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
@@ -67,21 +67,21 @@ public class ProjectFilesController {
         }
     }
 
-    @RequestMapping(value = "/api/projects/deleteFile", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/projects/{id}/files/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFile(
-            @RequestParam("projectId") long projectId,
+            @PathVariable("id") long projectId,
             @RequestParam("fileId") long fileId,
             Principal principal
     ) throws ProjectException, CustomFileException {
-        projectService.deleteFile(projectId, fileId, principal.getName());
+        filesForProjectService.deleteFile(projectId, fileId, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/projects/{project_id}/getFiles", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/projects/{id}/files", method = RequestMethod.GET)
     public ResponseEntity<List<FileForProjectDTO>> getAllFiles(
-            @PathVariable("project_id") long project_id,
+            @PathVariable("id") long project_id,
             Principal principal) throws ProjectException {
-        List<FileForProjectDTO> files = projectService.getAllFiles(project_id, principal.getName());
+        List<FileForProjectDTO> files = filesForProjectService.getAllFiles(project_id, principal.getName());
         if (files.isEmpty()){
             return new ResponseEntity<List<FileForProjectDTO>>(HttpStatus.NO_CONTENT);
         } else {

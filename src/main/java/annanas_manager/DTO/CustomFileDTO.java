@@ -7,7 +7,6 @@ public class CustomFileDTO {
 
     protected long id;
     protected String name;
-//    protected File file;
 
     public CustomFileDTO(long id, String name) {
         this.id = id;

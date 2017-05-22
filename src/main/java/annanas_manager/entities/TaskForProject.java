@@ -3,7 +3,6 @@ package annanas_manager.entities;
 
 import annanas_manager.DTO.CommentForTaskDTO;
 import annanas_manager.DTO.FileForTaskDTO;
-import annanas_manager.DTO.TaskDTO;
 import annanas_manager.DTO.TaskForProjectDTO;
 import annanas_manager.entities.enums.TaskPriority;
 import annanas_manager.entities.enums.TaskStatus;
@@ -73,7 +72,6 @@ public class TaskForProject extends Task{
         return new TaskForProjectDTO(
                 id,
                 description,
-                createdBy.toDTO(),
                 priority,
                 status,
                 createDate,

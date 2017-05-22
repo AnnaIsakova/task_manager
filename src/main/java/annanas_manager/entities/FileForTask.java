@@ -18,7 +18,7 @@ public class FileForTask extends CustomFile {
     protected TaskForProject task;
 
     public FileForTask(String name, File file) {
-        super(name, file);
+        super(name);
     }
 
     public FileForTask() {

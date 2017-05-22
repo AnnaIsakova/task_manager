@@ -6,6 +6,7 @@ import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
+import annanas_manager.services.DeveloperService;
 import annanas_manager.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,33 +20,33 @@ import java.util.List;
 public class ProjectDevelopersController {
 
     @Autowired
-    ProjectService projectService;
+    DeveloperService developerService;
 
-    @RequestMapping(value = "/api/projects/add_developer", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/projects/{id}/devs/new", method = RequestMethod.POST)
     public ResponseEntity<Void> addDeveloper(
-            @RequestParam("id") long id,
+            @PathVariable("id") long id,
             @RequestParam("email") String email,
             Principal principal
     ) throws ProjectException, CustomUserException {
-        projectService.addDeveloper(id, email, principal.getName());
+        developerService.addDeveloper(id, email, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/projects/deleteDeveloper", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/projects/{id}/devs/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteDeveloper(
-            @RequestParam("projectId") long projectId,
+            @PathVariable("id") long projectId,
             @RequestParam("devId") long devId,
             Principal principal
     ) throws ProjectException, CustomUserException {
-        projectService.deleteDeveloper(projectId, devId, principal.getName());
+        developerService.deleteDeveloper(projectId, devId, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/projects/{project_id}/getDevelopers", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/projects/{id}/devs", method = RequestMethod.GET)
     public ResponseEntity<List<DeveloperDTO>> getAllFiles(
-            @PathVariable("project_id") long project_id,
+            @PathVariable("id") long project_id,
             Principal principal) throws ProjectException {
-        List<DeveloperDTO> files = projectService.getAllDevs(project_id, principal.getName());
+        List<DeveloperDTO> files = developerService.getAllDevs(project_id, principal.getName());
         if (files.isEmpty()){
             return new ResponseEntity<List<DeveloperDTO>>(HttpStatus.NO_CONTENT);
         } else {

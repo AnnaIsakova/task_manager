@@ -26,12 +26,9 @@ public abstract class CustomFile {
     @Column(name = "currentTime", nullable = false)
     protected long currentTime;
 
-    @Transient
-    protected File file;
 
-    public CustomFile(String name, File file) {
+    public CustomFile(String name) {
         this.name = name;
-        this.file = file;
     }
 
     public CustomFile() {
@@ -55,14 +52,6 @@ public abstract class CustomFile {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
     }
 
     public long getCurrentTime() {

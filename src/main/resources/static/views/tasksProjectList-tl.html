@@ -105,7 +105,10 @@
                     </td>
                     <td>{{task.deadline | date:'mediumDate'}}</td>
                     <td>{{task.assignedTo.firstName}} {{task.assignedTo.lastName}}</td>
-                    <td>{{task.approved}}</td>
+                    <td>
+                        <span ng-if="task.approved" class="label label-sm label-success">Yes</span>
+                        <span ng-if="!task.approved" class="label label-sm label-danger">No</span>
+                    </td>
                     <td>
                         <a href ng-click="openEdit(task)"><i class="fa fa-pencil"></i></a>&nbsp;
                         <a href ng-click="delete(task.id)"><i class="fa fa-trash-o"></i></a>&nbsp;

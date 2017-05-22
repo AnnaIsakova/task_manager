@@ -19,7 +19,7 @@ public class FileForProject extends CustomFile {
     protected Project project;
 
     public FileForProject(String name, File file) {
-        super(name, file);
+        super(name);
     }
 
     public FileForProject() {

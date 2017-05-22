@@ -36,7 +36,7 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
                             }
                         } else if ($stateParams.filter == 'complete'){
                             for(var i=0; i<arr.length; i++){
-                                if (arr[i].status == 'COMPLETE'){
+                                if (arr[i].status == 'COMPLETE' && !arr[i].approved){
                                     $scope.tasks.push(arr[i]);
                                 }
                             }

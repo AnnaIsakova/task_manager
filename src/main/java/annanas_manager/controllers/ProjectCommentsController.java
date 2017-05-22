@@ -5,6 +5,7 @@ import annanas_manager.DTO.CommentForProjectDTO;
 import annanas_manager.exceptions.CommentException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
+import annanas_manager.services.CommentForProjectService;
 import annanas_manager.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,26 +19,24 @@ import java.util.List;
 public class ProjectCommentsController {
 
     @Autowired
-    ProjectService projectService;
+    CommentForProjectService commentForProjectService;
 
-    @RequestMapping(value = "/api/projects/addComment", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/projects/{id}/comments/new", method = RequestMethod.POST)
     public ResponseEntity<Void> addComment(
-            @RequestParam("id") long id,
+            @PathVariable("id") long id,
             @RequestBody CommentForProjectDTO commentDTO,
             Principal principal
     ) throws ProjectException
     {
-        System.out.println(id);
-        System.out.println(commentDTO.getText());
-        projectService.addComment(id, commentDTO, principal.getName());
+        commentForProjectService.addComment(id, commentDTO, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/projects/{project_id}/getComments", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/projects/{id}/comments", method = RequestMethod.GET)
     public ResponseEntity<List<CommentForProjectDTO>> getAllComments(
-            @PathVariable("project_id") long project_id,
+            @PathVariable("id") long project_id,
             Principal principal) throws ProjectException {
-        List<CommentForProjectDTO> comments = projectService.getAllComments(project_id, principal.getName());
+        List<CommentForProjectDTO> comments = commentForProjectService.getAllComments(project_id, principal.getName());
         if (comments.isEmpty()){
             return new ResponseEntity<List<CommentForProjectDTO>>(HttpStatus.NO_CONTENT);
         } else {
@@ -45,23 +44,23 @@ public class ProjectCommentsController {
         }
     }
 
-    @RequestMapping(value = "/api/projects/deleteComment", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/projects/{id}/comments/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteComment(
-            @RequestParam("projectId") long projectId,
+            @PathVariable("id") long projectId,
             @RequestParam("commentId") long commentId,
             Principal principal
     ) throws ProjectException, CommentException {
-        projectService.deleteComment(projectId, commentId, principal.getName());
+        commentForProjectService.deleteComment(projectId, commentId, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/projects/editComment", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/projects/{id}/comments/edit", method = RequestMethod.POST)
     public ResponseEntity<Void> editComment(
-            @RequestParam("projectId") long projectId,
+            @PathVariable("id") long projectId,
             @RequestBody CommentForProjectDTO commentDTO,
             Principal principal
     ) throws ProjectException, CommentException {
-        projectService.editComment(projectId, commentDTO, principal.getName());
+        commentForProjectService.editComment(projectId, commentDTO, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

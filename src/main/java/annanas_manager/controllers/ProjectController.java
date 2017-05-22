@@ -27,9 +27,7 @@ public class ProjectController {
 
     @RequestMapping(value = "api/projects", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<ProjectDTO>> getAllProjects(Principal principal)
-    {
-
+    public ResponseEntity<List<ProjectDTO>> getAllProjects(Principal principal) {
         List<ProjectDTO> projects = projectService.findByUser(principal.getName());
         if(projects.isEmpty()){
             return new ResponseEntity<List<ProjectDTO>>(HttpStatus.NO_CONTENT);
@@ -41,8 +39,7 @@ public class ProjectController {
     @ResponseBody
     public ResponseEntity<ProjectDTO> getProject(
             @PathVariable("id") long id,
-            Principal principal) throws ProjectException
-    {
+            Principal principal) throws ProjectException {
         ProjectDTO project = projectService.findById(id, principal.getName());
         if(project == null){
             return new ResponseEntity<ProjectDTO>(HttpStatus.NO_CONTENT);
@@ -61,7 +58,6 @@ public class ProjectController {
         if (bindingResult.hasErrors()){
             throw new ProjectException("Invalid project form", HttpStatus.BAD_REQUEST);
         }
-
         projectService.add(projectDTO, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
@@ -84,7 +80,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/api/projects/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteProject(
-            @RequestBody long id,
+            @RequestParam long id,
             Principal principal) throws ProjectException
     {
         projectService.delete(id, principal.getName());

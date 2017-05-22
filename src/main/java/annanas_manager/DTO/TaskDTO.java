@@ -14,18 +14,16 @@ import java.util.Date;
 
 public class TaskDTO {
 
-    private long id;
-    private String description;
-    private CustomUserDTO createdBy;
-    private TaskPriority priority;
-    private TaskStatus status;
-    private Date createDate;
-    private Calendar deadline;
+    protected long id;
+    protected String description;
+    protected TaskPriority priority;
+    protected TaskStatus status;
+    protected Date createDate;
+    protected Calendar deadline;
 
-    public TaskDTO(long id, String description, CustomUserDTO createdBy, TaskPriority priority, TaskStatus status, Date createDate, Calendar deadline) {
+    public TaskDTO(long id, String description, TaskPriority priority, TaskStatus status, Date createDate, Calendar deadline) {
         this.id = id;
         this.description = description;
-        this.createdBy = createdBy;
         this.priority = priority;
         this.status = status;
         this.createDate = createDate;
@@ -49,14 +47,6 @@ public class TaskDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public CustomUserDTO getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(CustomUserDTO createdBy) {
-        this.createdBy = createdBy;
     }
 
     @JsonProperty("priority")
@@ -102,7 +92,6 @@ public class TaskDTO {
         return "TaskDTO{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", createdBy=" + createdBy +
                 ", priority=" + priority +
                 ", status=" + status +
                 ", createDate=" + createDate +

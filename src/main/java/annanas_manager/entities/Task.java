@@ -15,9 +15,8 @@ import java.util.Date;
 @Entity
 @Table(name = "tasks")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "u_role")
-@DiscriminatorValue(value = "T")
-public class Task {
+@DiscriminatorColumn(name = "task_role")
+public abstract class Task {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -27,10 +26,6 @@ public class Task {
 
     @Column(name = "description", nullable = false)
     protected String description;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    protected CustomUser createdBy;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -58,16 +53,7 @@ public class Task {
     public Task() {}
 
     public TaskDTO toDTO() {
-        return new TaskDTO(id, description, createdBy.toDTO(), priority, status, createDate, deadline);
-    }
-
-    public static Task fromDTO(TaskDTO dto) {
-        return new Task(
-                dto.getDescription(),
-                dto.getPriority(),
-                dto.getStatus(),
-                dto.getCreateDate(),
-                dto.getDeadline());
+        return new TaskDTO(id, description, priority, status, createDate, deadline);
     }
 
     @Override
@@ -75,7 +61,6 @@ public class Task {
         return "Task{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", createdBy=" + createdBy +
                 ", priority=" + priority +
                 ", status=" + status +
                 ", createDate=" + createDate +
@@ -97,14 +82,6 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public CustomUser getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(CustomUser createdBy) {
-        this.createdBy = createdBy;
     }
 
     public TaskPriority getPriority() {

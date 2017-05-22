@@ -25,7 +25,6 @@ public class TaskForProjectDTO extends TaskDTO{
     public TaskForProjectDTO(
             long id,
             String description,
-            CustomUserDTO createdBy,
             TaskPriority priority,
             TaskStatus status,
             Date createDate,
@@ -35,20 +34,7 @@ public class TaskForProjectDTO extends TaskDTO{
             boolean approved,
             List<FileForTaskDTO> files,
             List<CommentForTaskDTO> comments) {
-        super(id, description, createdBy, priority, status, createDate, deadline);
-        this.details = details;
-        this.assignedTo = assignedTo;
-        this.approved = approved;
-        this.files = files;
-        this.comments = comments;
-    }
-
-    public TaskForProjectDTO(
-            String details,
-            DeveloperDTO assignedTo,
-            boolean approved,
-            List<FileForTaskDTO> files,
-            List<CommentForTaskDTO> comments) {
+        super(id, description, priority, status, createDate, deadline);
         this.details = details;
         this.assignedTo = assignedTo;
         this.approved = approved;
