@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 'close', 'TodoListService', 'ModalService',
-    function($scope, $rootScope, $state, $http, close, TodoListService, ModalService) {
+app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 'close', 'CrudService',
+    function($scope, $rootScope, $state, $http, close, CrudService) {
 
         $scope.task = {description:'', priority:'', deadline:new Date()};
         $scope.priorities = [];
@@ -13,7 +13,7 @@ app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 
         fetchAllPriorities();
 
         function fetchAllPriorities(){
-            TodoListService.fetchAllPriorities()
+            CrudService.fetchAll('priorities')
                 .then(
                     function(d) {
                         $scope.priorities = d;
@@ -26,7 +26,7 @@ app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 
         }
 
         function createTask(task){
-            TodoListService.createTask(task)
+            CrudService.createObj('todo', task)
                 .then(
                     function (d) {
                         close(task, 500);

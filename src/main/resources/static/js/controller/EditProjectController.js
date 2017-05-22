@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('EditProjectController', ['$scope', '$rootScope', 'close', 'ProjectService', 
-    function($scope, $rootScope, close, ProjectService) {
+app.controller('EditProjectController', ['$scope', '$rootScope', 'close', 'CrudService',
+    function($scope, $rootScope, close, CrudService) {
 
         var oldProject = $rootScope.projectForEdit;
         $scope.project = angular.copy(oldProject);
@@ -37,7 +37,7 @@ app.controller('EditProjectController', ['$scope', '$rootScope', 'close', 'Proje
 
         function editProject (project) {
             console.log('project for editing: ', project);
-            ProjectService.editProject(project)
+            CrudService.updateObj('projects', project)
                 .then(
                     function(d) {
                         $scope.project = d;

@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$http', 'ProjectService', 'ModalService',
-    function($scope, $rootScope, $state, $http, ProjectService, ModalService) {
+app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$http', 'CrudService', 'ModalService',
+    function($scope, $rootScope, $state, $http, CrudService, ModalService) {
 
         $scope.project={};
         $scope.projects=[];
@@ -10,7 +10,7 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
         fetchAllProjects();
 
         function fetchAllProjects(){
-            ProjectService.fetchAllProjects()
+            CrudService.fetchAll('projects')
                 .then(
                     function(d) {
                         $scope.projects = d;

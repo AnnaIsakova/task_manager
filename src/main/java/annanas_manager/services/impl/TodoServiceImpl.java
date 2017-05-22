@@ -72,7 +72,7 @@ public class TodoServiceImpl implements TodoService {
 
     private boolean hasUserPermission(Task task, String email){
         if (task instanceof TaskTodo){
-            if (((TaskTodo) task).getCreatedBy().equals(email)){
+            if (((TaskTodo) task).getCreatedBy().getEmail().equals(email)){
                 return true;
             }
         }

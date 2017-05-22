@@ -31,15 +31,11 @@ public class TaskForProjectDTO extends TaskDTO{
             Calendar deadline,
             String details,
             DeveloperDTO assignedTo,
-            boolean approved,
-            List<FileForTaskDTO> files,
-            List<CommentForTaskDTO> comments) {
+            boolean approved) {
         super(id, description, priority, status, createDate, deadline);
         this.details = details;
         this.assignedTo = assignedTo;
         this.approved = approved;
-        this.files = files;
-        this.comments = comments;
     }
 
     public TaskForProjectDTO() {

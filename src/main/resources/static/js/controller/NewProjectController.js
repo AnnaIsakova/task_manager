@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('NewProjectController', ['$scope', '$rootScope', '$state', '$http', 'close', 'ProjectService', 'ModalService',
-    function($scope, $rootScope, $state, $http, close, ProjectService, ModalService) {
+app.controller('NewProjectController', ['$scope', '$rootScope', '$state', '$http', 'close', 'CrudService',
+    function($scope, $rootScope, $state, $http, close, CrudService) {
 
         $scope.project = {name:'', description:'', details:'', deadline:new Date()};
         $scope.priorities = [];
@@ -22,7 +22,7 @@ app.controller('NewProjectController', ['$scope', '$rootScope', '$state', '$http
 
 
         function createProject(project){
-            ProjectService.createProject(project)
+            CrudService.createObj('projects', project)
                 .then(
                     function (d) {
                         close(project, 500);

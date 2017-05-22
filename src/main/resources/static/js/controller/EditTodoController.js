@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'TodoListService', 'ModalService',
-    function($scope, $rootScope, close, TodoListService, ModalService) {
+app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'CrudService',
+    function($scope, $rootScope, close, CrudService) {
 
         $scope.allStatus = [];
         $scope.task = $rootScope.taskForEdit;
@@ -29,7 +29,7 @@ app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'TodoList
         }
 
         function fetchAllPriorities(){
-            TodoListService.fetchAllPriorities()
+            CrudService.fetchAll('priorities')
                 .then(
                     function(d) {
                         $scope.priorities = d;
@@ -43,7 +43,7 @@ app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'TodoList
         }
 
         function fetchAllStatus(){
-            TodoListService.fetchAllStatus()
+            CrudService.fetchAll('status')
                 .then(
                     function(d) {
                         $scope.allStatus = d;
@@ -57,7 +57,7 @@ app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'TodoList
 
         $scope.edit = function (task) {
             console.log('task for editing: ', task);
-            TodoListService.editTask(task)
+            CrudService.updateObj('todo', task)
                 .then(
                     function(d) {
                         $scope.tasks = d;

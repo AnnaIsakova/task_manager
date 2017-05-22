@@ -25,7 +25,7 @@ public class ProjectDevelopersController {
     @RequestMapping(value = "/api/projects/{id}/devs/new", method = RequestMethod.POST)
     public ResponseEntity<Void> addDeveloper(
             @PathVariable("id") long id,
-            @RequestParam("email") String email,
+            @RequestBody String email,
             Principal principal
     ) throws ProjectException, CustomUserException {
         developerService.addDeveloper(id, email, principal.getName());

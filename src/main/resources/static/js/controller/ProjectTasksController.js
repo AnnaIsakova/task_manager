@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'ProjectService', 'ModalService',
-    function($scope, $rootScope, $state, $stateParams, $http, ProjectService, ModalService) {
+app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'CrudService', 'ModalService',
+    function($scope, $rootScope, $state, $stateParams, $http, CrudService, ModalService) {
 
         $scope.task={};
         $scope.tasks=[];
@@ -17,7 +17,7 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
         fetchProject();
 
         function fetchAllTasks(){
-            ProjectService.fetchAllTasks($stateParams.projectID)
+            CrudService.fetchAll('projects/' + $stateParams.projectID + '/tasks')
                 .then(
                     function(d) {
                         var arr = [];
@@ -60,7 +60,7 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
         }
 
         function fetchProject(){
-            ProjectService.fetchProject($stateParams.projectID)
+            CrudService.fetchOne('projects', $stateParams.projectID)
                 .then(
                     function(d) {
                         $scope.project = d;

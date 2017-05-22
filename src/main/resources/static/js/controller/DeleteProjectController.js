@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('DeleteProjectController', ['$scope', '$rootScope', 'close', 'ProjectService',
-    function($scope, $rootScope, close, ProjectService) {
+app.controller('DeleteProjectController', ['$scope', '$rootScope', 'close', 'CrudService',
+    function($scope, $rootScope, close, CrudService) {
 
         $scope.delete = function () {
             console.log('deleting: ', $rootScope.projectId);
 
-            ProjectService.deleteProject($rootScope.projectId)
+            CrudService.deleteObj('projects', $rootScope.projectId)
                 .then(
                     function(d) {
                         $('#deletingProjectModal').modal('hide');

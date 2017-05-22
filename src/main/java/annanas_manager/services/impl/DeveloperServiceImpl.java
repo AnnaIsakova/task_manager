@@ -29,9 +29,15 @@ public class DeveloperServiceImpl implements DeveloperService {
     public void addDeveloper(long id, String emailDev, String emailCreatedBy) throws ProjectException, CustomUserException {
         try{
             Project project = projectRepository.findById(id);
+            System.out.println(id);
+            System.out.println(project.getName());
+            System.out.println(project.getCreatedBy().getEmail().equals(emailCreatedBy));
+            System.out.println(emailDev);
             if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
                 CustomUser userDev = userRepository.findByEmail(emailDev);
+                System.out.println(userDev.getEmail());
                 if (userDev instanceof Developer){
+                    System.out.println("OK");
                     Developer developer = (Developer) userDev;
                     if (!project.getDevelopers().contains(developer)){
                         project.getDevelopers().add(developer);

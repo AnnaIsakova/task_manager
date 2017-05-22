@@ -31,10 +31,10 @@ public class TaskForProject extends Task{
     protected boolean approved;
 
     @OneToMany(mappedBy = "task", cascade= CascadeType.ALL)
-    protected List<FileForTask> files;
+    protected List<FileForTask> files = new ArrayList<>();
 
     @OneToMany(mappedBy = "task", cascade= CascadeType.ALL)
-    protected List<CommentForTask> comments;
+    protected List<CommentForTask> comments  = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "project_id")
@@ -59,17 +59,7 @@ public class TaskForProject extends Task{
 
     @Override
     public TaskForProjectDTO toDTO() {
-
-        List<FileForTaskDTO> filesDTO = new ArrayList<>();
-        for (FileForTask file : this.files) {
-            filesDTO.add(file.toDTO());
-        }
-        List<CommentForTaskDTO> commentsDTO = new ArrayList<>();
-        for (CommentForTask comment:this.comments) {
-            commentsDTO.add(comment.toDTO());
-        }
-
-        return new TaskForProjectDTO(
+        TaskForProjectDTO taskDTO = new TaskForProjectDTO(
                 id,
                 description,
                 priority,
@@ -78,9 +68,24 @@ public class TaskForProject extends Task{
                 deadline,
                 details,
                 assignedTo.toDTO(),
-                approved,
-                filesDTO,
-                commentsDTO);
+                approved);
+        try{
+            List<FileForTaskDTO> filesDTO = new ArrayList<>();
+            for (FileForTask file : this.files) {
+                filesDTO.add(file.toDTO());
+            }
+            taskDTO.setFiles(filesDTO);
+        } catch (NullPointerException ex){}
+
+        try{
+            List<CommentForTaskDTO> commentsDTO = new ArrayList<>();
+            for (CommentForTask comment:this.comments) {
+                commentsDTO.add(comment.toDTO());
+            }
+            taskDTO.setComments(commentsDTO);
+        } catch (NullPointerException ex){}
+
+        return taskDTO;
     }
 
     public static TaskForProject fromDTO(TaskForProjectDTO dto){

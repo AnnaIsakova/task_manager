@@ -28,6 +28,7 @@ public class ProjectController {
     @RequestMapping(value = "api/projects", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<ProjectDTO>> getAllProjects(Principal principal) {
+        System.out.println(principal.getName());
         List<ProjectDTO> projects = projectService.findByUser(principal.getName());
         if(projects.isEmpty()){
             return new ResponseEntity<List<ProjectDTO>>(HttpStatus.NO_CONTENT);
@@ -40,6 +41,7 @@ public class ProjectController {
     public ResponseEntity<ProjectDTO> getProject(
             @PathVariable("id") long id,
             Principal principal) throws ProjectException {
+        System.out.println(id);
         ProjectDTO project = projectService.findById(id, principal.getName());
         if(project == null){
             return new ResponseEntity<ProjectDTO>(HttpStatus.NO_CONTENT);

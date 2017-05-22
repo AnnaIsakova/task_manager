@@ -1,88 +1,74 @@
 'use strict';
 
-app.factory('TodoListService', ['$http', '$q', '$rootScope', function($http, $q, $rootScope){
+app.factory('CrudService', ['$http', '$q', function($http, $q){
 
     var REST_SERVICE_URI = 'http://localhost:8080/api/';
 
     var factory = {
-        fetchAllTasks: fetchAllTasks,
-        fetchAllStatus: fetchAllStatus,
-        fetchAllPriorities: fetchAllPriorities,
-        createTask:createTask,
-        deleteTask:deleteTask,
-        editTask:editTask
+        fetchAll: fetchAll,
+        fetchOne:fetchOne,
+        createObj:createObj,
+        deleteObj:deleteObj,
+        updateObj:updateObj
     };
 
     return factory;
 
-    function fetchAllTasks() {
+    function fetchAll(entity) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + 'todo')
+        console.log(REST_SERVICE_URI + entity)
+        $http.get(REST_SERVICE_URI + entity)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
                     console.log(response.data);
                 },
                 function(errResponse){
-                    console.error('Error while fetching Tasks');
+                    console.error('Error while fetching ' + entity);
                     deferred.reject(errResponse);
                 }
             );
         return deferred.promise;
     }
 
-    function fetchAllStatus() {
+    function fetchOne(entity, id) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + 'status')
+        console.log(REST_SERVICE_URI + entity + '/' + id)
+        $http.get(REST_SERVICE_URI + entity + '/' + id)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
                     console.log(response.data);
                 },
-                function(errResponse){
-                    console.error('Error while fetching status');
+                function (errResponse) {
+                    console.error('Error while fetching this ' + entity);
                     deferred.reject(errResponse);
                 }
             );
         return deferred.promise;
     }
 
-    function fetchAllPriorities() {
+    function createObj(name, object) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + 'priorities')
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                    console.log(response.data);
-                },
-                function(errResponse){
-                    console.error('Error while fetching priorities');
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
-    }
-
-    function createTask(task) {
-        var deferred = $q.defer();
-        var task_json = angular.toJson(task);
-        $http.post(REST_SERVICE_URI + 'todo/new', task_json)
+        console.log(REST_SERVICE_URI + name + '/new')
+        $http.post(REST_SERVICE_URI + name + '/new', object)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
                 },
                 function(errResponse){
-                    console.error('Error while creating Task');
+                    console.error('Error while creating ' + name);
                     deferred.reject(errResponse);
                 }
             );
         return deferred.promise;
     }
 
-    function editTask(task) {
+    function updateObj(name, object) {
         var deferred = $q.defer();
-        var task_json = angular.toJson(task);
-        $http.post(REST_SERVICE_URI + 'todo/edit', task_json)
+        var object_json = angular.toJson(object);
+
+        $http.post(REST_SERVICE_URI + name + '/edit', object_json)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -95,9 +81,9 @@ app.factory('TodoListService', ['$http', '$q', '$rootScope', function($http, $q,
         return deferred.promise;
     }
 
-    function deleteTask(id) {
+    function deleteObj(name, id) {
         var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI + 'todo/delete', id)
+        $http.post(REST_SERVICE_URI + name + '/delete?id=' + id)
             .then(
                 function (response) {
                     deferred.resolve(response.data);

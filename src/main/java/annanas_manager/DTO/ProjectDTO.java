@@ -52,6 +52,16 @@ public class ProjectDTO {
         this.tasks = tasks;
     }
 
+    public ProjectDTO(long id, String name, String description, String details, CustomUserDTO createdBy, Date createDate, Calendar deadline) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.details = details;
+        this.createdBy = createdBy;
+        this.createDate = createDate;
+        this.deadline = deadline;
+    }
+
     public long getId() {
         return id;
     }

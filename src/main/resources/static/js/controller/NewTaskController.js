@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'close', 'ProjectService', 'TodoListService', 'ModalService',
-    function($scope, $rootScope, $state, $http, $stateParams, close, ProjectService, TodoListService, ModalService) {
+app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'close', 'CrudService',
+    function($scope, $rootScope, $state, $http, $stateParams, close, CrudService) {
 
         $scope.task = {description:'', details:'', assignedTo:{}, priority:'', deadline:new Date()};
         $scope.priorities = [];
@@ -15,7 +15,7 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
         fetchAllDevelopers();
 
         function fetchAllPriorities(){
-            TodoListService.fetchAllPriorities()
+            CrudService.fetchAll('priorities')
                 .then(
                     function(d) {
                         $scope.priorities = d;
@@ -28,7 +28,7 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
         }
 
         function fetchAllDevelopers(){
-            ProjectService.fetchAllDevelopers($stateParams.projectID)
+            CrudService.fetchAll('projects/' + $stateParams.projectID + '/devs')
                 .then(
                     function(d) {
                         $scope.developers = d;
@@ -41,7 +41,7 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
         }
 
         function createTask(task){
-            ProjectService.addTask($stateParams.projectID, task)
+            CrudService.createObj('projects/' + $stateParams.projectID + '/tasks', task)
                 .then(
                     function (d) {
                         close(task, 500);

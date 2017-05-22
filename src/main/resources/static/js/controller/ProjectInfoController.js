@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'moment', 'ProjectService', 'ModalService', 'UserService',
-    function($scope, $rootScope, $state, $http, $stateParams, moment, ProjectService, ModalService, UserService) {
+app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'moment', 'CrudService', 'FileService', 'ModalService', 'UserService',
+    function($scope, $rootScope, $state, $http, $stateParams, moment, CrudService, FileService, ModalService, UserService) {
 
         $scope.id = 0;
         $scope.project = {};
@@ -30,7 +30,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
 
         function fetchProject(){
             $scope.id = $stateParams.projectID;
-            ProjectService.fetchProject($scope.id)
+            CrudService.fetchOne('projects', $scope.id)
                 .then(
                     function(d) {
                         $scope.project = d;
@@ -47,7 +47,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
 
         function fetchFiles(){
             $scope.id = $stateParams.projectID;
-            ProjectService.fetchAllFiles($scope.id)
+            CrudService.fetchAll('projects/' + $scope.id + '/files')
                 .then(
                     function(d) {
                         $scope.project.files = d;
@@ -61,7 +61,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
 
         function fetchAllComments(){
             $scope.id = $stateParams.projectID;
-            ProjectService.fetchAllComments($scope.id)
+            CrudService.fetchAll('projects/' + $scope.id + '/comments')
                 .then(
                     function(d) {
                         $scope.project.comments = d;
@@ -75,7 +75,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
 
         function fetchDevs(){
             $scope.id = $stateParams.projectID;
-            ProjectService.fetchAllDevelopers($scope.id)
+            CrudService.fetchAll('projects/' + $scope.id + '/devs')
                 .then(
                     function(d) {
                         $scope.project.developers = d;
@@ -117,7 +117,8 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
 
         $scope.addDeveloper = function (email) {
-            ProjectService.addDeveloper($scope.id, email)
+            console.log(email)
+            CrudService.createObj('projects/' + $scope.id + '/devs', email)
                 .then(
                     function(d) {
                         fetchDevs();
@@ -132,7 +133,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
         
         $scope.deleteDeveloper = function (devId) {
-            ProjectService.deleteDeveloper($scope.id, devId)
+            CrudService.deleteObj('projects/' + $scope.id + '/devs', devId)
                 .then(
                     function(d) {
                         fetchDevs();
@@ -150,7 +151,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             console.log('file is ', file);
             console.dir(file);
 
-            ProjectService.uploadFile($scope.id, file)
+            FileService.uploadFile('projects/' + $scope.id + '/files', file)
                 .then(
                     function(d) {
                         fetchFiles();
@@ -167,7 +168,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
         
         $scope.downloadFile = function (fileId) {
-            ProjectService.downloadFile($scope.id, fileId)
+            FileService.downloadFile('projects/' + $scope.id + '/files', fileId)
                 .then(
                     function(d) {
                     },
@@ -181,7 +182,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
 
         $scope.deleteFile = function (fileId) {
-            ProjectService.deleteFile($scope.id, fileId)
+            CrudService.deleteObj('projects/' + $scope.id + '/files', fileId)
                 .then(
                     function(d) {
                         fetchFiles();
@@ -193,7 +194,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
 
         $scope.deleteComment = function (commentId) {
-            ProjectService.deleteComment($scope.id, commentId)
+            CrudService.deleteObj('projects/' + $scope.id + '/comments', commentId)
                 .then(
                     function(d) {
                         fetchAllComments();
@@ -205,7 +206,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
 
         $scope.addComment = function (comment) {
-            ProjectService.addComment($scope.id, comment)
+            CrudService.createObj('projects/' + $scope.id + '/comments', comment)
                 .then(
                     function(d) {
                         fetchAllComments();
@@ -221,7 +222,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
 
         $scope.editComment = function (comment) {
-            ProjectService.editComment($scope.id, comment)
+            CrudService.updateObj('projects/' + $scope.id + '/comments', comment)
                 .then(
                     function(d) {
                         fetchAllComments();

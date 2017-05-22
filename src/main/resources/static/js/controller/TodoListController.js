@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http', 'TodoListService', 'ModalService',
-    function($scope, $rootScope, $state, $http, TodoListService, ModalService) {
+app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http', 'CrudService', 'ModalService',
+    function($scope, $rootScope, $state, $http, CrudService, ModalService) {
 
         $scope.task={};
         $scope.tasks=[];
@@ -13,7 +13,7 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
         fetchAllTasks();
 
         function fetchAllTasks(){
-            TodoListService.fetchAllTasks()
+            CrudService.fetchAll('todo')
                 .then(
                     function(d) {
                         $scope.tasks = d;
@@ -55,7 +55,7 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
 
         $scope.delete = function (id) {
             console.log(id);
-            TodoListService.deleteTask(id)
+            CrudService.deleteObj('todo', id)
                 .then(
                     function(d) {
                         console.log("Task was deleted", d);

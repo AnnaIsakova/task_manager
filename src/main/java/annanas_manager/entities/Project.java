@@ -53,7 +53,7 @@ public class Project {
     private List<CommentForProject> comments;
 
     @OneToMany(mappedBy = "project", cascade= CascadeType.ALL)
-    private List<TaskForProject> tasks = new ArrayList<>();
+    private List<TaskForProject> tasks;
 
     public Project() {
     }
@@ -67,23 +67,41 @@ public class Project {
     }
 
     public ProjectDTO toDTO() {
-        List<DeveloperDTO> developersDTO = new ArrayList<>();
-        for (Developer dev : this.developers) {
-            developersDTO.add(dev.toDTO());
-        }
-        List<FileForProjectDTO> filesDTO = new ArrayList<>();
-        for (FileForProject file : this.files) {
-            filesDTO.add(file.toDTO());
-        }
-        List<CommentForProjectDTO> commentsDTO = new ArrayList<>();
-        for (CommentForProject comment:this.comments) {
-            commentsDTO.add(comment.toDTO());
-        }
-        List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
-        for (TaskForProject task:this.tasks) {
-            tasksDTO.add(task.toDTO());
-        }
-        return new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline, developersDTO, filesDTO, commentsDTO, tasksDTO);
+        ProjectDTO projectDTO = new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline);
+
+        try {
+            List<DeveloperDTO> developersDTO = new ArrayList<>();
+            for (Developer dev : this.developers) {
+                developersDTO.add(dev.toDTO());
+            }
+            projectDTO.setDevelopers(developersDTO);
+        } catch (NullPointerException ex){}
+
+        try {
+            List<FileForProjectDTO> filesDTO = new ArrayList<>();
+            for (FileForProject file : this.files) {
+                filesDTO.add(file.toDTO());
+            }
+            projectDTO.setFiles(filesDTO);
+        } catch (NullPointerException ex){}
+
+        try {
+            List<CommentForProjectDTO> commentsDTO = new ArrayList<>();
+            for (CommentForProject comment:this.comments) {
+                commentsDTO.add(comment.toDTO());
+            }
+            projectDTO.setComments(commentsDTO);
+        } catch (NullPointerException ex){}
+
+        try {
+            List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
+            for (TaskForProject task:this.tasks) {
+                tasksDTO.add(task.toDTO());
+            }
+            projectDTO.setTasks(tasksDTO);
+        } catch (NullPointerException ex){}
+
+        return projectDTO;
     }
 
     public static Project fromDTO(ProjectDTO dto) {

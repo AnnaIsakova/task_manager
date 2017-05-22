@@ -43,7 +43,7 @@ public abstract class CustomUser {
     protected UserRole role;
 
     @OneToMany(mappedBy = "createdBy", cascade= CascadeType.ALL)
-    protected List<Task> todoList;
+    protected List<TaskTodo> todoList;
 
     public CustomUser() {}
 
@@ -132,11 +132,11 @@ public abstract class CustomUser {
         this.role = role;
     }
 
-    public List<Task> getTodoList() {
+    public List<TaskTodo> getTodoList() {
         return todoList;
     }
 
-    public void setTodoList(List<Task> todoList) {
+    public void setTodoList(List<TaskTodo> todoList) {
         this.todoList = todoList;
     }
 }

@@ -95,10 +95,14 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
     public List<TaskForProjectDTO> getAllTasks(long projectId, String email) throws ProjectException {
         try {
             Project project = projectRepository.findById(projectId);
+            System.out.println(project.getName());
             if (project.getCreatedBy().getEmail().equals(email)){
-                List<TaskForProject> tasks = taskRepository.findByProject(project);
+                List<TaskForProject> tasks = project.getTasks();
+                System.out.println(tasks);
                 List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
                 for (TaskForProject task:tasks) {
+                    System.out.println(task.toDTO().getDescription());
+                    System.out.println(task.toDTO().getFiles());
                     tasksDTO.add(task.toDTO());
                 }
                 return tasksDTO;

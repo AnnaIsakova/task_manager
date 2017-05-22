@@ -86,10 +86,10 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public List<ProjectDTO> findByUser(String email) {
         CustomUser customUser = userRepository.findByEmail(email);
-        List<Project> projects = null;
+        List<Project> projects;
         if (customUser instanceof Teamlead){
             projects = ((Teamlead) customUser).getProjects();
-        } else if (customUser instanceof Developer){
+        } else {
             projects = ((Developer) customUser).getProjects();
         }
         List<ProjectDTO> projectDTOs = new ArrayList<>();
@@ -107,10 +107,6 @@ public class ProjectServiceImpl implements ProjectService{
         }
         throw new ProjectException("You have no permission to view this project", HttpStatus.FORBIDDEN);
     }
-
-
-
-
 
     private boolean hasUserPermission(Project project, String email){
         CustomUser user = userRepository.findByEmail(email);
