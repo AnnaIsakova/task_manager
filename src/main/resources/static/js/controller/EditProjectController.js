@@ -60,11 +60,13 @@ app.controller('EditProjectController', ['$scope', '$rootScope', 'close', 'CrudS
             editProject(result);
         };
 
-        $scope.rollback = function () {
-            // $scope.task.status = stat;
-            // $scope.task.description = desc;
-            // $scope.task.priority = prior;
-            // $scope.task.deadline = dead;
+        $scope.close = function (){
+            var name;
+            for (name in CKEDITOR.instances) {
+                CKEDITOR.instances[name].destroy(true);
+            }
+            close(null, 500);
+            $('#editProjectModal').modal('hide');
         }
 
     }]);

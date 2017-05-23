@@ -10,7 +10,7 @@ app.controller('DeleteProjectController', ['$scope', '$rootScope', 'close', 'Cru
                 .then(
                     function(d) {
                         $('#deletingProjectModal').modal('hide');
-                        close(null, 500);
+                        close({}, 500);
                     },
                     function(errResponse){
                         console.error('Error while deleting project -> from controller');
@@ -18,5 +18,10 @@ app.controller('DeleteProjectController', ['$scope', '$rootScope', 'close', 'Cru
                     }
                 );
         };
+
+        $scope.close = function (){
+            close(null, 500);
+            $('#deletingProjectModal').modal('hide');
+        }
 
     }]);

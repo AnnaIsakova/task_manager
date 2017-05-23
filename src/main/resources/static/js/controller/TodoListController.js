@@ -30,7 +30,7 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
                 templateUrl: '/views/newTodoTask.html',
                 controller: "NewTodoController"
             }).then(function(modal) {
-                modal.element.modal();
+                modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
                     $state.go('home.todo');
                     fetchAllTasks();
@@ -45,7 +45,7 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
                 templateUrl: '/views/editTodoTask.html',
                 controller: "EditTodoController"
             }).then(function(modal) {
-                modal.element.modal();
+                modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
                     $state.go('home.todo');
                     fetchAllTasks();

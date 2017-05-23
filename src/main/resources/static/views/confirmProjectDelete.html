@@ -3,7 +3,7 @@
         <div class="panel panel-yellow">
             <div class="panel-heading">
                 Delete Project
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
             </div>
             <div class="panel-body pan">
                 <form name="deletingProjectForm" role="form" novalidate>
@@ -25,7 +25,7 @@
                                 ng-click="delete()">
                             Delete
                         </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <button type="button" class="btn btn-default" ng-click="close()">
                             Cancel
                         </button>
                     </div>

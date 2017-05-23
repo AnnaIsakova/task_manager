@@ -3,7 +3,7 @@
         <div class="panel panel-red">
             <div class="panel-heading">
                 Edit Task
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="rollback()">&times;</button>
+                <button type="button" class="close" aria-hidden="true" ng-click="close()">&times;</button>
             </div>
             <div class="panel-body pan">
                 <form name="editTodoTaskForm" role="form" novalidate>
@@ -106,8 +106,7 @@
                         <button
                                 type="button"
                                 class="btn btn-default"
-                                data-dismiss="modal"
-                                ng-click="rollback()">
+                                ng-click="close()">
                             Close
                         </button>
                     </div>

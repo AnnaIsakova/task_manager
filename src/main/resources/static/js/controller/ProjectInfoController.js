@@ -94,7 +94,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 templateUrl: '/views/editProject.html',
                 controller: "EditProjectController"
             }).then(function(modal) {
-                modal.element.modal();
+                modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
                     fetchProject();
                     // fetchAllTasks();
@@ -109,9 +109,12 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 templateUrl: '/views/confirmProjectDelete.html',
                 controller: "DeleteProjectController"
             }).then(function(modal) {
-                modal.element.modal();
+                modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
-                    $state.go('home.projects');
+                    if (result === null){
+                    } else{
+                        $state.go('home.projects');
+                    }
                 });
             });
         };

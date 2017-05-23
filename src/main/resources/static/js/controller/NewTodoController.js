@@ -45,4 +45,9 @@ app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 
             createTask(result);
         };
 
+        $scope.close = function (){
+            close(null, 500);
+            $('#newTodoTaskModal').modal('hide');
+        }
+
     }]);

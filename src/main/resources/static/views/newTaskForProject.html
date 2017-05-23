@@ -1,11 +1,11 @@
-<div class="modal fade m-r--16" id="newProjectTaskModal">
-    <div class="modal-dialog">
-        <div class="panel panel-green">
-            <div class="panel-heading">
+<div class="modal fade m-r--16" id="newProjectTaskModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="panel panel-green modal-content">
+            <div class="panel-heading modal-header">
                 New Task
                 <button type="button" class="close"  ng-click="close()" aria-hidden="true">&times;</button>
             </div>
-            <div class="panel-body pan">
+            <div class="panel-body pan modal-body">
                 <h4 ng-if="developers.length==0" class="form-body pal">You can't create a task while there are no developers to do it</h4>
                 <form ng-if="developers.length>0" name="newProjectTaskForm" role="form" novalidate>
                     <div class="form-body pal">
@@ -101,7 +101,7 @@
                         </div>
                         <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
                     </div>
-                    <div class="form-actions text-right pal">
+                    <div class="form-actions text-right pal modal-footer">
                         <button
                                 type="submit"
                                 class="btn btn-green"

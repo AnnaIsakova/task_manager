@@ -90,9 +90,9 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
         $scope.showNewTodo = function() {
             ModalService.showModal({
                 templateUrl: '/views/newTaskForProject.html',
-                controller: "NewTaskController"
+                controller: "NewTaskController",
             }).then(function(modal) {
-                modal.element.modal();
+                modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
                     $state.go('home.tasks', {projectID:$stateParams.projectID, filter: 'all'});
                     fetchAllTasks();

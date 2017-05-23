@@ -4,7 +4,8 @@ app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'CrudServ
     function($scope, $rootScope, close, CrudService) {
 
         $scope.allStatus = [];
-        $scope.task = $rootScope.taskForEdit;
+        var oldTask = $rootScope.taskForEdit;
+        $scope.task = angular.copy(oldTask);
         $scope.task.deadline = new Date($scope.task.deadline);
         $scope.datePickerOptions = {
             min: new Date(),
@@ -71,11 +72,10 @@ app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'CrudServ
                 );
         };
 
-        $scope.rollback = function () {
-            $scope.task.status = stat;
-            $scope.task.description = desc;
-            $scope.task.priority = prior;
-            $scope.task.deadline = dead;
+
+        $scope.close = function (){
+            close(null, 500);
+            $('#editTodoTaskModal').modal('hide');
         }
 
     }]);

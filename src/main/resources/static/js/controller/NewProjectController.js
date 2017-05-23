@@ -45,4 +45,13 @@ app.controller('NewProjectController', ['$scope', '$rootScope', '$state', '$http
             createProject(result);
         };
 
+        $scope.close = function (){
+            var name;
+            for (name in CKEDITOR.instances) {
+                CKEDITOR.instances[name].destroy(true);
+            }
+            close(null, 500);
+            $('#newProjectModal').modal('hide');
+        }
+
     }]);

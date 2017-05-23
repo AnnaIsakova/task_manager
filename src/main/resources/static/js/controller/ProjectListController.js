@@ -27,7 +27,7 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
                 templateUrl: '/views/newProject.html',
                 controller: "NewProjectController"
             }).then(function(modal) {
-                modal.element.modal();
+                modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
                     $state.go('home.projects');
                     fetchAllProjects();
