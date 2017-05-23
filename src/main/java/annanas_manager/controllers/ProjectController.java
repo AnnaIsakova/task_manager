@@ -43,6 +43,7 @@ public class ProjectController {
             Principal principal) throws ProjectException {
         System.out.println(id);
         ProjectDTO project = projectService.findById(id, principal.getName());
+        System.out.println("OK1");
         if(project == null){
             return new ResponseEntity<ProjectDTO>(HttpStatus.NO_CONTENT);
         }

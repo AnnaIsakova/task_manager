@@ -37,7 +37,7 @@ public class FilesForProjectServiceImpl implements FilesForProjectService{
     @Override
     public void addFile(long id, MultipartFile multipartFile, String emailCreatedBy) throws ProjectException, CustomFileException {
         try {
-            Project project = projectRepository.findById(id);
+            Project project = projectRepository.findOne(id);
             if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
                 long currTime = System.currentTimeMillis();
                 FileForProject forProject = convertFile(multipartFile, currTime);
@@ -56,7 +56,7 @@ public class FilesForProjectServiceImpl implements FilesForProjectService{
     @Override
     public FileForProjectDTO getFile(long projectID, long fileId, String email) throws ProjectException, CustomFileException {
         try {
-            Project project = projectRepository.findById(projectID);
+            Project project = projectRepository.findOne(projectID);
             if (hasUserPermission(project, email)){
                 FileForProject file = filesRepository.getOne(fileId);
                 if (project.getFiles().contains(file)){
@@ -75,7 +75,7 @@ public class FilesForProjectServiceImpl implements FilesForProjectService{
     @Override
     public void deleteFile(long projectID, long fileId, String emailCreatedBy) throws ProjectException, CustomFileException {
         try {
-            Project project = projectRepository.findById(projectID);
+            Project project = projectRepository.findOne(projectID);
             if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
                 FileForProject file = filesRepository.getOne(fileId);
                 if (project.getFiles().contains(file)){
@@ -97,7 +97,7 @@ public class FilesForProjectServiceImpl implements FilesForProjectService{
     @Override
     public List<FileForProjectDTO> getAllFiles(long id, String email) throws ProjectException {
         try {
-            Project project = projectRepository.findById(id);
+            Project project = projectRepository.findOne(id);
             if (hasUserPermission(project, email)){
                 List<FileForProject> files = filesRepository.findByProject(project);
                 List<FileForProjectDTO> filesDTO = new ArrayList<>();

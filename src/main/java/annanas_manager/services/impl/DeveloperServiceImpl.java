@@ -32,7 +32,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     @Override
     public void addDeveloper(long id, String emailDev, String emailCreatedBy) throws ProjectException, CustomUserException {
         try{
-            Project project = projectRepository.findById(id);
+            Project project = projectRepository.findOne(id);
             System.out.println(id);
             System.out.println(project.getName());
             System.out.println(project.getCreatedBy().getEmail().equals(emailCreatedBy));
@@ -64,7 +64,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     @Override
     public void deleteDeveloper(long projectId, long devId, String emailCreatedBy) throws ProjectException, CustomUserException {
         try {
-            Project project = projectRepository.findById(projectId);
+            Project project = projectRepository.findOne(projectId);
             if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
                 CustomUser userDev = userRepository.findOne(devId);
                 if (userDev instanceof Developer){
@@ -88,7 +88,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     @Override
     public List<DeveloperDTO> getAllDevs(long projectId, String emailCreatedBy) throws ProjectException {
         try {
-            Project project = projectRepository.findById(projectId);
+            Project project = projectRepository.findOne(projectId);
             if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
                 List<Developer> devs = project.getDevelopers();
                 List<DeveloperDTO> devsDTO = new ArrayList<>();

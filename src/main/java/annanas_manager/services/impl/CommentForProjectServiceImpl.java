@@ -33,7 +33,7 @@ public class CommentForProjectServiceImpl implements CommentForProjectService{
     @Override
     public void addComment(long id, CommentForProjectDTO commentDTO, String email) throws ProjectException {
         try {
-            Project project = projectRepository.findById(id);
+            Project project = projectRepository.findOne(id);
             if (hasUserPermission(project, email)){
                 CommentForProject comment = CommentForProject.fromDTO(commentDTO);
                 comment.setCreateDate(new Date(System.currentTimeMillis()));
@@ -51,7 +51,7 @@ public class CommentForProjectServiceImpl implements CommentForProjectService{
     @Override
     public void deleteComment(long projectID, long commentId, String email) throws ProjectException, CommentException {
         try {
-            Project project = projectRepository.findById(projectID);
+            Project project = projectRepository.findOne(projectID);
             if (hasUserPermission(project, email)){
                 CommentForProject comment = commentRepository.findOne(commentId);
                 if (comment.getUserFrom().getEmail().equals(email)){
@@ -70,7 +70,7 @@ public class CommentForProjectServiceImpl implements CommentForProjectService{
     @Override
     public void editComment(long projectID, CommentForProjectDTO commentDTO, String email) throws CommentException, ProjectException {
         try {
-            Project project = projectRepository.findById(projectID);
+            Project project = projectRepository.findOne(projectID);
             if (hasUserPermission(project, email)){
                 CommentForProject comment = commentRepository.findOne(commentDTO.getId());
                 if (comment.getUserFrom().getEmail().equals(email)){
@@ -91,7 +91,7 @@ public class CommentForProjectServiceImpl implements CommentForProjectService{
     @Override
     public List<CommentForProjectDTO> getAllComments(long id, String email) throws ProjectException {
         try {
-            Project project = projectRepository.findById(id);
+            Project project = projectRepository.findOne(id);
             if (hasUserPermission(project, email)){
                 List<CommentForProject> comments = commentRepository.findByProject(project);
                 List<CommentForProjectDTO> commentsDTO = new ArrayList<>();

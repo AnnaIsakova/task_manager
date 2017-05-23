@@ -48,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public void delete(long id, String email) throws ProjectException {
         try {
-            Project project = projectRepository.findById(id);
+            Project project = projectRepository.findOne(id);
             if (project.getCreatedBy().getEmail().equals(email)){
                 List<FileForProject> files = project.getFiles();
                 File file1;
@@ -67,8 +67,8 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public void edit(ProjectDTO projectDTO, String email) throws ProjectException {
-        try{
-            Project project = projectRepository.findById(projectDTO.getId());
+        try {
+            Project project = projectRepository.findOne(projectDTO.getId());
             if (project.getCreatedBy().getEmail().equals(email)){
                 project.setDescription(projectDTO.getDescription());
                 project.setDetails(projectDTO.getDetails());
@@ -101,11 +101,16 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public ProjectDTO findById(long id, String email) throws ProjectException {
-        Project project = projectRepository.findOne(id);
-        if (hasUserPermission(project, email)){
-            return project.toDTO();
+        try{
+            Project project = projectRepository.findOne(id);
+            if (hasUserPermission(project, email)){
+                return project.toDTO();
+            }
+            throw new ProjectException("You have no permission to view this project", HttpStatus.FORBIDDEN);
+        } catch (NullPointerException ex){
+            throw new NullPointerException("Such project doesn't exist");
         }
-        throw new ProjectException("You have no permission to view this project", HttpStatus.FORBIDDEN);
+
     }
 
     private boolean hasUserPermission(Project project, String email){

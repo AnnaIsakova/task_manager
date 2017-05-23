@@ -40,7 +40,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                     },
                     function(errResponse){
                         console.error('Error while fetching project -> from controller');
-                        $scope.errorMessage = errResponse.data.message;
+                        $scope.errorProject = errResponse.data.message;
                     }
                 );
         }

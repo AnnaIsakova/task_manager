@@ -32,7 +32,7 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
     @Override
     public void addTask(long projectId, TaskForProjectDTO taskDTO, String email) throws ProjectException {
         try {
-            Project project = projectRepository.findById(projectId);
+            Project project = projectRepository.findOne(projectId);
             if (project.getCreatedBy().getEmail().equals(email)){
                 taskDTO.setStatus(TaskStatus.NEW);
                 taskDTO.setCreateDate(new Date(System.currentTimeMillis()));
@@ -51,7 +51,7 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
     @Override
     public void deleteTask(long projectId, long taskId, String email) throws ProjectException, TaskException {
         try {
-            Project project = projectRepository.findById(projectId);
+            Project project = projectRepository.findOne(projectId);
             if (project.getCreatedBy().getEmail().equals(email)){
                 TaskForProject task = taskRepository.findOne(taskId);
                 if (project.getTasks().contains(task)){
@@ -70,7 +70,7 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
     @Override
     public void editTask(long projectId, TaskForProjectDTO taskDTO, String email) throws TaskException, ProjectException {
         try {
-            Project project = projectRepository.findById(projectId);
+            Project project = projectRepository.findOne(projectId);
             if (project.getCreatedBy().getEmail().equals(email)){
                 TaskForProject task = taskRepository.findOne(taskDTO.getId());
                 if (project.getTasks().contains(task)){
@@ -94,7 +94,7 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
     @Override
     public List<TaskForProjectDTO> getAllTasks(long projectId, String email) throws ProjectException {
         try {
-            Project project = projectRepository.findById(projectId);
+            Project project = projectRepository.findOne(projectId);
             System.out.println(project.getName());
             if (project.getCreatedBy().getEmail().equals(email)){
                 List<TaskForProject> tasks = project.getTasks();

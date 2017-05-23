@@ -1,11 +1,13 @@
 'use strict';
 
-app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$http', 'CrudService', 'ModalService',
-    function($scope, $rootScope, $state, $http, CrudService, ModalService) {
+app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$http', 'CrudService', 'ModalService', 'UserService',
+    function($scope, $rootScope, $state, $http, CrudService, ModalService, UserService) {
 
         $scope.project={};
         $scope.projects=[];
         $rootScope.projectInfo={};
+        $scope.approved = 0;
+        $scope.user = JSON.parse(UserService.getCookieUser());
 
         fetchAllProjects();
 
@@ -34,5 +36,35 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
                 });
             });
         };
+
+        $scope.getApproved = function(project) {
+            var count = 0;
+            for(var i=0;i<project.tasks.length;i++){
+                if (project.task[i].approved && project.task[i].assignedTo.email == $scope.user.email){
+                    app++;
+                }
+            }
+            return count;
+        }
+
+        $scope.getNew = function(project) {
+            var count = 0;
+            for(var i=0;i<project.tasks.length;i++){
+                if (project.task[i].status == "NEW" && project.task[i].assignedTo.email == $scope.user.email){
+                    app++;
+                }
+            }
+            return count;
+        }
+        
+        $scope.getMy = function (project) {
+            var count = 0;
+            for(var i=0;i<project.tasks.length;i++){
+                if (project.task[i].assignedTo.email == $scope.user.email){
+                    app++;
+                }
+            }
+            return count;
+        }
 
     }]);

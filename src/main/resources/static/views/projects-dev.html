@@ -46,29 +46,45 @@
                                             {{project.deadline | date:'mediumDate'}}
                                         </p>
                                     </div>
+                                    <div>
+                                        <p>
+                                            <strong>Team leader:</strong>
+                                            {{project.createdBy.firstName}} {{project.createdBy.lastName}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
                         </div>
                         <div class="row text-center divider">
-                            <div class="col-xs-12 col-sm-6 emphasis">
+                            <div class="col-xs-12 col-sm-4 emphasis">
                                 <h2>
-                                    <strong>20</strong></h2>
+                                    <strong>{{getNew(project)}}</strong></h2>
                                 <p>
-                                    <small>Developers</small>
+                                    <small>New tasks</small>
                                 </p>
-                                <button class="btn btn-yellow btn-block">
-                                    <span class="fa fa-user"></span>&nbsp; Show team
+                                <button class="btn btn-red btn-block">
+                                    <span class="fa fa-plus"></span>&nbsp;New
                                 </button>
                             </div>
-                            <div class="col-xs-12 col-sm-6 emphasis">
+                            <div class="col-xs-12 col-sm-4 emphasis">
                                 <h2>
-                                    <strong>245</strong></h2>
+                                    <strong>{{getApproved(project)}}</strong></h2>
                                 <p>
-                                    <small>Tasks</small>
+                                    <small>Approved tasks</small>
                                 </p>
-                                <button class="btn btn-blue btn-block">
-                                    <span class="fa fa-list"></span>&nbsp; Show tasks
+                                <button class="btn btn-green btn-block">
+                                    <span class="fa fa-check"></span>&nbsp;Approved
+                                </button>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 emphasis">
+                                <h2>
+                                    <strong>{{getMy(project)}}</strong></h2>
+                                <p>
+                                    <small>All my tasks</small>
+                                </p>
+                                <button class="btn btn-yellow btn-block">
+                                    <span class="fa fa-list"></span>&nbsp;All
                                 </button>
                             </div>
                         </div>
