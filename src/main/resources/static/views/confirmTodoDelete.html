@@ -1,9 +1,9 @@
-<div class="modal fade m-r--16" id="deletingProjectModal">
+<div class="modal fade m-r--16" id="deletingTodoModal">
     <div class="modal-dialog">
-        <div class="panel panel-yellow">
+        <div class="panel panel-red">
             <div class="panel-heading">
                 Delete Project
-                <button type="button" class="close" ng-click="close('#deletingProjectModal')" aria-hidden="true">&times;</button>
+                <button type="button" class="close" ng-click="close('#deletingTodoModal')" aria-hidden="true">&times;</button>
             </div>
             <div class="panel-body pan">
                 <form name="deletingProjectForm" role="form" novalidate>
@@ -11,8 +11,7 @@
 
                         <div class="form-group">
                             <h5>
-                                Are you sure you want to delete project {{project.name}}?
-                                It will be deleted with all tasks and team.
+                                Are you sure you want to delete task "{{task.description}}"?
                             </h5>
                         </div>
                         <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
@@ -20,11 +19,11 @@
                     <div class="form-actions text-right pal">
                         <button
                                 type="submit"
-                                class="btn btn-blue"
-                                ng-click="delete('projects', projectId, '#deletingProjectModal')">
+                                class="btn btn-red"
+                                ng-click="delete('todo', taskId, '#deletingTodoModal')">
                             Delete
                         </button>
-                        <button type="button" class="btn btn-default" ng-click="close('#deletingProjectModal')">
+                        <button type="button" class="btn btn-default" ng-click="close('#deletingTodoModal')">
                             Cancel
                         </button>
                     </div>

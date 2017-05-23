@@ -37,7 +37,7 @@
                 <span ng-if="comment.lastModified != null">last modified on {{comment.lastModified | date:'mediumDate'}}</span>
                 <div class="f-r" ng-if="comment.userFrom.email == user.name">
                     <a href ng-click="toggleEditingComment(comment)"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
-                    <a href ng-click="deleteComment(comment.id)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                    <a href ng-click="deleteComment(comment)"><i class="fa fa-times" aria-hidden="true"></i></a>
                 </div>
                 <div class="p-l-20">
                     <span ng-hide="comment.editingComment">{{comment.text}}</span>
@@ -164,7 +164,7 @@
                         <span>&nbsp;{{file.name}}</span>
                         <div class="f-r">
                             <a href ng-click="downloadFile(file.id)" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>&nbsp;
-                            <a href ng-click="deleteFile(file.id)" target="_blank"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            <a href ng-click="deleteFile(file)" target="_blank"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                         </div>
                     </div>
                     <div class="attached-files-list">
@@ -189,7 +189,7 @@
                     <div ng-repeat="developer in project.developers" class="attached-files-list">
                         <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
                         <span>{{developer.firstName}} {{developer.lastName}}</span>
-                        <a href ng-click="deleteDeveloper(developer.id)"><i class="fa fa-ban f-r" aria-hidden="true"></i></a>
+                        <a href ng-click="deleteDeveloper(developer)"><i class="fa fa-ban f-r" aria-hidden="true"></i></a>
                     </div>
                     <div class="attached-files-list">
                         <form name="addNewDeveloper">

@@ -1,9 +1,9 @@
-<div class="modal fade m-r--16" id="deletingProjectModal">
+<div class="modal fade m-r--16" id="deletingDevModal">
     <div class="modal-dialog">
         <div class="panel panel-yellow">
             <div class="panel-heading">
                 Delete Project
-                <button type="button" class="close" ng-click="close('#deletingProjectModal')" aria-hidden="true">&times;</button>
+                <button type="button" class="close" ng-click="close('#deletingDevModal')" aria-hidden="true">&times;</button>
             </div>
             <div class="panel-body pan">
                 <form name="deletingProjectForm" role="form" novalidate>
@@ -11,8 +11,9 @@
 
                         <div class="form-group">
                             <h5>
-                                Are you sure you want to delete project {{project.name}}?
-                                It will be deleted with all tasks and team.
+                                Are you sure you want to delete developer {{dev.name}}?
+                                He/She will be deleted with all tasks.
+                                If you want to keep his/her tasks, you have to reassign them to another developer.
                             </h5>
                         </div>
                         <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
@@ -21,10 +22,10 @@
                         <button
                                 type="submit"
                                 class="btn btn-blue"
-                                ng-click="delete('projects', projectId, '#deletingProjectModal')">
+                                ng-click="delete('projects/' + projectId + '/devs', dev.id, '#deletingDevModal')">
                             Delete
                         </button>
-                        <button type="button" class="btn btn-default" ng-click="close('#deletingProjectModal')">
+                        <button type="button" class="btn btn-default" ng-click="close('#deletingDevModal')">
                             Cancel
                         </button>
                     </div>

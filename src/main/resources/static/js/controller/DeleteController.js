@@ -1,15 +1,15 @@
 'use strict';
 
-app.controller('DeleteProjectController', ['$scope', '$rootScope', 'close', 'CrudService',
+app.controller('DeleteController', ['$scope', '$rootScope', 'close', 'CrudService',
     function($scope, $rootScope, close, CrudService) {
 
-        $scope.delete = function () {
-            console.log('deleting: ', $rootScope.projectId);
+        $scope.delete = function (link, id, modal) {
+            console.log('deleting: ', id);
 
-            CrudService.deleteObj('projects', $rootScope.projectId)
+            CrudService.deleteObj(link, id)
                 .then(
                     function(d) {
-                        $('#deletingProjectModal').modal('hide');
+                        $(modal).modal('hide');
                         close({}, 500);
                     },
                     function(errResponse){
@@ -19,9 +19,9 @@ app.controller('DeleteProjectController', ['$scope', '$rootScope', 'close', 'Cru
                 );
         };
 
-        $scope.close = function (){
+        $scope.close = function (modal){
             close(null, 500);
-            $('#deletingProjectModal').modal('hide');
+            $(modal).modal('hide');
         }
 
     }]);

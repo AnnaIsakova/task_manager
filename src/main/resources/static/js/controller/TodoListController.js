@@ -53,20 +53,23 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
             });
         };
 
-        $scope.delete = function (id) {
-            console.log(id);
-            CrudService.deleteObj('todo', id)
-                .then(
-                    function(d) {
-                        console.log("Task was deleted", d);
+        $scope.openDelete = function (id) {
+            console.log('open deleting: ', id);
+            $rootScope.taskId = id;
+            ModalService.showModal({
+                templateUrl: '/views/confirmTodoDelete.html',
+                controller: "DeleteController"
+            }).then(function(modal) {
+                modal.element.modal({backdrop: 'static'});
+                modal.close.then(function(result) {
+                    if (result === null){
+                    } else{
+                        $state.go('home.todo');
                         fetchAllTasks();
-                    },
-                    function(errResponse){
-                        console.error('Error while deleting tasks -> from controller');
-                        $scope.errorMessage = errResponse.data.message;
                     }
-                );
-        }
+                });
+            });
+        };
 
         $scope.prioritiesComparator = function(v1, v2) {
             // If we don't get strings, just compare by index

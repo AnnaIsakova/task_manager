@@ -102,12 +102,11 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             });
         };
 
-        $scope.openDelete = function (project) {
-            console.log('open deleting: ', project);
+        $scope.openDelete = function () {
             $rootScope.projectId = $scope.id;
             ModalService.showModal({
                 templateUrl: '/views/confirmProjectDelete.html',
-                controller: "DeleteProjectController"
+                controller: "DeleteController"
             }).then(function(modal) {
                 modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
@@ -135,17 +134,21 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 );
         };
         
-        $scope.deleteDeveloper = function (devId) {
-            CrudService.deleteObj('projects/' + $scope.id + '/devs', devId)
-                .then(
-                    function(d) {
+        $scope.deleteDeveloper = function (dev) {
+            $rootScope.dev = dev;
+            $rootScope.projectId = $scope.id;
+            ModalService.showModal({
+                templateUrl: '/views/confirmDevDelete.html',
+                controller: "DeleteController"
+            }).then(function(modal) {
+                modal.element.modal({backdrop: 'static'});
+                modal.close.then(function(result) {
+                    if (result === null){
+                    } else{
                         fetchDevs();
-                    },
-                    function(errResponse){
-                        console.error('Error while adding developer -> from controller');
-                        $scope.errorMessage = errResponse.data.message;
                     }
-                );
+                });
+            });
         };
 
         $scope.uploadFile = function(){
@@ -184,28 +187,38 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 );
         };
 
-        $scope.deleteFile = function (fileId) {
-            CrudService.deleteObj('projects/' + $scope.id + '/files', fileId)
-                .then(
-                    function(d) {
+        $scope.deleteFile = function (file) {
+            $rootScope.file = file;
+            $rootScope.projectId = $scope.id;
+            ModalService.showModal({
+                templateUrl: '/views/confirmFilePrDelete.html',
+                controller: "DeleteController"
+            }).then(function(modal) {
+                modal.element.modal({backdrop: 'static'});
+                modal.close.then(function(result) {
+                    if (result === null){
+                    } else{
                         fetchFiles();
-                    },
-                    function(errResponse){
-                        $scope.errorMessage = errResponse.data.message;
                     }
-                );
+                });
+            });
         };
 
-        $scope.deleteComment = function (commentId) {
-            CrudService.deleteObj('projects/' + $scope.id + '/comments', commentId)
-                .then(
-                    function(d) {
+        $scope.deleteComment = function (comment) {
+            $rootScope.comment = comment;
+            $rootScope.projectId = $scope.id;
+            ModalService.showModal({
+                templateUrl: '/views/confirmCommentPrDelete.html',
+                controller: "DeleteController"
+            }).then(function(modal) {
+                modal.element.modal({backdrop: 'static'});
+                modal.close.then(function(result) {
+                    if (result === null){
+                    } else{
                         fetchAllComments();
-                    },
-                    function(errResponse){
-                        $scope.errorMessage = errResponse.data.message;
                     }
-                );
+                });
+            });
         };
 
         $scope.addComment = function (comment) {
