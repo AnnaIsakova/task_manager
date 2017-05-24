@@ -10,11 +10,34 @@
                     <div class="form-body pal">
 
                         <div class="form-group">
-                            <h5>
-                                Are you sure you want to delete developer {{dev.name}}?
-                                He/She will be deleted with all tasks.
-                                If you want to keep his/her tasks, you have to reassign them to another developer.
-                            </h5>
+                            <h4>
+                                Are you sure you want to delete developer {{dev.firstName}} {{dev.lastName}}?
+                            </h4>
+                        </div>
+                        <div class="form-group">
+                            <label for="keepTasks" class="control-label">
+                                Do you want to delete developer with all his tasks or keep tasks and reassign them later to another developer?
+                            </label>
+                            <div id="keepTasks" class="row" ng-init="keepTasks=true">
+                                <label class="col-md-12">
+                                    <input
+                                            type="radio"
+                                            name="keepTasks"
+                                            value="false"
+                                            ng-model="keepTasks"
+                                    >
+                                    Delete with tasks
+                                </label>
+                                <label class="col-md-12">
+                                    <input
+                                            type="radio"
+                                            name="keepTasks"
+                                            value="true"
+                                            ng-model="keepTasks"
+                                    >
+                                    Keep tasks
+                                </label>
+                            </div>
                         </div>
                         <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
                     </div>
@@ -22,7 +45,7 @@
                         <button
                                 type="submit"
                                 class="btn btn-blue"
-                                ng-click="delete('projects/' + projectId + '/devs', dev.id, '#deletingDevModal')">
+                                ng-click="DeleteDeveloper('projects/' + projectId + '/devs', dev.id, keepTasks, '#deletingDevModal')">
                             Delete
                         </button>
                         <button type="button" class="btn btn-default" ng-click="close('#deletingDevModal')">

@@ -142,6 +142,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         $scope.deleteDeveloper = function (dev) {
             $rootScope.dev = dev;
             $rootScope.projectId = $scope.id;
+            $rootScope.keepTasks = true;
             ModalService.showModal({
                 templateUrl: '/views/confirmDevDelete.html',
                 controller: "DeleteController"

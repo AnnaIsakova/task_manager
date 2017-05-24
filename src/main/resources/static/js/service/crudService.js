@@ -9,7 +9,8 @@ app.factory('CrudService', ['$http', '$q', function($http, $q){
         fetchOne:fetchOne,
         createObj:createObj,
         deleteObj:deleteObj,
-        updateObj:updateObj
+        updateObj:updateObj,
+        deleteDeveloper:deleteDeveloper
     };
 
     return factory;
@@ -85,6 +86,22 @@ app.factory('CrudService', ['$http', '$q', function($http, $q){
         var deferred = $q.defer();
         console.log(REST_SERVICE_URI + name + '/delete?id=' + id)
         $http.post(REST_SERVICE_URI + name + '/delete?id=' + id)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while deleting Task');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function deleteDeveloper(name, id, keepTasks) {
+        var deferred = $q.defer();
+        console.log(REST_SERVICE_URI + name + '/delete?id=' + id + '&keep_tasks=' + keepTasks)
+        $http.post(REST_SERVICE_URI + name + '/delete?id=' + id + '&keep_tasks=' + keepTasks)
             .then(
                 function (response) {
                     deferred.resolve(response.data);

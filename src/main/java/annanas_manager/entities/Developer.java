@@ -16,7 +16,7 @@ public class Developer extends CustomUser{
     @ManyToMany(mappedBy = "developers", cascade = CascadeType.ALL)
     private List<Project> projects  = new ArrayList<>();
 
-    @OneToMany(mappedBy = "assignedTo", cascade= CascadeType.ALL)
+    @OneToMany(mappedBy = "assignedTo", cascade= CascadeType.PERSIST)
     private List<TaskForProject> tasks = new ArrayList<>();
 
     public Developer() {

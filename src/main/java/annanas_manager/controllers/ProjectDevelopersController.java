@@ -37,9 +37,11 @@ public class ProjectDevelopersController {
     public ResponseEntity<Void> deleteDeveloper(
             @PathVariable("id") long projectId,
             @RequestParam("id") long devId,
+            @RequestParam("keep_tasks") boolean keepTasks,
             Principal principal
     ) throws ProjectException, CustomUserException {
-        developerService.deleteDeveloper(projectId, devId, principal.getName());
+        System.out.println(keepTasks);
+        developerService.deleteDeveloper(projectId, devId, keepTasks, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

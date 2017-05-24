@@ -54,7 +54,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public void deleteDeveloper(long projectId, long devId, String emailCreatedBy) throws ProjectException, CustomUserException {
+    public void deleteDeveloper(long projectId, long devId, boolean keepTasks, String emailCreatedBy) throws ProjectException, CustomUserException {
         Project project = projectRepository.findOne(projectId);
         if (project == null){
             throw new NullPointerException("Project does not exist");
@@ -64,7 +64,13 @@ public class DeveloperServiceImpl implements DeveloperService {
             if (userDev instanceof Developer){
                 List<TaskForProject> tasks = taskRepository.findByDeveloper((Developer) userDev);
                 for (TaskForProject task:tasks) {
-                    taskRepository.delete(task.getId());
+                    if (keepTasks){
+                        TaskForProject t = taskRepository.findOne(task.getId());
+                        t.setAssignedTo(null);
+                        taskRepository.saveAndFlush(t);
+                    } else {
+                        taskRepository.delete(task.getId());
+                    }
                 }
                 project.getDevelopers().remove(userDev);
                 projectRepository.saveAndFlush(project);

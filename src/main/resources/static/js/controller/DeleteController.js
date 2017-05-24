@@ -24,4 +24,20 @@ app.controller('DeleteController', ['$scope', '$rootScope', 'close', 'CrudServic
             $(modal).modal('hide');
         }
 
+        $scope.DeleteDeveloper = function (link, id, keepTasks, modal) {
+            console.log('deleting: ', id);
+
+            CrudService.deleteDeveloper(link, id, keepTasks)
+                .then(
+                    function(d) {
+                        $(modal).modal('hide');
+                        close({}, 500);
+                    },
+                    function(errResponse){
+                        console.error('Error while deleting project -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        };
+
     }]);
