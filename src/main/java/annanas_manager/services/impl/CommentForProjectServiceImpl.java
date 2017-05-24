@@ -32,78 +32,74 @@ public class CommentForProjectServiceImpl implements CommentForProjectService{
     //comments
     @Override
     public void addComment(long id, CommentForProjectDTO commentDTO, String email) throws ProjectException {
-        try {
-            Project project = projectRepository.findOne(id);
-            if (hasUserPermission(project, email)){
-                CommentForProject comment = CommentForProject.fromDTO(commentDTO);
-                comment.setCreateDate(new Date(System.currentTimeMillis()));
-                comment.setUserFrom(userRepository.findByEmail(email));
-                comment.setProject(project);
-                commentRepository.saveAndFlush(comment);
-            } else {
-                throw new ProjectException("You have no permission to add comment to this project", HttpStatus.FORBIDDEN);
-            }
-        } catch (NullPointerException ex){
+        Project project = projectRepository.findOne(id);
+        if (project == null){
             throw new NullPointerException("Project does not exist");
+        }
+        if (hasUserPermission(project, email)){
+            CommentForProject comment = CommentForProject.fromDTO(commentDTO);
+            comment.setCreateDate(new Date(System.currentTimeMillis()));
+            comment.setUserFrom(userRepository.findByEmail(email));
+            comment.setProject(project);
+            commentRepository.saveAndFlush(comment);
+        } else {
+            throw new ProjectException("You have no permission to add comment to this project", HttpStatus.FORBIDDEN);
         }
     }
 
     @Override
     public void deleteComment(long projectID, long commentId, String email) throws ProjectException, CommentException {
-        try {
-            Project project = projectRepository.findOne(projectID);
-            if (hasUserPermission(project, email)){
-                CommentForProject comment = commentRepository.findOne(commentId);
-                if (comment.getUserFrom().getEmail().equals(email)){
-                    commentRepository.delete(commentId);
-                } else {
-                    throw new CommentException("You have no permission to delete this comment", HttpStatus.FORBIDDEN);
-                }
-            } else {
-                throw new ProjectException("You have no permission to delete comment from this project", HttpStatus.FORBIDDEN);
-            }
-        } catch (NullPointerException ex){
+        Project project = projectRepository.findOne(projectID);
+        if (project == null){
             throw new NullPointerException("Project does not exist");
+        }
+        if (hasUserPermission(project, email)){
+            CommentForProject comment = commentRepository.findOne(commentId);
+            if (comment != null && comment.getUserFrom().getEmail().equals(email)){
+                commentRepository.delete(commentId);
+            } else {
+                throw new CommentException("You have no permission to delete this comment", HttpStatus.FORBIDDEN);
+            }
+        } else {
+            throw new ProjectException("You have no permission to delete comment from this project", HttpStatus.FORBIDDEN);
         }
     }
 
     @Override
     public void editComment(long projectID, CommentForProjectDTO commentDTO, String email) throws CommentException, ProjectException {
-        try {
-            Project project = projectRepository.findOne(projectID);
-            if (hasUserPermission(project, email)){
-                CommentForProject comment = commentRepository.findOne(commentDTO.getId());
-                if (comment.getUserFrom().getEmail().equals(email)){
-                    comment.setText(commentDTO.getText());
-                    comment.setLastModified(new Date(System.currentTimeMillis()));
-                    commentRepository.saveAndFlush(comment);
-                } else {
-                    throw new CommentException("You have no permission to edit this comment", HttpStatus.FORBIDDEN);
-                }
-            } else {
-                throw new ProjectException("You have no permission to edit comment from this project", HttpStatus.FORBIDDEN);
-            }
-        } catch (NullPointerException ex){
+        Project project = projectRepository.findOne(projectID);
+        if (project == null){
             throw new NullPointerException("Project does not exist");
+        }
+        if (hasUserPermission(project, email)){
+            CommentForProject comment = commentRepository.findOne(commentDTO.getId());
+            if (comment != null && comment.getUserFrom().getEmail().equals(email)){
+                comment.setText(commentDTO.getText());
+                comment.setLastModified(new Date(System.currentTimeMillis()));
+                commentRepository.saveAndFlush(comment);
+            } else {
+                throw new CommentException("You have no permission to edit this comment", HttpStatus.FORBIDDEN);
+            }
+        } else {
+            throw new ProjectException("You have no permission to edit comment from this project", HttpStatus.FORBIDDEN);
         }
     }
 
     @Override
     public List<CommentForProjectDTO> getAllComments(long id, String email) throws ProjectException {
-        try {
-            Project project = projectRepository.findOne(id);
-            if (hasUserPermission(project, email)){
-                List<CommentForProject> comments = commentRepository.findByProject(project);
-                List<CommentForProjectDTO> commentsDTO = new ArrayList<>();
-                for (CommentForProject comment:comments) {
-                    commentsDTO.add(comment.toDTO());
-                }
-                return commentsDTO;
-            } else {
-                throw new ProjectException("You have no permission to fetch comments from this project", HttpStatus.FORBIDDEN);
-            }
-        } catch (NullPointerException ex){
+        Project project = projectRepository.findOne(id);
+        if (project == null){
             throw new NullPointerException("Project does not exist");
+        }
+        if (hasUserPermission(project, email)){
+            List<CommentForProject> comments = commentRepository.findByProject(project);
+            List<CommentForProjectDTO> commentsDTO = new ArrayList<>();
+            for (CommentForProject comment:comments) {
+                commentsDTO.add(comment.toDTO());
+            }
+            return commentsDTO;
+        } else {
+            throw new ProjectException("You have no permission to fetch comments from this project", HttpStatus.FORBIDDEN);
         }
     }
 
