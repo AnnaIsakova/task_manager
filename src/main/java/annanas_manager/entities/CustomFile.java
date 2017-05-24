@@ -35,7 +35,7 @@ public abstract class CustomFile {
     }
 
     public CustomFileDTO toDTO() {
-        return new CustomFileDTO(id, name);
+        return new CustomFileDTO(id, name, currentTime);
     }
 
     public long getId() {

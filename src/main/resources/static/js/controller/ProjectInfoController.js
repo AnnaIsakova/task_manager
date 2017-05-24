@@ -13,6 +13,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         $scope.comment = {};
         $scope.tasksCompleted = 0;
         $scope.taskProgress = 0;
+        $scope.myFile = {};
 
         $scope.comment.editingComment = false;
         $scope.toggleEditingComment = function(comment) {
@@ -160,6 +161,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             FileService.uploadFile('projects/' + $scope.id + '/files', file)
                 .then(
                     function(d) {
+                        // $scope.myFile = null;
                         fetchFiles();
                     },
                     function(errResponse){

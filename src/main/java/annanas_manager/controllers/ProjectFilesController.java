@@ -6,7 +6,6 @@ import annanas_manager.exceptions.CustomFileException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.services.FilesForProjectService;
-import annanas_manager.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.AssertFalse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -41,6 +39,9 @@ public class ProjectFilesController {
             @RequestBody MultipartFile file,
             Principal principal
     ) throws ProjectException, CustomFileException {
+        if (file == null){
+            throw new CustomFileException("Not a valid file", HttpStatus.BAD_REQUEST);
+        }
         filesForProjectService.addFile(id, file, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
@@ -53,7 +54,9 @@ public class ProjectFilesController {
             HttpServletResponse response) throws ProjectException, CustomFileException, IOException {
         FileForProjectDTO fileDTO = filesForProjectService.getFile(project_id, file_id, principal.getName());
         try {
-            File file = new File(DIR_PATH + fileDTO.getName());
+            File file = new File(DIR_PATH + fileDTO.getCurrentTime() + "-" + fileDTO.getName());
+            System.out.println(DIR_PATH + fileDTO.getName());
+            System.out.println(file.getName());
             InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
             String type = Files.probeContentType(file.toPath());
             HttpHeaders headers = new HttpHeaders();

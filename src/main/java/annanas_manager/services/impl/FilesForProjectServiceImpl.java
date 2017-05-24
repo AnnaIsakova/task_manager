@@ -36,49 +36,49 @@ public class FilesForProjectServiceImpl implements FilesForProjectService{
 
     @Override
     public void addFile(long id, MultipartFile multipartFile, String emailCreatedBy) throws ProjectException, CustomFileException {
-        try {
-            Project project = projectRepository.findOne(id);
-            if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
-                long currTime = System.currentTimeMillis();
-                FileForProject forProject = convertFile(multipartFile, currTime);
-                forProject.setProject(project);
-                forProject.setCurrentTime(currTime);
-                project.getFiles().add(forProject);
-                filesRepository.saveAndFlush(forProject);
-            } else {
-                throw new ProjectException("You have no permission to add file to this project", HttpStatus.FORBIDDEN);
-            }
-        } catch (NullPointerException ex){
+        Project project = projectRepository.findOne(id);
+        if(project == null){
             throw new NullPointerException("Project does not exist");
         }
-    }
+        if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
+            long currTime = System.currentTimeMillis();
+            FileForProject forProject = convertFile(multipartFile, currTime);
+            forProject.setProject(project);
+            forProject.setCurrentTime(currTime);
+            project.getFiles().add(forProject);
+            filesRepository.saveAndFlush(forProject);
+        } else {
+            throw new ProjectException("You have no permission to add file to this project", HttpStatus.FORBIDDEN);
+        }
+}
 
     @Override
     public FileForProjectDTO getFile(long projectID, long fileId, String email) throws ProjectException, CustomFileException {
-        try {
-            Project project = projectRepository.findOne(projectID);
-            if (hasUserPermission(project, email)){
-                FileForProject file = filesRepository.getOne(fileId);
-                if (project.getFiles().contains(file)){
-                    return file.toDTO();
-                } else {
-                    throw new CustomFileException("Such file does no exist", HttpStatus.NOT_FOUND);
-                }
-            } else {
-                throw new ProjectException("You have no permission to download file from this project", HttpStatus.FORBIDDEN);
-            }
-        } catch (NullPointerException ex){
+        Project project = projectRepository.findOne(projectID);
+        if(project == null){
             throw new NullPointerException("Project does not exist");
+        }
+        if (hasUserPermission(project, email)){
+            FileForProject file = filesRepository.getOne(fileId);
+            if (file != null && project.getFiles().contains(file)){
+                return file.toDTO();
+            } else {
+                throw new CustomFileException("Such file does no exist", HttpStatus.NOT_FOUND);
+            }
+        } else {
+            throw new ProjectException("You have no permission to download file from this project", HttpStatus.FORBIDDEN);
         }
     }
 
     @Override
     public void deleteFile(long projectID, long fileId, String emailCreatedBy) throws ProjectException, CustomFileException {
-        try {
-            Project project = projectRepository.findOne(projectID);
+        Project project = projectRepository.findOne(projectID);
+        if(project == null){
+            throw new NullPointerException("Project does not exist");
+        }
             if (project.getCreatedBy().getEmail().equals(emailCreatedBy)){
                 FileForProject file = filesRepository.getOne(fileId);
-                if (project.getFiles().contains(file)){
+                if (file != null && project.getFiles().contains(file)){
                     project.getFiles().remove(file);
                     filesRepository.delete(fileId);
                     File file1 = new File(DIR_PATH + file.getCurrentTime() + "-" + file.getName());
@@ -89,27 +89,23 @@ public class FilesForProjectServiceImpl implements FilesForProjectService{
             } else {
                 throw new ProjectException("You have no permission to delete file from this project", HttpStatus.FORBIDDEN);
             }
-        } catch (NullPointerException ex){
-            throw new NullPointerException("Project does not exist");
-        }
     }
 
     @Override
     public List<FileForProjectDTO> getAllFiles(long id, String email) throws ProjectException {
-        try {
-            Project project = projectRepository.findOne(id);
-            if (hasUserPermission(project, email)){
-                List<FileForProject> files = filesRepository.findByProject(project);
-                List<FileForProjectDTO> filesDTO = new ArrayList<>();
-                for (FileForProject file:files) {
-                    filesDTO.add(file.toDTO());
-                }
-                return filesDTO;
-            } else {
-                throw new ProjectException("You have no permission to fetch files from this project", HttpStatus.FORBIDDEN);
-            }
-        } catch (NullPointerException ex){
+        Project project = projectRepository.findOne(id);
+        if(project == null){
             throw new NullPointerException("Project does not exist");
+        }
+        if (hasUserPermission(project, email)){
+            List<FileForProject> files = filesRepository.findByProject(project);
+            List<FileForProjectDTO> filesDTO = new ArrayList<>();
+            for (FileForProject file:files) {
+                filesDTO.add(file.toDTO());
+            }
+            return filesDTO;
+        } else {
+            throw new ProjectException("You have no permission to fetch files from this project", HttpStatus.FORBIDDEN);
         }
     }
 

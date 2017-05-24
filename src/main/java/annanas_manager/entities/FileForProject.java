@@ -31,7 +31,7 @@ public class FileForProject extends CustomFile {
 
     @Override
     public FileForProjectDTO toDTO() {
-        return new FileForProjectDTO(id, name);
+        return new FileForProjectDTO(id, name, currentTime);
     }
 
     public Project getProject() {

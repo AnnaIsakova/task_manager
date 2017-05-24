@@ -169,9 +169,11 @@
                         </div>
                     </div>
                     <div class="attached-files-list">
-                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-                        <span><input type = "file" file-model = "myFile"></span>
-                        <a href ng-click = "uploadFile()"><i class="fa fa-check f-r" aria-hidden="true"></i></a>
+                        <form name="newPrFile">
+                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                            <span><input type = "file" file-model = "myFile" required></span>
+                            <button type="reset" ng-click = "uploadFile()"><i class="fa fa-check f-r" aria-hidden="true"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>

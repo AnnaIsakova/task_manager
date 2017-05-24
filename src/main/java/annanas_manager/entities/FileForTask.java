@@ -17,7 +17,7 @@ public class FileForTask extends CustomFile {
     @JoinColumn(name = "task_id")
     protected TaskForProject task;
 
-    public FileForTask(String name, File file) {
+    public FileForTask(String name, long currtime) {
         super(name);
     }
 
@@ -26,7 +26,7 @@ public class FileForTask extends CustomFile {
 
     @Override
     public FileForTaskDTO toDTO() {
-        return new FileForTaskDTO(id, name);
+        return new FileForTaskDTO(id, name, currentTime);
     }
 
     public TaskForProject getTask() {

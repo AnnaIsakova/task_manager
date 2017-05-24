@@ -33,13 +33,11 @@ app.factory('FileService', ['$http', '$q', '$window', '$rootScope','Blob', 'File
     }
 
     function downloadFile(name, fileId) {
-
         var deferred = $q.defer();
-        console.log(projectId);
         console.log(fileId);
         $http({
             method: 'GET',
-            url: REST_SERVICE_URI + name + '/download/' + fileId,
+            url: REST_SERVICE_URI + name + '/' + fileId,
             responseType: 'arraybuffer'
         })
             .then(
