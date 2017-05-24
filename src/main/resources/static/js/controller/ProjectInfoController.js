@@ -120,19 +120,23 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
 
         $scope.addDeveloper = function (email) {
-            console.log(email)
-            CrudService.createObj('projects/' + $scope.id + '/devs', email)
-                .then(
-                    function(d) {
-                        fetchDevs();
-                        $scope.newDeveloper = '';
-                    },
-                    function(errResponse){
-                        console.error('Error while adding developer -> from controller');
-                        $scope.errorMessage = errResponse.data.message;
-                        $scope.newDeveloper = '';
-                    }
-                );
+            console.log("email ", email);
+            if (email != ''){
+                CrudService.createObj('projects/' + $scope.id + '/devs', email)
+                    .then(
+                        function(d) {
+                            fetchDevs();
+                            $scope.newDeveloper = '';
+                        },
+                        function(errResponse){
+                            console.error('Error while adding developer -> from controller');
+                            $scope.errorMessage = errResponse.data.message;
+                            $scope.newDeveloper = '';
+                        }
+                    );
+            } else {
+                $scope.errorMessage = "Developer email is empty";
+            }
         };
         
         $scope.deleteDeveloper = function (dev) {

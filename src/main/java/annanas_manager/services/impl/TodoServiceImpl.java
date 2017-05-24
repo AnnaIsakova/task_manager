@@ -37,35 +37,32 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void delete(long id, String email) throws TaskException {
-        try{
-            Task task = todoRepository.findOne(id);
-            if (hasUserPermission(task, email)){
-                todoRepository.delete(id);
-            } else {
-                throw new TaskException("You have no permission to delete this task", HttpStatus.FORBIDDEN);
-            }
-        } catch (NullPointerException ex){
-            throw new NullPointerException("Task you're trying to delete doesn't exist");
+        Task task = todoRepository.findOne(id);
+        if(task == null){
+            throw new NullPointerException("Task doesn't exist");
+        }
+        if (hasUserPermission(task, email)){
+            todoRepository.delete(id);
+        } else {
+            throw new TaskException("You have no permission to delete this task", HttpStatus.FORBIDDEN);
         }
     }
 
     @Override
     public void edit(TaskTodoDTO taskDTO, String email) throws TaskException {
-        try {
-            Task task = todoRepository.findOne(taskDTO.getId());
-            if (hasUserPermission(task, email)){
-                task.setDescription(taskDTO.getDescription());
-                task.setPriority(taskDTO.getPriority());
-                task.setStatus(taskDTO.getStatus());
-                task.setDeadline(taskDTO.getDeadline());
-                todoRepository.saveAndFlush(task);
-            } else {
-                throw new TaskException("You have no permission to edit this task", HttpStatus.FORBIDDEN);
-            }
-        } catch (NullPointerException ex){
-            throw new NullPointerException("Task you're trying to edit doesn't exist");
+        Task task = todoRepository.findOne(taskDTO.getId());
+        if(task == null){
+            throw new NullPointerException("Task doesn't exist");
         }
-
+        if (hasUserPermission(task, email)){
+            task.setDescription(taskDTO.getDescription());
+            task.setPriority(taskDTO.getPriority());
+            task.setStatus(taskDTO.getStatus());
+            task.setDeadline(taskDTO.getDeadline());
+            todoRepository.saveAndFlush(task);
+        } else {
+            throw new TaskException("You have no permission to edit this task", HttpStatus.FORBIDDEN);
+        }
     }
 
     @Override
