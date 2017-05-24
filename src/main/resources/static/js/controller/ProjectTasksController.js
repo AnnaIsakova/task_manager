@@ -12,6 +12,9 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
         $scope.sortType     = 'status'; // set the default sort type
         $scope.sortReverse  = true;  // set the default sort order
 
+        $scope.projID = $stateParams.projectID;
+        $scope.filter = $stateParams.filter;
+
         getHeader();
         fetchAllTasks();
         fetchProject();

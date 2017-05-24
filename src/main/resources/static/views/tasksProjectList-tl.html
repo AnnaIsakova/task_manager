@@ -82,7 +82,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="task in tasks | orderBy:sortType:sortReverse:prioritiesComparator">
-                    <td>{{task.description}}</td>
+                    <td><a ui-sref="home.task({projectID: projID, filter: filter, taskID: task.id})">{{task.description}}</a></td>
                     <td>
                     <span
                             ng-class="{
@@ -90,7 +90,7 @@
                             'label label-sm label-success': task.priority == 'NORMAL',
                             'label label-sm label-info': task.priority == 'LOW'
                         }">
-                        {{task.priority}}
+                        {{task.priority | capitalize | underscoreless}}
                     </span>
                     </td>
                     <td>{{task.createDate | date:'mediumDate'}}</td>
@@ -100,7 +100,7 @@
                             'label label-sm label-warning': task.status == 'IN_PROGRESS',
                             'label label-sm label-success': task.status == 'COMPLETE'
                         }">
-                        {{task.status}}
+                        {{task.status | capitalize | underscoreless}}
                     </span>
                     </td>
                     <td>{{task.deadline | date:'mediumDate'}}</td>

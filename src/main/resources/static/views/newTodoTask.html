@@ -50,7 +50,7 @@
                                                             id="priority"
                                                             name="priority"
                                                             ng-model="task.priority"
-                                                            ng-options="priority for priority in priorities track by priority"
+                                                            ng-options="(priority | capitalize | underscoreless) for priority in priorities track by priority"
                                                             required>
                                                         <option value="">Please select task priority</option>
                                                     </select>

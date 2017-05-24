@@ -1,0 +1,202 @@
+<div ng-if="errorTask"><h4>&nbsp;{{errorTask}}</h4></div>
+<div ng-if="!errorTask">
+    <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
+        <div class="page-header pull-left">
+            <div class="page-title">
+                {{task.description}}
+            </div>
+            <div>
+                Created at {{task.createDate | date:'mediumDate'}}
+                <span ng-if="task.assignedTo != null">for {{task.assignedTo.firstName}} {{task.assignedTo.lastName}}</span>
+            </div>
+            <div class="p-t-7 m-l-10 f-r plus_ico">
+                <a href class="info-project" ng-click="openEdit(task)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a href class="info-project" ng-click="openDelete()"><i class="fa fa-times" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="clearfix">
+        </div>
+    </div>
+
+    <div ng-if="errorMessage" class="alert alert-danger m-t-15"><strong>Oops! </strong>{{ errorMessage }}</div>
+
+    <div class="mbl p-t-15">
+        <div class="col-lg-7">
+
+            <h4>Description:</h4>
+            <p ng-bind-html="task.details"></p>
+            <hr class="light-grey">
+
+            <h4>Comments:</h4>
+            <div ng-repeat="comment in task.comments" class="m-b-10">
+                <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;
+                <strong>{{comment.userFrom.firstName}} {{comment.userFrom.lastName}}</strong>&nbsp;
+                <span>on {{comment.createDate | date:'mediumDate'}}</span>
+                <span ng-if="comment.lastModified != null">last modified on {{comment.lastModified | date:'mediumDate'}}</span>
+                <div class="f-r" ng-if="comment.userFrom.email == user.name">
+                    <a href ng-click="toggleEditingComment(comment)"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
+                    <a href ng-click="deleteComment(comment)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                </div>
+                <div class="p-l-20">
+                    <span ng-hide="comment.editingComment">{{comment.text}}</span>
+                    <form ng-show="comment.editingComment" ng-submit="editingComment = false">
+                        <textarea
+                                type="text"
+                                rows="2"
+                                ng-model="comment.text"
+                                class="width-100 input-border-light"
+                        >{{comment.text}}</textarea>
+                        <br/>
+                        <button ng-click="editComment(comment)" class="btn" type="submit">Save</button>
+                        <button ng-click="toggleEditingComment(comment)" class="btn" type="submit">Cancel</button>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <a href ng-click="toggleCommentForm()"><h5><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add comment</h5></a>
+                <div class="panel db mbm m-l-14 comment_f" ng-show="commentForm">
+                    <div class="panel-body">
+                        <textarea
+                                type="text"
+                                rows="3"
+                                class="width-100 input-border-light"
+                                ng-model="newComment.text">
+                        </textarea>
+                        <div class="text-right">
+                            <button
+                                    type="button"
+                                    class="btn btn-grey"
+                                    ng-click="addComment(newComment)">
+                                Submit
+                            </button>
+                            <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    ng-click="toggleCommentForm()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-sm-6 col-md-3" id="sum_box">
+            <div class="panel profit mbm">
+                <div class="panel-body">
+                    <p class="icon">
+                        <i class="icon fa fa-clock-o"></i>
+                    </p>
+                    <h4 class="value">
+                        <span>{{task.deadline | date:'mediumDate'}}</span></h4>
+                    <p class="description">
+                        Deadline</p>
+                    <div class="progress progress-sm mbn">
+                        <div role="progressbar" aria-valuenow="{{progressDeadline}}" aria-valuemin="0" aria-valuemax="100"
+                             ng-style="{'width':progressDeadline+'%'}" class="progress-bar progress-bar-danger">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel task mbm">
+                <div class="panel-body">
+                    <p class="icon">
+                        <span ng-if="task.status == 'COMPLETE'">
+                            <a href><i class="icon fa fa-thumbs-o-up"></i></a>
+                        </span>
+                        <span ng-if="task.status != 'COMPLETE'">
+                            <i class="icon fa fa-signal"></i>
+                        </span>
+                    </p>
+                    <h4 class="value">
+                        <span>{{task.status | capitalize | underscoreless}}</span>
+                    </h4>
+                    <p class="description">
+                        <span>Task status</span>
+                    </p>
+                    <div class="progress progress-sm mbn">
+                        <div role="progressbar" aria-valuenow="{{taskProgress}}" aria-valuemin="0" aria-valuemax="100"
+                             ng-style="{'width':taskProgress+'%'}" class="progress-bar progress-bar-success">
+                            <span class="sr-only">50% Complete (success)</span></div>
+                    </div>
+                    <hr class="light-grey">
+                    <div>
+                        <span ng-if="task.status != 'COMPLETE'">You will be able to approve task when it is completed</span>
+                        <span ng-if="task.status == 'COMPLETE'">You can approve task now</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel task mbm">
+                <div class="panel-body">
+                    <p class="icon">
+                        <i class="icon fa fa-arrow-circle-o-up"></i>
+                    </p>
+                    <h4 class="value">
+                        <span>{{task.priority | capitalize | underscoreless}}</span>
+                    </h4>
+                    <p class="description">
+                        <span>Task priority</span>
+                    </p>
+                    <div class="progress progress-sm mbn">
+                        <div role="progressbar" aria-valuenow="{{taskProgress}}" aria-valuemin="0" aria-valuemax="100"
+                             ng-style="{'width':taskProgress+'%'}" class="progress-bar progress-bar-success">
+                            <span class="sr-only">50% Complete (success)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel task mbm">
+                <div class="panel-body">
+                    <p class="icon">
+                        <i class="icon fa fa-files-o"></i>
+                    </p>
+                    <h4 class="value">
+                        <span>{{task.files.length}}</span></h4>
+                    <p class="description">
+                        Attached
+                        <span ng-if="project.files.length == 1">file</span>
+                        <span ng-if="project.files.length != 1">files</span>
+                    </p>
+                    <div ng-repeat="file in task.files" ng-switch="getFileExt(file.name)" class="attached-files-list">
+                        <i ng-switch-when="pdf" class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                        <i ng-switch-when="doc" class="fa fa-file-word-o" aria-hidden="true"></i>
+                        <i ng-switch-when="docx" class="fa fa-file-word-o" aria-hidden="true"></i>
+                        <i ng-switch-when="zip" class="fa fa-file-archive-o" aria-hidden="true"></i>
+                        <i ng-switch-when="png" class="fa fa-file-image-o" aria-hidden="true"></i>
+                        <i ng-switch-when="psd" class="fa fa-file-image-o" aria-hidden="true"></i>
+                        <i ng-switch-when="jpeg" class="fa fa-file-image-o" aria-hidden="true"></i>
+                        <i ng-switch-when="jpg" class="fa fa-file-image-o" aria-hidden="true"></i>
+                        <i ng-switch-when="txt" class="fa fa-file-text-o" aria-hidden="true"></i>
+                        <i ng-switch-when="ppt" class="fa fa-file-powerpoint-o" aria-hidden="true"></i>
+                        <i ng-switch-when="pptx" class="fa fa-file-powerpoint-o" aria-hidden="true"></i>
+                        <i ng-switch-when="csv" class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        <i ng-switch-when="xls" class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        <i ng-switch-when="xlsx" class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        <i ng-switch-when="htm" class="fa fa-file-code-o" aria-hidden="true"></i>
+                        <i ng-switch-when="html" class="fa fa-file-code-o" aria-hidden="true"></i>
+                        <i ng-switch-when="css" class="fa fa-file-code-o" aria-hidden="true"></i>
+                        <i ng-switch-when="js" class="fa fa-file-code-o" aria-hidden="true"></i>
+                        <i ng-switch-when="java" class="fa fa-file-code-o" aria-hidden="true"></i>
+                        <i ng-switch-default class="fa fa-file-o" aria-hidden="true"></i>
+                        <span>&nbsp;{{file.name}}</span>
+                        <div class="f-r">
+                            <a href ng-click="downloadFile(file.id)" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>&nbsp;
+                            <a href ng-click="deleteFile(file)" target="_blank"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <div class="attached-files-list">
+                        <form name="newTFile">
+                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                            <span><input type = "file" file-model = "myFile" required></span>
+                            <button type="reset" ng-click = "uploadFile()"><i class="fa fa-check f-r" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

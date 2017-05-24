@@ -82,6 +82,20 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
             }
 
         })
+        .state('home.task', {
+            url: '/projects/:projectID/tasks/:filter/:taskID',
+            views: {
+                "inner_content": {
+                    templateProvider: function(TemplateService) {
+                        var result = TemplateService.getTemplate();
+                        return '<div ng-include="" src="\'views/taskInfo-' + result + '.html\'\"</div>';
+
+                    },
+                    controller: 'TaskInfoController'
+                }
+            }
+
+        })
         .state('home.todo', {
             url: '/todo',
             views: {
