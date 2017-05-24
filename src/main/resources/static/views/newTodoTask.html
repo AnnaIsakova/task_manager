@@ -10,7 +10,7 @@
                         <div class="form-body pal">
                             <div class="form-group">
                                 <label for="description" class="control-label">
-                                    Description*
+                                    What to do*
                                 </label>
                                 <div ng-class="{
                                     'has-error' :
@@ -24,8 +24,12 @@
                                             rows="5"
                                             class="form-control"
                                             ng-model="task.description"
+                                            ng-maxlength="255"
                                             required
                                     ></textarea>
+                                    <small  ng-if="newTodoTaskForm.description.$error.maxlength && !newTodoTaskForm.description.$pristine">
+                                        Too long
+                                    </small>
                                 </div>
 
                             </div>

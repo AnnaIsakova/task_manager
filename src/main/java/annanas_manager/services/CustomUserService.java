@@ -14,6 +14,7 @@ public interface CustomUserService {
     CustomUserDTO getByName(String name);
     CustomUserDTO getByFullName(String firstName, String lastName);
     CustomUserDTO getByEmail(String email);
+    CustomUserDTO getById(long id);
     void edit(CustomUserDTO customUserDTO);
     List<CustomUserDTO> getAll();
     boolean isUserExist(CustomUserDTO customUserDTO);

@@ -31,27 +31,32 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
     //tasks
     @Override
     public void addTask(long projectId, TaskForProjectDTO taskDTO, String email) throws ProjectException {
-        try {
-            Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findOne(projectId);
+        if (project != null){
             if (project.getCreatedBy().getEmail().equals(email)){
                 taskDTO.setStatus(TaskStatus.NEW);
                 taskDTO.setCreateDate(new Date(System.currentTimeMillis()));
                 TaskForProject task = TaskForProject.fromDTO(taskDTO);
                 task.setProject(project);
-                task.setAssignedTo((Developer) userRepository.findOne(taskDTO.getAssignedTo().getId()));
+                if (taskDTO.getAssignedTo().getEmail() != null){
+                    task.setAssignedTo(userRepository.findOne(taskDTO.getAssignedTo().getId()));
+                } else {
+                    task.setAssignedTo(null);
+                }
                 taskRepository.saveAndFlush(task);
             } else {
                 throw new ProjectException("You have no permission to add task to this project", HttpStatus.FORBIDDEN);
             }
-        } catch (NullPointerException ex){
+        } else {
             throw new NullPointerException("Project does not exist");
         }
+
     }
 
     @Override
     public void deleteTask(long projectId, long taskId, String email) throws ProjectException, TaskException {
-        try {
-            Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findOne(projectId);
+        if (project != null){
             if (project.getCreatedBy().getEmail().equals(email)){
                 TaskForProject task = taskRepository.findOne(taskId);
                 if (project.getTasks().contains(task)){
@@ -62,22 +67,26 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
             } else {
                 throw new ProjectException("You have no permission to delete tasks from this project", HttpStatus.FORBIDDEN);
             }
-        } catch (NullPointerException ex){
+        } else {
             throw new NullPointerException("Project does not exist");
         }
     }
 
     @Override
     public void editTask(long projectId, TaskForProjectDTO taskDTO, String email) throws TaskException, ProjectException {
-        try {
-            Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findOne(projectId);
+        if (project != null){
             if (project.getCreatedBy().getEmail().equals(email)){
                 TaskForProject task = taskRepository.findOne(taskDTO.getId());
                 if (project.getTasks().contains(task)){
                     task.setDescription(taskDTO.getDescription());
                     task.setDetails(taskDTO.getDetails());
                     task.setDeadline(taskDTO.getDeadline());
-                    task.setAssignedTo((Developer) userRepository.findOne(taskDTO.getAssignedTo().getId()));
+                    if (taskDTO.getAssignedTo().getEmail() != null){
+                        task.setAssignedTo(userRepository.findOne(taskDTO.getAssignedTo().getId()));
+                    } else {
+                        task.setAssignedTo(null);
+                    }
                     task.setApproved(taskDTO.isApproved());
                     taskRepository.saveAndFlush(task);
                 } else {
@@ -86,30 +95,26 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
             } else {
                 throw new ProjectException("You have no permission to delete tasks from this project", HttpStatus.FORBIDDEN);
             }
-        } catch (NullPointerException ex){
+        } else {
             throw new NullPointerException("Project does not exist");
         }
     }
 
     @Override
     public List<TaskForProjectDTO> getAllTasks(long projectId, String email) throws ProjectException {
-        try {
-            Project project = projectRepository.findOne(projectId);
-            System.out.println(project.getName());
+        Project project = projectRepository.findOne(projectId);
+        if (project != null){
             if (project.getCreatedBy().getEmail().equals(email)){
                 List<TaskForProject> tasks = project.getTasks();
-                System.out.println(tasks);
                 List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
                 for (TaskForProject task:tasks) {
-                    System.out.println(task.toDTO().getDescription());
-                    System.out.println(task.toDTO().getFiles());
                     tasksDTO.add(task.toDTO());
                 }
                 return tasksDTO;
             } else {
                 throw new ProjectException("You have no permission to fetch tasks from this project", HttpStatus.FORBIDDEN);
             }
-        } catch (NullPointerException ex){
+        } else {
             throw new NullPointerException("Project does not exist");
         }
     }

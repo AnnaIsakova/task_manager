@@ -83,6 +83,12 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
     }
 
     @Override
+    public CustomUserDTO getById(long id) {
+        CustomUser user = userRepository.findOne(id);
+        return user.toDTO();
+    }
+
+    @Override
     public void edit(CustomUserDTO customUserDTO) {
         CustomUser customUser = null;
         if (customUserDTO.getUserRole().equals(UserRole.DEVELOPER)){

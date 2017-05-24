@@ -2,6 +2,7 @@ package annanas_manager.entities;
 
 
 import annanas_manager.DTO.CommentForTaskDTO;
+import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.DTO.FileForTaskDTO;
 import annanas_manager.DTO.TaskForProjectDTO;
 import annanas_manager.entities.enums.TaskPriority;
@@ -24,7 +25,7 @@ public class TaskForProject extends Task{
 
     @ManyToOne
     @JoinColumn(name = "assigned_to_id")
-    protected Developer assignedTo;
+    protected CustomUser assignedTo;
 
     @Column
     @Type(type = "org.hibernate.type.NumericBooleanType")
@@ -67,8 +68,11 @@ public class TaskForProject extends Task{
                 createDate,
                 deadline,
                 details,
-                assignedTo.toDTO(),
                 approved);
+        try {
+            CustomUserDTO assToDTO = assignedTo.toDTO();
+            taskDTO.setAssignedTo(assToDTO);
+        } catch (NullPointerException ex){}
         try{
             List<FileForTaskDTO> filesDTO = new ArrayList<>();
             for (FileForTask file : this.files) {
@@ -108,11 +112,11 @@ public class TaskForProject extends Task{
         this.details = details;
     }
 
-    public Developer getAssignedTo() {
+    public CustomUser getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(Developer assignedTo) {
+    public void setAssignedTo(CustomUser assignedTo) {
         this.assignedTo = assignedTo;
     }
 

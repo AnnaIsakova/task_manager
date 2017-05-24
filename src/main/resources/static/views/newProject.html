@@ -24,13 +24,17 @@
                                             type="text"
                                             class="form-control"
                                             ng-model="project.name"
+                                            ng-maxlength="255"
                                             required
                                     >
+                                <small  ng-if="newProjectForm.name.$error.maxlength && !newProjectForm.name.$pristine">
+                                    Too long
+                                </small>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="proj_description" class="control-label">
-                                Description*
+                                Short description*
                             </label>
                             <div ng-class="{
                                     'has-error' :
@@ -44,8 +48,12 @@
                                             rows="5"
                                             class="form-control"
                                             ng-model="project.description"
+                                            ng-maxlength="255"
                                             required
                                     ></textarea>
+                                <small  ng-if="newProjectForm.proj_description.$error.maxlength && !newProjectForm.proj_description.$pristine">
+                                    Too long
+                                </small>
                             </div>
                         </div>
                         <div class="form-group">

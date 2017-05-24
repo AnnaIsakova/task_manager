@@ -1,11 +1,14 @@
 'use strict';
 
-app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'close', 'CrudService',
-    function($scope, $rootScope, $state, $http, $stateParams, close, CrudService) {
+app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'close', 'CrudService', 'UserService',
+    function($scope, $rootScope, $state, $http, $stateParams, close, CrudService, UserService) {
 
         $scope.task = {description:'', details:'', assignedTo:{}, priority:'', deadline:new Date()};
         $scope.priorities = [];
         $scope.developers = [];
+        var teamlead = JSON.parse(UserService.getCookieUser());
+        var myId = teamlead.principal.id;
+        $scope.me = {};
         $scope.datePickerOptions = {
             min: new Date(),
             parseFormats: ["yyyy-MM-dd"]
@@ -14,6 +17,7 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
 
         fetchAllPriorities();
         fetchAllDevelopers();
+        fetchMe();
 
         function fetchAllPriorities(){
             CrudService.fetchAll('priorities')
@@ -41,6 +45,19 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
                 );
         }
 
+        function fetchMe() {
+            CrudService.fetchOne('users', myId)
+                .then(
+                    function(d) {
+                        $scope.me = d;
+                        $scope.developers.push($scope.me);
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching priorities -> from controller');
+                        $scope.errorMessage = "Oops, error while fetching priorities occurred :(\nPlease, try again later!";
+                    }
+                );
+        }
         function createTask(task){
             CrudService.createObj('projects/' + $stateParams.projectID + '/tasks', task)
                 .then(

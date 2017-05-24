@@ -23,6 +23,9 @@ public class TaskValidator implements Validator {
         TaskDTO task = (TaskDTO) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty");
+        if (task.getDescription().length() > 255){
+            errors.rejectValue("description", "Size.description");
+        }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "priority", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "deadline", "NotEmpty");
         if (!DeadlineValidator.isDeadlineValid(task.getDeadline())){

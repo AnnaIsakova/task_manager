@@ -17,7 +17,7 @@ import java.util.List;
 public class TaskForProjectDTO extends TaskDTO{
 
     protected String details;
-    protected DeveloperDTO assignedTo;
+    protected CustomUserDTO assignedTo;
     protected boolean approved;
     protected List<FileForTaskDTO> files;
     protected List<CommentForTaskDTO> comments;
@@ -30,11 +30,9 @@ public class TaskForProjectDTO extends TaskDTO{
             Date createDate,
             Calendar deadline,
             String details,
-            DeveloperDTO assignedTo,
             boolean approved) {
         super(id, description, priority, status, createDate, deadline);
         this.details = details;
-        this.assignedTo = assignedTo;
         this.approved = approved;
     }
 
@@ -49,11 +47,11 @@ public class TaskForProjectDTO extends TaskDTO{
         this.details = details;
     }
 
-    public DeveloperDTO getAssignedTo() {
+    public CustomUserDTO getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(DeveloperDTO assignedTo) {
+    public void setAssignedTo(CustomUserDTO assignedTo) {
         this.assignedTo = assignedTo;
     }
 
