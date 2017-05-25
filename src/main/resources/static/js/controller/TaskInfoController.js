@@ -11,6 +11,7 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
         // $scope.user = JSON.parse(UserService.getCookieUser());
         $scope.comment = {};
         $scope.taskProgress = 0;
+        $scope.taskProgressClass = '';
         $scope.taskPriorClass = '';
         $scope.taskPriorPercent = 0;
         $scope.myFile = {};
@@ -78,17 +79,16 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
         }
 
 
-        $scope.openEdit = function (project) {
-            console.log('open editing: ', project);
-            $rootScope.projectForEdit = project;
+        $scope.openEdit = function (task) {
+            console.log('open editing: ', task);
+            $rootScope.taskForEdit = task;
             ModalService.showModal({
-                templateUrl: '/views/editProject.html',
-                controller: "EditProjectController"
+                templateUrl: '/views/editProjTask.html',
+                controller: "EditTaskController"
             }).then(function(modal) {
                 modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
-                    fetchProject();
-                    // fetchAllTasks();
+                    fetchTask();
                 });
             });
         };
@@ -241,11 +241,13 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
                 $scope.taskProgress = 0;
             } else if ($scope.task.status == "IN_PROGRESS"){
                 $scope.taskProgress = 33;
+                $scope.taskProgressClass = 'progress-bar-danger';
             } else if ($scope.task.status == "COMPLETE" && !$scope.task.approved){
                 $scope.taskProgress = 66;
-                console.log($scope.taskProgress);
+                $scope.taskProgressClass = 'progress-bar-warning';
             } else if ($scope.task.approved){
                 $scope.taskProgress = 100;
+                $scope.taskProgressClass = 'progress-bar-success';
             }
         }
 

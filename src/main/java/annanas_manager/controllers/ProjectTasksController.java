@@ -48,11 +48,12 @@ public class ProjectTasksController {
             BindingResult bindingResult) throws ProjectException
     {
         ignoreDeadlineTime(taskDTO.getDeadline());
+        System.out.println(taskDTO.toString());
         taskValidator.validate(taskDTO, bindingResult);
         if (bindingResult.hasErrors()){
             throw new ProjectException("Invalid task form", HttpStatus.BAD_REQUEST);
         }
-        System.out.println("assTo = " + taskDTO.getAssignedTo().getEmail());
+        System.out.println("dfdfdf");
         taskService.addTask(project_id, taskDTO, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }

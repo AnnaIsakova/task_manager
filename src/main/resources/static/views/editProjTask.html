@@ -1,25 +1,25 @@
-<div class="modal fade m-r--16" id="newProjectTaskModal" tabindex="-1" role="dialog">
+<div class="modal fade m-r--16" id="editProjectTaskModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="panel panel-green modal-content">
             <div class="panel-heading modal-header">
-                New Task
+                Edit Task
                 <button type="button" class="close"  ng-click="close()" aria-hidden="true">&times;</button>
             </div>
             <div class="panel-body pan modal-body">
-                <form name="newProjectTaskForm" role="form" novalidate>
+                <form name="editProjectTaskForm" role="form" novalidate>
                     <div class="form-body pal">
                         <div class="form-group">
-                            <label for="t_p_description" class="control-label">
+                            <label for="t_p_description_ed" class="control-label">
                                 Title*
                             </label>
                             <div ng-class="{
                                     'has-error' :
-                                        newProjectTaskForm.t_p_description.$invalid && !newProjectTaskForm.t_p_description.$pristine,
+                                        editProjectTaskForm.t_p_description_ed.$invalid && !editProjectTaskForm.t_p_description_ed.$pristine,
                                     'has-success' :
-                                        newProjectTaskForm.t_p_description.$valid && !newProjectTaskForm.t_p_description.$pristine}">
+                                        editProjectTaskForm.t_p_description_ed.$valid && !editProjectTaskForm.t_p_description_ed.$pristine}">
                                     <textarea
-                                            id="t_p_description"
-                                            name="t_p_description"
+                                            id="t_p_description_ed"
+                                            name="t_p_description_ed"
                                             type="text"
                                             rows="5"
                                             class="form-control"
@@ -27,54 +27,54 @@
                                             ng-maxlength="255"
                                             required
                                     ></textarea>
-                                <small  ng-if="newProjectTaskForm.t_p_description.$error.maxlength && !newProjectTaskForm.t_p_description.$pristine">
+                                <small  ng-if="editProjectTaskForm.t_p_description_ed.$error.maxlength && !editProjectTaskForm.t_p_description_ed.$pristine">
                                     Too long
                                 </small>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="t_p_details" class="control-label">
+                            <label for="t_p_details_ed" class="control-label">
                                 Details
                             </label>
                             <div>
-                                <div id="t_p_details" ckeditor="options" ng-model="task.details"></div>
+                                <div id="t_p_details_ed" ckeditor="options" ng-model="task.details"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="assignedTo" class="control-label">
+                            <label for="assignedTo_ed" class="control-label">
                                 Developer
                             </label>
                             <div
-                             ng-class="{
+                                    ng-class="{
                             'has-error' :
-                                newProjectTaskForm.assignedTo.$invalid && !newProjectTaskForm.assignedTo.$pristine,
+                                editProjectTaskForm.assignedTo_ed.$invalid && !editProjectTaskForm.assignedTo_ed.$pristine,
                             'has-success' :
-                                newProjectTaskForm.assignedTo.$valid && !newProjectTaskForm.assignedTo.$pristine}">
-                            <select
-                                    class="form-control input-sm"
-                                    id="assignedTo"
-                                    name="assignedTo"
-                                    ng-model="task.assignedTo"
-                                    ng-options="developer as developer.firstName + ' ' + developer.lastName for developer in developers">
-                                <option value="">Choose who will do the task</option>
-                            </select>
-                                </div>
+                                editProjectTaskForm.assignedTo_ed.$valid && !editProjectTaskForm.assignedTo_ed.$pristine}">
+                                <select
+                                        class="form-control input-sm"
+                                        id="assignedTo_ed"
+                                        name="assignedTo_ed"
+                                        ng-model="task.assignedTo"
+                                        ng-options="developer as developer.firstName + ' ' + developer.lastName for developer in developers track by developer.id">
+                                    <option value="">Choose who will do the task</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="t_p_priority" class="control-label">
+                                    <label for="t_p_priority_ed" class="control-label">
                                         Priority*
                                     </label>
                                     <div ng-class="{
                                                 'has-error' :
-                                                    newProjectTaskForm.t_p_priority.$invalid && !newProjectTaskForm.t_p_priority.$pristine,
+                                                    editProjectTaskForm.t_p_priority_ed.$invalid && !editProjectTaskForm.t_p_priority_ed.$pristine,
                                                 'has-success' :
-                                                        newProjectTaskForm.t_p_priority.$valid && !newProjectTaskForm.t_p_priority.$pristine}">
+                                                    editProjectTaskForm.t_p_priority_ed.$valid && !editProjectTaskForm.t_p_priority_ed.$pristine}">
                                         <select
                                                 class="form-control"
-                                                id="t_p_priority"
-                                                name="t_p_priority"
+                                                id="t_p_priority_ed"
+                                                name="t_p_priority_ed"
                                                 ng-model="task.priority"
                                                 ng-options="(priority | capitalize | underscoreless) for priority in priorities track by priority"
                                                 required>
@@ -93,23 +93,27 @@
                                         <input
                                                 class="form-control"
                                                 id="t_p_deadline"
+                                                placeholder="{{task.deadline | date:'MM/dd/yyyy'}}"
                                                 kendo-date-picker
                                                 k-ng-model="task.deadline"
                                                 k-options="datePickerOptions"
+                                                k-on-change="isDateInvalid(task.deadline)"
                                         />
                                     </div>
+                                    <span ng-if="invalidDate">Wrong date!</span>
                                 </div>
                             </div>
                         </div>
+
                         <div ng-if="errorMessage" class="alert alert-danger m-t-15">{{ errorMessage }}</div>
                     </div>
                     <div class="form-actions text-right pal modal-footer">
                         <button
                                 type="submit"
                                 class="btn btn-green"
-                                ng-disabled="newProjectTaskForm.$invalid"
+                                ng-disabled="editProjectTaskForm.$invalid"
                                 ng-click="submit(task)">
-                            Add task
+                            Save
                         </button>
                         <button type="button" class="btn btn-default" ng-click="close()">
                             Close

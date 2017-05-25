@@ -1,6 +1,7 @@
 package annanas_manager.services.impl;
 
 
+import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.DTO.TaskForProjectDTO;
 import annanas_manager.entities.*;
 import annanas_manager.entities.enums.TaskStatus;
@@ -32,110 +33,106 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
     @Override
     public void addTask(long projectId, TaskForProjectDTO taskDTO, String email) throws ProjectException {
         Project project = projectRepository.findOne(projectId);
-        if (project != null){
-            if (project.getCreatedBy().getEmail().equals(email)){
-                taskDTO.setStatus(TaskStatus.NEW);
-                taskDTO.setCreateDate(new Date(System.currentTimeMillis()));
-                TaskForProject task = TaskForProject.fromDTO(taskDTO);
-                task.setProject(project);
-                if (taskDTO.getAssignedTo().getEmail() != null){
-                    task.setAssignedTo(userRepository.findOne(taskDTO.getAssignedTo().getId()));
-                } else {
-                    task.setAssignedTo(null);
-                }
-                taskRepository.saveAndFlush(task);
-            } else {
-                throw new ProjectException("You have no permission to add task to this project", HttpStatus.FORBIDDEN);
-            }
-        } else {
+        if (project == null){
             throw new NullPointerException("Project does not exist");
         }
-
+        if (project.getCreatedBy().getEmail().equals(email)){
+            taskDTO.setStatus(TaskStatus.NEW);
+            taskDTO.setCreateDate(new Date(System.currentTimeMillis()));
+            TaskForProject task = TaskForProject.fromDTO(taskDTO);
+            task.setProject(project);
+            try{
+                task.setAssignedTo(userRepository.findOne(taskDTO.getAssignedTo().getId()));
+            } catch (NullPointerException ex){
+                task.setAssignedTo(null);
+            }
+            taskRepository.saveAndFlush(task);
+        } else {
+            throw new ProjectException("You have no permission to add task to this project", HttpStatus.FORBIDDEN);
+        }
     }
 
     @Override
     public void deleteTask(long projectId, long taskId, String email) throws ProjectException, TaskException {
         Project project = projectRepository.findOne(projectId);
-        if (project != null){
-            if (project.getCreatedBy().getEmail().equals(email)){
-                TaskForProject task = taskRepository.findOne(taskId);
-                if (project.getTasks().contains(task)){
-                    taskRepository.delete(taskId);
-                } else {
-                    throw new TaskException("Such task does not exist", HttpStatus.NOT_FOUND);
-                }
+        if (project == null){
+            throw new NullPointerException("Project does not exist");
+        }
+        if (project.getCreatedBy().getEmail().equals(email)){
+            TaskForProject task = taskRepository.findOne(taskId);
+            if (project.getTasks().contains(task)){
+                taskRepository.delete(taskId);
             } else {
-                throw new ProjectException("You have no permission to delete tasks from this project", HttpStatus.FORBIDDEN);
+                throw new TaskException("Such task does not exist", HttpStatus.NOT_FOUND);
             }
         } else {
-            throw new NullPointerException("Project does not exist");
+            throw new ProjectException("You have no permission to delete tasks from this project", HttpStatus.FORBIDDEN);
         }
     }
 
     @Override
     public void editTask(long projectId, TaskForProjectDTO taskDTO, String email) throws TaskException, ProjectException {
         Project project = projectRepository.findOne(projectId);
-        if (project != null){
-            if (project.getCreatedBy().getEmail().equals(email)){
-                TaskForProject task = taskRepository.findOne(taskDTO.getId());
-                if (project.getTasks().contains(task)){
-                    task.setDescription(taskDTO.getDescription());
-                    task.setDetails(taskDTO.getDetails());
-                    task.setDeadline(taskDTO.getDeadline());
-                    if (taskDTO.getAssignedTo().getEmail() != null){
-                        task.setAssignedTo(userRepository.findOne(taskDTO.getAssignedTo().getId()));
-                    } else {
-                        task.setAssignedTo(null);
-                    }
-                    task.setApproved(taskDTO.isApproved());
-                    taskRepository.saveAndFlush(task);
-                } else {
-                    throw new TaskException("Such task does not exist", HttpStatus.NOT_FOUND);
+        if (project == null){
+            throw new NullPointerException("Project does not exist");
+        }
+        if (project.getCreatedBy().getEmail().equals(email)){
+            TaskForProject task = taskRepository.findOne(taskDTO.getId());
+            if (project.getTasks().contains(task)){
+                task.setDescription(taskDTO.getDescription());
+                task.setDetails(taskDTO.getDetails());
+                task.setDeadline(taskDTO.getDeadline());
+                task.setPriority(taskDTO.getPriority());
+                try{
+                    task.setAssignedTo(userRepository.findOne(taskDTO.getAssignedTo().getId()));
+                } catch (NullPointerException ex){
+                    task.setAssignedTo(null);
                 }
+                task.setApproved(taskDTO.isApproved());
+                taskRepository.saveAndFlush(task);
             } else {
-                throw new ProjectException("You have no permission to delete tasks from this project", HttpStatus.FORBIDDEN);
+                throw new TaskException("Such task does not exist", HttpStatus.NOT_FOUND);
             }
         } else {
-            throw new NullPointerException("Project does not exist");
+            throw new ProjectException("You have no permission to delete tasks from this project", HttpStatus.FORBIDDEN);
         }
     }
 
     @Override
     public List<TaskForProjectDTO> getAllTasks(long projectId, String email) throws ProjectException {
         Project project = projectRepository.findOne(projectId);
-        if (project != null){
-            if (project.getCreatedBy().getEmail().equals(email)){
-                List<TaskForProject> tasks = project.getTasks();
-                List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
-                for (TaskForProject task:tasks) {
-                    tasksDTO.add(task.toDTO());
-                }
-                return tasksDTO;
-            } else {
-                throw new ProjectException("You have no permission to fetch tasks from this project", HttpStatus.FORBIDDEN);
-            }
-        } else {
+        if (project == null){
             throw new NullPointerException("Project does not exist");
+        }
+        if (project.getCreatedBy().getEmail().equals(email)){
+            List<TaskForProject> tasks = project.getTasks();
+            List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
+            for (TaskForProject task:tasks) {
+                tasksDTO.add(task.toDTO());
+            }
+            return tasksDTO;
+        } else {
+            throw new ProjectException("You have no permission to fetch tasks from this project", HttpStatus.FORBIDDEN);
         }
     }
 
     @Override
     public TaskForProjectDTO findById(long projId, long id, String email) throws ProjectException {
-        try {
-            Project project = projectRepository.findOne(projId);
-            if (hasUserPermission(project, email)){
-                TaskForProject task = taskRepository.findOne(id);
-                return task.toDTO();
-            }
-            throw new ProjectException("You have no permission to view this project", HttpStatus.FORBIDDEN);
-        } catch (NullPointerException ex){
+        Project project = projectRepository.findOne(projId);
+        if (project == null){
             throw new NullPointerException("Project does not exist");
         }
+        //change permission for dev!
+        TaskForProject task = taskRepository.findOne(id);
+        if (hasUserPermission(project, task, email)){
+            return task.toDTO();
+        }
+        throw new ProjectException("You have no permission to view this project", HttpStatus.FORBIDDEN);
     }
 
-    private boolean hasUserPermission(Project project, String email){
+    private boolean hasUserPermission(Project project, TaskForProject task, String email){
         CustomUser user = userRepository.findByEmail(email);
-        if (project.getCreatedBy().equals(user) || project.getDevelopers().contains(user)){
+        if (project.getCreatedBy().equals(user) || task.getAssignedTo().getEmail().equals(email)){
             return true;
         }
         return false;

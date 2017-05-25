@@ -3,7 +3,7 @@
 app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'close', 'CrudService', 'UserService',
     function($scope, $rootScope, $state, $http, $stateParams, close, CrudService, UserService) {
 
-        $scope.task = {description:'', details:'', assignedTo:{}, priority:'', deadline:new Date()};
+        $scope.task = {description:'', details:'', assignedTo:null, priority:'', deadline:new Date()};
         $scope.priorities = [];
         $scope.developers = [];
         var teamlead = JSON.parse(UserService.getCookieUser());
@@ -17,7 +17,6 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
 
         fetchAllPriorities();
         fetchAllDevelopers();
-        fetchMe();
 
         function fetchAllPriorities(){
             CrudService.fetchAll('priorities')
@@ -37,6 +36,7 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
                 .then(
                     function(d) {
                         $scope.developers = d;
+                        fetchMe();
                     },
                     function(errResponse){
                         console.error('Error while fetching priorities -> from controller');
@@ -79,6 +79,7 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
             for (name in CKEDITOR.instances) {
                 CKEDITOR.instances[name].destroy(true);
             }
+            console.log(result.assignedTo);
             createTask(result);
         };
 

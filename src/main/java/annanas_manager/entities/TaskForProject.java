@@ -1,12 +1,10 @@
 package annanas_manager.entities;
 
 
-import annanas_manager.DTO.CommentForTaskDTO;
-import annanas_manager.DTO.CustomUserDTO;
-import annanas_manager.DTO.FileForTaskDTO;
-import annanas_manager.DTO.TaskForProjectDTO;
+import annanas_manager.DTO.*;
 import annanas_manager.entities.enums.TaskPriority;
 import annanas_manager.entities.enums.TaskStatus;
+import annanas_manager.entities.enums.UserRole;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -41,14 +39,13 @@ public class TaskForProject extends Task{
     @JoinColumn(name = "project_id")
     protected Project project;
 
-    public TaskForProject(String description, TaskPriority priority, TaskStatus status, Date createDate, Calendar deadline, String details, Developer assignedTo, boolean approved) {
+    public TaskForProject(String description, TaskPriority priority, TaskStatus status, Date createDate, Calendar deadline, String details, boolean approved) {
         super(description, priority, status, createDate, deadline);
         this.details = details;
-        this.assignedTo = assignedTo;
         this.approved = approved;
     }
 
-    public TaskForProject(String details, Developer assignedTo, boolean approved, Project project) {
+    public TaskForProject(String details, CustomUser assignedTo, boolean approved, Project project) {
         this.details = details;
         this.assignedTo = assignedTo;
         this.approved = approved;
@@ -100,7 +97,6 @@ public class TaskForProject extends Task{
                 dto.getCreateDate(),
                 dto.getDeadline(),
                 dto.getDetails(),
-                Developer.fromDTO(dto.getAssignedTo()),
                 dto.isApproved());
     }
 
@@ -150,5 +146,17 @@ public class TaskForProject extends Task{
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskForProject{" +
+                "details='" + details + '\'' +
+                ", assignedTo=" + assignedTo +
+                ", approved=" + approved +
+                ", files=" + files +
+                ", comments=" + comments +
+                ", project=" + project +
+                '}';
     }
 }

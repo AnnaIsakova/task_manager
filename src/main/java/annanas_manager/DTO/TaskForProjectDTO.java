@@ -78,4 +78,15 @@ public class TaskForProjectDTO extends TaskDTO{
     public void setComments(List<CommentForTaskDTO> comments) {
         this.comments = comments;
     }
+
+    @Override
+    public String toString() {
+        return "TaskForProjectDTO{" +
+                "details='" + details + '\'' +
+                ", assignedTo=" + assignedTo +
+                ", approved=" + approved +
+                ", files=" + files +
+                ", comments=" + comments +
+                '}';
+    }
 }

@@ -11,5 +11,6 @@ public class TaskForProjectValidator extends TaskValidator{
     @Override
     public void validate(Object o, Errors errors) {
         super.validate(o, errors);
+        System.out.println("Validator");
     }
 }
