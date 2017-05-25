@@ -10,8 +10,9 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
         $scope.newComment = {text:''};
         // $scope.user = JSON.parse(UserService.getCookieUser());
         $scope.comment = {};
-        // $scope.tasksCompleted = 0;
-        // $scope.taskProgress = 0;
+        $scope.taskProgress = 0;
+        $scope.taskPriorClass = '';
+        $scope.taskPriorPercent = 0;
         $scope.myFile = {};
 
         $scope.comment.editingComment = false;
@@ -36,8 +37,8 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
                     function(d) {
                         $scope.task = d;
                         getDeadlineProgress();
-                        // getTaskCompleted();
-                        // getTaskCompletedProgress();
+                        getTaskCompletedProgress();
+                        getPriorityStyle();
                     },
                     function(errResponse){
                         console.error('Error while fetching task -> from controller');
@@ -234,19 +235,31 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
 
         }
 
-        function getTaskCompleted(){
-            for (var i=0; i<$scope.project.tasks.length; i++){
-                if ($scope.project.tasks[i].approved){
-                    $scope.tasksCompleted++;
-                }
+        function getTaskCompletedProgress() {
+            console.log($scope.task);
+            if ($scope.task.status == "NEW"){
+                $scope.taskProgress = 0;
+            } else if ($scope.task.status == "IN_PROGRESS"){
+                $scope.taskProgress = 33;
+            } else if ($scope.task.status == "COMPLETE" && !$scope.task.approved){
+                $scope.taskProgress = 66;
+                console.log($scope.taskProgress);
+            } else if ($scope.task.approved){
+                $scope.taskProgress = 100;
             }
         }
 
-        function getTaskCompletedProgress() {
-            var tasks = $scope.project.tasks.length;
-            var completed = $scope.tasksCompleted;
-            $scope.taskProgress = (100 * completed) / tasks;
-            console.log($scope.taskProgress);
+        function getPriorityStyle() {
+            if ($scope.task.priority == "LOW"){
+                $scope.taskPriorClass = 'progress-bar-info';
+                $scope.taskPriorPercent = 33;
+            } else if ($scope.task.priority == "NORMAL"){
+                $scope.taskPriorClass = 'progress-bar-success';
+                $scope.taskPriorPercent = 66;
+            } else if ($scope.task.priority == "HIGH") {
+                $scope.taskPriorClass = 'progress-bar-danger';
+                $scope.taskPriorPercent = 100;
+            }
         }
 
     }]);

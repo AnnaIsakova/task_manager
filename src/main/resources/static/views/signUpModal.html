@@ -151,7 +151,7 @@
                                 id="roles"
                                 name="roles"
                                 ng-model="user.role"
-                                ng-options="role for role in roles track by role"
+                                ng-options="(role | capitalize | underscoreless) for role in roles track by role"
                                 required>
                             <option value="">Please select your role</option>
                         </select>

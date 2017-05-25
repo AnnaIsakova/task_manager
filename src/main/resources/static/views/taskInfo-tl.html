@@ -119,7 +119,8 @@
                     <div class="progress progress-sm mbn">
                         <div role="progressbar" aria-valuenow="{{taskProgress}}" aria-valuemin="0" aria-valuemax="100"
                              ng-style="{'width':taskProgress+'%'}" class="progress-bar progress-bar-success">
-                            <span class="sr-only">50% Complete (success)</span></div>
+                            <span class="sr-only">50% Complete (success)</span>
+                        </div>
                     </div>
                     <hr class="light-grey">
                     <div>
@@ -141,8 +142,8 @@
                         <span>Task priority</span>
                     </p>
                     <div class="progress progress-sm mbn">
-                        <div role="progressbar" aria-valuenow="{{taskProgress}}" aria-valuemin="0" aria-valuemax="100"
-                             ng-style="{'width':taskProgress+'%'}" class="progress-bar progress-bar-success">
+                        <div role="progressbar" aria-valuenow="{{taskPriorPercent}}" aria-valuemin="0" aria-valuemax="100"
+                             ng-style="{'width':taskPriorPercent+'%'}" class="progress-bar {{taskPriorClass}}">
                             <span class="sr-only">50% Complete (success)</span></div>
                     </div>
                 </div>
