@@ -124,6 +124,6 @@ public class FilesForProjectServiceImpl implements FilesForProjectService{
         } catch (IOException e) {
             throw new CustomFileException("Some problems with file happened", HttpStatus.BAD_REQUEST);
         }
-        return new FileForProject(multipartFile.getOriginalFilename(), convFile);
+        return new FileForProject(multipartFile.getOriginalFilename());
     }
 }

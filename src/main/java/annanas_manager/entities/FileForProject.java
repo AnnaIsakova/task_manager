@@ -18,7 +18,7 @@ public class FileForProject extends CustomFile {
     @JoinColumn(name = "project_id")
     protected Project project;
 
-    public FileForProject(String name, File file) {
+    public FileForProject(String name) {
         super(name);
     }
 

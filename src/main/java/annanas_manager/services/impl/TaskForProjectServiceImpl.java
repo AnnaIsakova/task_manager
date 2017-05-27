@@ -61,6 +61,7 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
         if (project.getCreatedBy().getEmail().equals(email)){
             TaskForProject task = taskRepository.findOne(taskId);
             if (project.getTasks().contains(task)){
+                project.getTasks().remove(task);
                 taskRepository.delete(taskId);
             } else {
                 throw new TaskException("Such task does not exist", HttpStatus.NOT_FOUND);

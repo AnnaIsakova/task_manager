@@ -93,17 +93,18 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
             });
         };
 
-        $scope.openDelete = function () {
-            $rootScope.projectId = $scope.id;
+        $scope.openDelete = function (task) {
+            $rootScope.projectId = $scope.prId;
+            $rootScope.taskForDelete = task;
             ModalService.showModal({
-                templateUrl: '/views/confirmProjectDelete.html',
+                templateUrl: '/views/confirmTaskDelete.html',
                 controller: "DeleteController"
             }).then(function(modal) {
                 modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
                     if (result === null){
                     } else{
-                        $state.go('home.projects');
+                        $state.go('home.tasks', {'projectID': $scope.prId});
                     }
                 });
             });
@@ -148,9 +149,10 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
 
         $scope.deleteFile = function (file) {
             $rootScope.file = file;
-            $rootScope.projectId = $scope.id;
+            $rootScope.projectId = $scope.prId;
+            $rootScope.taskId = $scope.taskId;
             ModalService.showModal({
-                templateUrl: '/views/confirmFilePrDelete.html',
+                templateUrl: '/views/confirmFileTDelete.html',
                 controller: "DeleteController"
             }).then(function(modal) {
                 modal.element.modal({backdrop: 'static'});

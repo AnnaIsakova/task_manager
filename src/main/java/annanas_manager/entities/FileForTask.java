@@ -17,7 +17,7 @@ public class FileForTask extends CustomFile {
     @JoinColumn(name = "task_id")
     protected TaskForProject task;
 
-    public FileForTask(String name, long currtime) {
+    public FileForTask(String name) {
         super(name);
     }
 
