@@ -123,7 +123,6 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
         if (project == null){
             throw new NullPointerException("Project does not exist");
         }
-        //change permission for dev!
         TaskForProject task = taskRepository.findOne(id);
         if (hasUserPermission(project, task, email)){
             return task.toDTO();
@@ -131,9 +130,45 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
         throw new ProjectException("You have no permission to view this project", HttpStatus.FORBIDDEN);
     }
 
+    @Override
+    public void changeStatus(long projId, long taskId, TaskStatus status, String email) throws TaskException {
+        Project project = projectRepository.findOne(projId);
+        if (project == null){
+            throw new NullPointerException("Project does not exist");
+        }
+        TaskForProject task = taskRepository.findOne(taskId);
+        if (task != null && project.getTasks().contains(task) && task.getAssignedTo().getEmail().equals(email)){
+            if (task.isApproved()){
+                throw new TaskException("You can't change status of approved task", HttpStatus.CONFLICT);
+            }
+            task.setStatus(status);
+            taskRepository.saveAndFlush(task);
+        } else {
+            throw new TaskException("Such task does not exist", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void approveTask(long projId, long taskId, String email) throws TaskException {
+        Project project = projectRepository.findOne(projId);
+        if (project == null){
+            throw new NullPointerException("Project does not exist");
+        }
+        TaskForProject task = taskRepository.findOne(taskId);
+        if (task != null && project.getTasks().contains(task) && project.getCreatedBy().getEmail().equals(email)){
+            if (!task.getStatus().equals(TaskStatus.COMPLETE)) {
+                throw new TaskException("You can't approve not completed task", HttpStatus.CONFLICT);
+            }
+            task.setApproved(true);
+            taskRepository.saveAndFlush(task);
+        } else {
+            throw new TaskException("Such task does not exist", HttpStatus.NOT_FOUND);
+        }
+    }
+
     private boolean hasUserPermission(Project project, TaskForProject task, String email){
         CustomUser user = userRepository.findByEmail(email);
-        if (project.getCreatedBy().equals(user) || task.getAssignedTo().getEmail().equals(email)){
+        if ((project.getCreatedBy().equals(user) || task.getAssignedTo().getEmail().equals(email)) && project.getTasks().contains(task)){
             return true;
         }
         return false;

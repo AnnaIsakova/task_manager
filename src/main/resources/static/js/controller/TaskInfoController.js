@@ -1,14 +1,14 @@
 'use strict';
 
-app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'moment', 'CrudService', 'FileService', 'ModalService', 'UserService',
-    function($scope, $rootScope, $state, $http, $stateParams, moment, CrudService, FileService, ModalService, UserService) {
+app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'moment', 'CrudService', 'FileService', 'ModalService', 'UserService', 'TaskService',
+    function($scope, $rootScope, $state, $http, $stateParams, moment, CrudService, FileService, ModalService, UserService, TaskService) {
 
         $scope.prId = 0;
         $scope.taskId = 0;
         $scope.task = {};
         $scope.progressDeadline = 0;
         $scope.newComment = {text:''};
-        // $scope.user = JSON.parse(UserService.getCookieUser());
+        $scope.user = JSON.parse(UserService.getCookieUser());
         $scope.comment = {};
         $scope.taskProgress = 0;
         $scope.taskProgressClass = '';
@@ -85,6 +85,20 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
             ModalService.showModal({
                 templateUrl: '/views/editProjTask.html',
                 controller: "EditTaskController"
+            }).then(function(modal) {
+                modal.element.modal({backdrop: 'static'});
+                modal.close.then(function(result) {
+                    fetchTask();
+                });
+            });
+        };
+
+        $scope.openApprove = function (task) {
+            $rootScope.projectId = $scope.prId;
+            $rootScope.taskApprove = task;
+            ModalService.showModal({
+                templateUrl: '/views/confirmApproveTask.html',
+                controller: "TaskApproveController"
             }).then(function(modal) {
                 modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
@@ -208,6 +222,20 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
                     },
                     function(errResponse){
                         console.error('Error while adding developer -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                        $scope.newComment = {};
+                    }
+                );
+        };
+
+        $scope.changeStatus = function (id, status) {
+            TaskService.changeStatus($scope.prId, id, status)
+                .then(
+                    function(d) {
+                        fetchTask();
+                    },
+                    function(errResponse){
+                        console.error('Error while set in progress -> from controller');
                         $scope.errorMessage = errResponse.data.message;
                         $scope.newComment = {};
                     }

@@ -2,6 +2,7 @@ package annanas_manager.services;
 
 
 import annanas_manager.DTO.TaskForProjectDTO;
+import annanas_manager.entities.enums.TaskStatus;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.exceptions.TaskException;
 
@@ -14,4 +15,6 @@ public interface TaskForProjectService {
     void editTask (long projectId, TaskForProjectDTO taskDTO, String email) throws TaskException, ProjectException;
     List<TaskForProjectDTO> getAllTasks(long projectId, String email) throws ProjectException;
     TaskForProjectDTO findById(long projId, long taskId, String email) throws ProjectException;
+    void changeStatus(long projId, long taskId, TaskStatus status, String email) throws TaskException;
+    void approveTask(long projId, long taskId, String email) throws TaskException;
 }

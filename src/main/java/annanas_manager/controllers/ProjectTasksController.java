@@ -3,6 +3,7 @@ package annanas_manager.controllers;
 
 import annanas_manager.DTO.TaskForProjectDTO;
 import annanas_manager.entities.TaskForProject;
+import annanas_manager.entities.enums.TaskStatus;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.exceptions.TaskException;
@@ -92,6 +93,28 @@ public class ProjectTasksController {
             Principal principal
     ) throws ProjectException, TaskException {
         taskService.deleteTask(projectId, taskId, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/projects/{id}/tasks/{task_id}", method = RequestMethod.POST)
+    public ResponseEntity<Void> setTaskStatus(
+            @PathVariable("id") long projectId,
+            @PathVariable("task_id") long taskId,
+            @RequestParam("status") String status,
+            Principal principal
+    ) throws ProjectException, TaskException {
+        TaskStatus stat = TaskStatus.fromValue(status);
+        taskService.changeStatus(projectId, taskId, stat, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/projects/{id}/tasks/{task_id}/approve", method = RequestMethod.POST)
+    public ResponseEntity<Void> setTaskStatus(
+            @PathVariable("id") long projectId,
+            @PathVariable("task_id") long taskId,
+            Principal principal
+    ) throws ProjectException, TaskException {
+        taskService.approveTask(projectId, taskId, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

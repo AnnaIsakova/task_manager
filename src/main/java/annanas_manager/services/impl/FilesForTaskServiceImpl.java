@@ -109,7 +109,7 @@ public class FilesForTaskServiceImpl implements FilesForTaskService {
         if (!project.getCreatedBy().getEmail().equals(email) && !task.getAssignedTo().getEmail().equals(email)) {
             throw new TaskException("You have no permission to fetch files from this task", HttpStatus.FORBIDDEN);
         }
-        List<FileForTask> files = filesRepository.findByProject(task);
+        List<FileForTask> files = filesRepository.findByTask(task);
         List<FileForTaskDTO> filesDTO = new ArrayList<>();
         for (FileForTask file:files) {
             filesDTO.add(file.toDTO());

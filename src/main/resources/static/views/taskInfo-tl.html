@@ -103,15 +103,19 @@
             <div class="panel task mbm">
                 <div class="panel-body">
                     <p class="icon">
-                        <span ng-if="task.status == 'COMPLETE'">
-                            <a href><i class="icon fa fa-thumbs-o-up"></i></a>
+                        <span ng-if="task.approved">
+                            <i class="icon fa fa-check-circle"></i>
+                        </span>
+                        <span ng-if="task.status == 'COMPLETE' && !task.approved">
+                            <a href ng-click="openApprove(task)"><i class="icon fa fa-thumbs-o-up"></i></a>
                         </span>
                         <span ng-if="task.status != 'COMPLETE'">
                             <i class="icon fa fa-signal"></i>
                         </span>
                     </p>
                     <h4 class="value">
-                        <span>{{task.status | capitalize | underscoreless}}</span>
+                        <span ng-if="!task.approved">{{task.status | capitalize | underscoreless}}</span>
+                        <span ng-if="task.approved">Approved</span>
                     </h4>
                     <p class="description">
                         <span>Task status</span>
@@ -122,10 +126,17 @@
                             <span class="sr-only">50% Complete (success)</span>
                         </div>
                     </div>
-                    <hr class="light-grey">
-                    <div>
-                        <span ng-if="task.status != 'COMPLETE'">You will be able to approve task when it is completed</span>
-                        <span ng-if="task.status == 'COMPLETE'">You can approve task now</span>
+                    <div ng-if="task.assignedTo.email == user.name && !task.approved">
+                        <hr class="light-grey">
+                        <a href ng-click="changeStatus(task.id, 'in_progress')"><i class="fa fa-spinner ico-padding" aria-hidden="true"></i></a>
+                        <a href ng-click="changeStatus(task.id, 'complete')"><i class="fa fa-check ico-padding" aria-hidden="true"></i></a>
+                    </div>
+                    <div ng-if="!task.approved">
+                        <hr class="light-grey">
+                        <div>
+                            <span ng-if="task.status != 'COMPLETE'">You will be able to approve task when it is completed</span>
+                            <span ng-if="task.status == 'COMPLETE'">You can approve task now</span>
+                        </div>
                     </div>
                 </div>
             </div>
