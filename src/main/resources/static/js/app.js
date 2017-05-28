@@ -66,8 +66,8 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
             }
 
         })
-        .state('home.tasks', {
-            url: '/projects/:projectID/tasks/:filter',
+        .state('home.devs', {
+            url: '/projects/:projectID/devs',
             views: {
                 "inner_content": {
                     templateProvider: function(TemplateService) {
@@ -78,6 +78,16 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 
                     },
                     controller: 'ProjectTasksController'
+                }
+            }
+
+        })
+        .state('home.tasks', {
+            url: '/projects/:projectID/tasks/:filter',
+            views: {
+                "inner_content": {
+                    templateUrl: '/views/devList.html',
+                    controller: 'DevController'
                 }
             }
 

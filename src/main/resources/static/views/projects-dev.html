@@ -63,9 +63,9 @@
                                 <p>
                                     <small>New tasks</small>
                                 </p>
-                                <button class="btn btn-red btn-block">
+                                <a ui-sref="home.tasks({projectID: project.id, filter: 'new'})" class="btn btn-red btn-block">
                                     <span class="fa fa-plus"></span>&nbsp;New
-                                </button>
+                                </a>
                             </div>
                             <div class="col-xs-12 col-sm-4 emphasis">
                                 <h2>
@@ -73,19 +73,19 @@
                                 <p>
                                     <small>Approved tasks</small>
                                 </p>
-                                <button class="btn btn-green btn-block">
+                                <a ui-sref="home.tasks({projectID: project.id, filter: 'approved'})" class="btn btn-green btn-block">
                                     <span class="fa fa-check"></span>&nbsp;Approved
-                                </button>
+                                </a>
                             </div>
                             <div class="col-xs-12 col-sm-4 emphasis">
                                 <h2>
                                     <strong>{{getMy(project)}}</strong></h2>
                                 <p>
-                                    <small>All my tasks</small>
+                                    <small>All tasks</small>
                                 </p>
-                                <button class="btn btn-yellow btn-block">
+                                <a ui-sref="home.tasks({projectID: project.id, filter: 'all'})" class="btn btn-yellow btn-block">
                                     <span class="fa fa-list"></span>&nbsp;All
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

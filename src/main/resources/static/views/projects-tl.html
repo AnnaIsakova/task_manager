@@ -61,9 +61,9 @@
                                         <small ng-if="project.developers.length != 1">Developers</small>
                                         <small ng-if="project.developers.length == 1">Developer</small>
                                     </p>
-                                    <button class="btn btn-yellow btn-block">
+                                    <a ui-sref="home.devs({projectID: project.id})" class="btn btn-yellow btn-block">
                                         <span class="fa fa-user"></span>&nbsp;Show team
-                                    </button>
+                                    </a>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 emphasis">
                                     <h2>
@@ -72,9 +72,9 @@
                                         <small ng-if="project.tasks.length != 1">Tasks</small>
                                         <small ng-if="project.tasks.length == 1">Task</small>
                                     </p>
-                                    <button class="btn btn-blue btn-block">
+                                    <a ui-sref="home.tasks({projectID: project.id, filter: 'all'})" class="btn btn-blue btn-block">
                                         <span class="fa fa-list"></span>&nbsp;Show tasks
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
