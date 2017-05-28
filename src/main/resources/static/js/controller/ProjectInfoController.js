@@ -284,6 +284,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         }
 
         function getTaskCompleted(){
+            $scope.tasksCompleted = 0;
             for (var i=0; i<$scope.project.tasks.length; i++){
                 if ($scope.user.authorities[0].authority == "TEAMLEAD"){
                     if ($scope.project.tasks[i].approved){
