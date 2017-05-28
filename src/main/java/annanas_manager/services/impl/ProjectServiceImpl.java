@@ -70,6 +70,7 @@ public class ProjectServiceImpl implements ProjectService{
         try {
             Project project = projectRepository.findOne(projectDTO.getId());
             if (project.getCreatedBy().getEmail().equals(email)){
+                project.setName(projectDTO.getName());
                 project.setDescription(projectDTO.getDescription());
                 project.setDetails(projectDTO.getDetails());
                 project.setDeadline(projectDTO.getDeadline());

@@ -285,9 +285,16 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
 
         function getTaskCompleted(){
             for (var i=0; i<$scope.project.tasks.length; i++){
-                if ($scope.project.tasks[i].approved){
-                    $scope.tasksCompleted++;
+                if ($scope.user.authorities[0].authority == "TEAMLEAD"){
+                    if ($scope.project.tasks[i].approved){
+                        $scope.tasksCompleted++;
+                    }
+                } else if ($scope.user.authorities[0].authority == "DEVELOPER"){
+                    if ($scope.project.tasks[i].approved && $scope.project.tasks[i].assignedTo.email == $scope.user.name){
+                        $scope.tasksCompleted++;
+                    }
                 }
+
             }
         }
         

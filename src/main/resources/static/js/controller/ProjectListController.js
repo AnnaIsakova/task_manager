@@ -6,7 +6,6 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
         $scope.project={};
         $scope.projects=[];
         $rootScope.projectInfo={};
-        $scope.approved = 0;
         $scope.user = JSON.parse(UserService.getCookieUser());
 
         fetchAllProjects();
@@ -37,11 +36,15 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
             });
         };
 
+
         $scope.getApproved = function(project) {
             var count = 0;
             for(var i=0;i<project.tasks.length;i++){
-                if (project.task[i].approved && project.task[i].assignedTo.email == $scope.user.email){
-                    app++;
+                if (project.tasks[i].assignedTo == null){
+                    continue;
+                }
+                if (project.tasks[i].approved && project.tasks[i].assignedTo.email == $scope.user.name){
+                    count++;
                 }
             }
             return count;
@@ -50,8 +53,11 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
         $scope.getNew = function(project) {
             var count = 0;
             for(var i=0;i<project.tasks.length;i++){
-                if (project.task[i].status == "NEW" && project.task[i].assignedTo.email == $scope.user.email){
-                    app++;
+                if (project.tasks[i].assignedTo == null){
+                    continue;
+                }
+                if (project.tasks[i].status == "NEW" && project.tasks[i].assignedTo.email == $scope.user.name){
+                    count++;
                 }
             }
             return count;
@@ -60,8 +66,11 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
         $scope.getMy = function (project) {
             var count = 0;
             for(var i=0;i<project.tasks.length;i++){
-                if (project.task[i].assignedTo.email == $scope.user.email){
-                    app++;
+                if (project.tasks[i].assignedTo == null){
+                    continue;
+                }
+                if (project.tasks[i].assignedTo.email == $scope.user.name){
+                    count++;
                 }
             }
             return count;

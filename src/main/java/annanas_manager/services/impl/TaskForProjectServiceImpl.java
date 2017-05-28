@@ -105,16 +105,26 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
         if (project == null){
             throw new NullPointerException("Project does not exist");
         }
+        List<TaskForProjectDTO> tasksDTO;
+        CustomUser user = userRepository.findByEmail(email);
         if (project.getCreatedBy().getEmail().equals(email)){
             List<TaskForProject> tasks = project.getTasks();
-            List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
+            tasksDTO = new ArrayList<>();
             for (TaskForProject task:tasks) {
                 tasksDTO.add(task.toDTO());
             }
-            return tasksDTO;
+
+        } else if (project.getDevelopers().contains(user)){
+            Developer dev = (Developer) user;
+            List<TaskForProject> tasks = dev.getTasks();
+            tasksDTO = new ArrayList<>();
+            for (TaskForProject task:tasks) {
+                tasksDTO.add(task.toDTO());
+            }
         } else {
             throw new ProjectException("You have no permission to fetch tasks from this project", HttpStatus.FORBIDDEN);
         }
+        return tasksDTO;
     }
 
     @Override
@@ -168,6 +178,9 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
 
     private boolean hasUserPermission(Project project, TaskForProject task, String email){
         CustomUser user = userRepository.findByEmail(email);
+        if (!project.getCreatedBy().equals(user) && task.getAssignedTo() == null){
+            return false;
+        }
         if ((project.getCreatedBy().equals(user) || task.getAssignedTo().getEmail().equals(email)) && project.getTasks().contains(task)){
             return true;
         }

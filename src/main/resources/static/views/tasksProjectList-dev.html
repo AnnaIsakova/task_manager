@@ -64,13 +64,6 @@
                         </a>
                     </th>
                     <th>
-                        <a href ng-click="sortType = 'assignedTo'; sortReverse = !sortReverse">
-                            Assigned to
-                            <span ng-show="sortType == 'assignedTo' && !sortReverse" class="fa fa-caret-down"></span>
-                            <span ng-show="sortType == 'assignedTo' && sortReverse" class="fa fa-caret-up"></span>
-                        </a>
-                    </th>
-                    <th>
                         <a href ng-click="sortType = 'approved'; sortReverse = !sortReverse">
                             Approved
                             <span ng-show="sortType == 'approved' && !sortReverse" class="fa fa-caret-down"></span>
@@ -104,14 +97,13 @@
                     </span>
                     </td>
                     <td>{{task.deadline | date:'mediumDate'}}</td>
-                    <td>{{task.assignedTo.firstName}} {{task.assignedTo.lastName}}</td>
                     <td>
                         <span ng-if="task.approved" class="label label-sm label-success">Yes</span>
                         <span ng-if="!task.approved" class="label label-sm label-danger">No</span>
                     </td>
                     <td>
-                        <a href ng-click="openEdit(task)"><i class="fa fa-pencil"></i></a>&nbsp;
-                        <a href ng-click="openDelete(task)"><i class="fa fa-trash-o"></i></a>&nbsp;
+                        <a href ng-click="changeStatus(task.id, 'in_progress')"><i class="fa fa-spinner"></i></a>&nbsp;
+                        <a href ng-click="changeStatus(task.id, 'complete')"><i class="fa fa-check"></i></a>&nbsp;
                     </td>
                 </tr>
                 </tbody>

@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'CrudService', 'ModalService',
-    function($scope, $rootScope, $state, $stateParams, $http, CrudService, ModalService) {
+app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'CrudService', 'ModalService', 'TaskService',
+    function($scope, $rootScope, $state, $stateParams, $http, CrudService, ModalService, TaskService) {
 
         $scope.task={};
         $scope.tasks=[];
@@ -99,6 +99,51 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
                 modal.close.then(function(result) {
                     $state.go('home.tasks', {projectID:$stateParams.projectID, filter: 'all'});
                     fetchAllTasks();
+                });
+            });
+        };
+
+        $scope.changeStatus = function (id, status) {
+            TaskService.changeStatus($stateParams.projectID, id, status)
+                .then(
+                    function(d) {
+                        fetchAllTasks();
+                    },
+                    function(errResponse){
+                        console.error('Error while set in progress -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                        $scope.newComment = {};
+                    }
+                );
+        };
+
+        $scope.openEdit = function (task) {
+            console.log('open editing: ', task);
+            $rootScope.taskForEdit = task;
+            ModalService.showModal({
+                templateUrl: '/views/editProjTask.html',
+                controller: "EditTaskController"
+            }).then(function(modal) {
+                modal.element.modal({backdrop: 'static'});
+                modal.close.then(function(result) {
+                    fetchAllTasks();
+                });
+            });
+        };
+
+        $scope.openDelete = function (task) {
+            $rootScope.projectId = $stateParams.projectID;
+            $rootScope.taskForDelete = task;
+            ModalService.showModal({
+                templateUrl: '/views/confirmTaskDelete.html',
+                controller: "DeleteController"
+            }).then(function(modal) {
+                modal.element.modal({backdrop: 'static'});
+                modal.close.then(function(result) {
+                    if (result === null){
+                    } else{
+                        $state.go('home.tasks', {'projectID': $stateParams.projectID});
+                    }
                 });
             });
         };
