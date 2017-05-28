@@ -181,9 +181,10 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
 
         $scope.deleteComment = function (comment) {
             $rootScope.comment = comment;
-            $rootScope.projectId = $scope.id;
+            $rootScope.projectId = $scope.prId;
+            $rootScope.taskId = $scope.taskId;
             ModalService.showModal({
-                templateUrl: '/views/confirmCommentPrDelete.html',
+                templateUrl: '/views/confirmCommentTDelete.html',
                 controller: "DeleteController"
             }).then(function(modal) {
                 modal.element.modal({backdrop: 'static'});
