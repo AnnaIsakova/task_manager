@@ -70,14 +70,8 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
             url: '/projects/:projectID/devs',
             views: {
                 "inner_content": {
-                    templateProvider: function(TemplateService) {
-                        var result = TemplateService.getTemplate();
-                        console.log(result);
-                        // ngInclude template content based on the A/B test result
-                        return '<div ng-include="" src="\'views/tasksProjectList-' + result + '.html\'\"</div>';
-
-                    },
-                    controller: 'ProjectTasksController'
+                    templateUrl: '/views/devList.html',
+                    controller: 'DevController'
                 }
             }
 
@@ -86,8 +80,14 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
             url: '/projects/:projectID/tasks/:filter',
             views: {
                 "inner_content": {
-                    templateUrl: '/views/devList.html',
-                    controller: 'DevController'
+                    templateProvider: function(TemplateService) {
+                        var result = TemplateService.getTemplate();
+                        console.log(result);
+                        // ngInclude template content based on the A/B test result
+                        return '<div ng-include="" src="\'views/tasksProjectList-' + result + '.html\'\"</div>';
+
+                    },
+                    controller: 'ProjectTasksController'
                 }
             }
 
