@@ -18,25 +18,12 @@ app.controller('DevController', ['$scope', '$rootScope', '$state', '$http', '$st
                 .then(
                     function(d) {
                         $scope.project = d;
-                        fetchAllDevelopers();
+                        $scope.developers = $scope.project.developers;
+                        fetchMe();
                     },
                     function(errResponse){
                         console.error('Error while fetching project -> from controller');
                         $scope.errorProject = errResponse.data.message;
-                    }
-                );
-        }
-
-        function fetchAllDevelopers(){
-            CrudService.fetchAll('projects/' + $stateParams.projectID + '/devs')
-                .then(
-                    function(d) {
-                        $scope.developers = d;
-                        fetchMe();
-                    },
-                    function(errResponse){
-                        console.error('Error while fetching priorities -> from controller');
-                        $scope.errorMessage = "Oops, error while fetching priorities occurred :(\nPlease, try again later!";
                     }
                 );
         }

@@ -15,6 +15,7 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
                 .then(
                     function(d) {
                         $scope.projects = d;
+                        console.log($scope.projects)
                     },
                     function(errResponse){
                         console.error('Error while fetching projects -> from controller');
