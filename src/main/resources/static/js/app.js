@@ -11,6 +11,12 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: true,
+        rewriteLinks: true
+    });
+
     $urlRouterProvider.otherwise('/login');
     $stateProvider
         .state('login', {

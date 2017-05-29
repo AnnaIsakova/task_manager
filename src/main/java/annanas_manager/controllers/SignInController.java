@@ -10,7 +10,7 @@ import java.security.Principal;
 @RestController
 public class SignInController {
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/sign_up", method = RequestMethod.GET)
     public Principal login(Principal principal) {
         return principal;
     }

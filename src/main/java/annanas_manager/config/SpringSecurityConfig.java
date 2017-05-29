@@ -61,12 +61,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests() //Authorize Request Configuration
                 .antMatchers("/api/**").fullyAuthenticated()
-//                .anyRequest().fullyAuthenticated()
                 .and()
                 // enabling the basic authentication
                 .httpBasic().and()
-                // configuring the session as state less. Which means there is
-                // no session in the server
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     }

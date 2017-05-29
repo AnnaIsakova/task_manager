@@ -55,7 +55,7 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
     
     function login(base64Credential) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + 'login', {
+        $http.get(REST_SERVICE_URI + 'sign_up', {
             headers : {
                 // setting the Authorization Header
                 'Authorization' : 'Basic ' + base64Credential
