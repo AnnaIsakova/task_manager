@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app',['ui.router', 'angularModalService', 'ngCookies', 'kendo.directives', 'angularMoment', 'ckeditor', 'ngSanitize', 'ngFileSaver']);
+var app = angular.module('app',['ui.router', 'angularModalService', 'ngCookies', 'kendo.directives', 'angularMoment', 'ckeditor', 'ngSanitize', 'ngFileSaver', "chart.js"]);
 
 app.run(function ($state, $rootScope, $http, UserService) {
     $rootScope.$state = $state;
@@ -135,7 +135,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
             views: {
                 "inner_content": {
                     templateUrl: '/views/charts.html',
-                    controller: 'NavBarController'
+                    controller: 'ChartDevController'
                 }
             }
         })
