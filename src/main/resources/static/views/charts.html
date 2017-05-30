@@ -31,11 +31,19 @@
         There are no tasks in this project
     </div>
 
+    <div ng-if="horizData.length > 0">
+        <h4>All tasks</h4>
+        <canvas id="base" class="chart-horizontal-bar"
+                chart-data="horizData" chart-labels="labels" chart-colors="colors">
+        </canvas>
+    </div>
+
+    <h4 ng-if="doughData.length > 0">Tasks of developers</h4>
     <div ng-repeat="data in doughData" class="col-lg-3">
         <div ng-repeat="(key, value) in data">
             <label class="chart-title">{{key}}</label>
             <canvas id="doughnut" class="chart chart-doughnut"
-                    chart-data="value" chart-labels="doughLabels" chart-colors="doughColors">
+                    chart-data="value" chart-labels="labels" chart-colors="colors">
             </canvas>
         </div>
     </div>

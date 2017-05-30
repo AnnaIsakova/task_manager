@@ -9,11 +9,12 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
         var teamlead  = JSON.parse(UserService.getCookieUser());
         var myId = teamlead.principal.id;
         $scope.selectedProj = $scope.projects[0];
-        $scope.doughLabels = ["New", "In progress", "Complete", "Approved"];
-        // var data1 = [10, 20, 30, 40];
-        // var data2 = [50, 20, 30, 40];
+
+        $scope.labels = ["New", "In progress", "Complete", "Approved"];
         $scope.doughData = [];
-        $scope.doughColors = ["#d9534f","#f0ad4e","#5bc0de", "#5cb85c"];
+        $scope.colors = ["#d9534f","#f0ad4e","#5bc0de", "#5cb85c"];
+
+        $scope.horizData = [];
 
         fetchAllProjects();
 
@@ -48,7 +49,12 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
                 );
         }
 
-        $scope.getData = function() {
+        $scope.getData = function(){
+            getHorizData();
+            getDoughData();
+        };
+
+        function getDoughData () {
             $scope.doughData = [];
             var newTask = 0;
             var progress = 0;
@@ -57,6 +63,10 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
 
             $scope.selectedProj.developers.push($scope.me);
             for (var i=0; i<$scope.selectedProj.developers.length; i++){
+                newTask = 0;
+                progress = 0;
+                complete = 0;
+                approved = 0;
                 var dev = $scope.selectedProj.developers[i];
                 for (var j=0; j<$scope.selectedProj.tasks.length; j++){
                     var task = $scope.selectedProj.tasks[j];
@@ -83,5 +93,31 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
                 $scope.doughData = [];
             }
         }
+
+        function getHorizData () {
+            $scope.horizData = [];
+            var newTask = 0;
+            var progress = 0;
+            var complete = 0;
+            var approved = 0;
+
+            for (var j=0; j<$scope.selectedProj.tasks.length; j++){
+                var task = $scope.selectedProj.tasks[j];
+                if (task.status == "NEW") {
+                    newTask++;
+                } else if (task.status == "IN_PROGRESS"){
+                    progress++;
+                }  else if (task.status == "COMPLETE" && !task.approved){
+                    complete++;
+                }  else if (task.approved){
+                    approved++;
+                }
+            }
+            $scope.horizData = [newTask, progress, complete, approved];
+            if(newTask == 0 && progress == 0 && complete == 0 && approved == 0){
+                $scope.horizData = [];
+            }
+            }
+
 
     }]);
