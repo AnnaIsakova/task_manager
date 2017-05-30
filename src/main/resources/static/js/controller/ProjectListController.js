@@ -49,7 +49,7 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
                 }
             }
             return count;
-        }
+        };
 
         $scope.getNew = function(project) {
             var count = 0;
@@ -62,7 +62,7 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
                 }
             }
             return count;
-        }
+        };
         
         $scope.getMy = function (project) {
             var count = 0;

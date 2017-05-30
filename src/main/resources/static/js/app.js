@@ -135,7 +135,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
             views: {
                 "inner_content": {
                     templateUrl: '/views/charts.html',
-                    controller: 'ChartDevController'
+                    controller: 'ChartController'
                 }
             }
         })

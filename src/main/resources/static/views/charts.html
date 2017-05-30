@@ -1,6 +1,43 @@
 <div>
-    Charts
-    <canvas id="doughnut" class="chart chart-doughnut"
-            chart-data="data" chart-labels="labels">
-    </canvas>
+    <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
+        <div class="page-header pull-left">
+            <div class="page-title">
+                Charts
+            </div>
+            <div>
+                Select a project to see it's statistics
+            </div>
+        </div>'
+
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="mbl p-t-15">
+        <label for="proj_name" class="control-label">
+            <h4>Project:</h4>
+        </label>
+        <select
+                class="form-control input-sm"
+                id="proj_name"
+                name="proj_name"
+                ng-init='projects[0].id'
+                ng-model="selectedProj"
+                ng-change="getData()"
+                ng-options="project as project.name for project in projects track by project.id">
+        </select>
+    </div>
+
+    <div ng-if="doughData.length == 0">
+        There are no tasks in this project
+    </div>
+
+    <div ng-repeat="data in doughData" class="col-lg-3">
+        <div ng-repeat="(key, value) in data">
+            <label class="chart-title">{{key}}</label>
+            <canvas id="doughnut" class="chart chart-doughnut"
+                    chart-data="value" chart-labels="doughLabels" chart-colors="doughColors">
+            </canvas>
+        </div>
+    </div>
+
 </div>

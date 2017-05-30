@@ -221,3 +221,18 @@ padding: 9px !important;
 .panel-width {
     width: 100% !important;
 }
+
+#canvas-holder {
+    position: relative;
+}
+
+.chart-title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+}
