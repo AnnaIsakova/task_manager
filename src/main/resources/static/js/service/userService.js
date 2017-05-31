@@ -100,6 +100,7 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
     }
     function getCookieUser() {
         user = $cookies.get("user");
+        console.log(user);
         return user;
     }
     function getCookieHeader() {

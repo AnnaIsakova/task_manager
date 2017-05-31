@@ -77,15 +77,17 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
 
     @Override
     public void edit(CustomUserDTO customUserDTO, String email) throws CustomUserException {
-        if (userRepository.findByEmail(customUserDTO.getEmail()) != null) {
+        if (!customUserDTO.getEmail().equals(email) && userRepository.findByEmail(customUserDTO.getEmail()) != null) {
             throw new CustomUserException("Such user already exists", HttpStatus.CONFLICT);
         }
         CustomUser user = userRepository.findByEmail(email);
         user.setFirstName(customUserDTO.getFirstName());
         user.setLastName(customUserDTO.getLastName());
         user.setEmail(customUserDTO.getEmail());
-        String encryptedPass = bCryptPasswordEncoder.encode(customUserDTO.getPassword());
-        user.setPassword(encryptedPass);
+        if (!user.getPassword().equals(customUserDTO.getPassword())){
+            String encryptedPass = bCryptPasswordEncoder.encode(customUserDTO.getPassword());
+            user.setPassword(encryptedPass);
+        }
         userRepository.saveAndFlush(user);
     }
 

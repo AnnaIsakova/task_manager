@@ -1,0 +1,179 @@
+<div class="modal fade m-r--16" id="editProfileModal">
+    <div class="modal-dialog">
+        <div class="panel panel-grey">
+            <div class="panel-heading">
+                Edit Profile
+                <button type="button" class="close" aria-hidden="true" ng-click="close()">&times;</button>
+            </div>
+            <div class="panel-body pan">
+                <form name="editProfileForm" role="form" novalidate>
+                    <div class="form-body pal">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <label for="firstName_ed">
+                                    First Name
+                                </label>
+                                <div class="form-group"
+                                     ng-class="{
+                                    'has-error' :
+                                        editProfileForm.firstName_ed.$invalid && !editProfileForm.firstName_ed.$pristine,
+                                    'has-success' :
+                                        editProfileForm.firstName_ed.$valid && !editProfileForm.firstName_ed.$pristine}">
+                                    <input
+                                            type="text"
+                                            name="firstName_ed"
+                                            id="firstName_ed"
+                                            class="form-control"
+                                            ng-model="user.firstName"
+                                            ng-minlength="3"
+                                            ng-maxlength="32"
+                                            required>
+                                    <small  ng-if="editProfileForm.firstName_ed.$error.minlength && !editProfileForm.firstName_ed.$pristine">
+                                        Too short
+                                    </small>
+                                    <small  ng-if="editProfileForm.firstName_ed.$error.maxlength && !editProfileForm.firstName_ed.$pristine">
+                                        Too long
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <label for="firstName_ed">
+                                    Last Name
+                                </label>
+                                <div class="form-group"
+                                     ng-class="{
+                                 'has-error' :
+                                    editProfileForm.lastName_ed.$invalid && !editProfileForm.lastName_ed.$pristine,
+                                  'has-success' :
+                                    editProfileForm.lastName_ed.$valid && !editProfileForm.lastName_ed.$pristine}">
+                                    <input
+                                            type="text"
+                                            name="lastName_ed"
+                                            id="lastName_ed"
+                                            class="form-control"
+                                            ng-model="user.lastName"
+                                            ng-minlength="3"
+                                            ng-maxlength="32"
+                                            required>
+                                    <small  ng-if="editProfileForm.lastName_ed.$error.minlength && !editProfileForm.lastName_ed.$pristine">
+                                        Too short
+                                    </small>
+                                    <small  ng-if="editProfileForm.lastName_ed.$error.maxlength && !editProfileForm.lastName_ed.$pristine">
+                                        Too long
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label for="email_ed">
+                            Email
+                        </label>
+                        <div class="form-group"
+                             ng-class="{
+                         'has-error' : (
+                            editProfileForm.email_ed.$error.unique
+                            || editProfileForm.email_ed.$error.pattern
+                            || editProfileForm.email_ed.$invalid)
+                            && !editProfileForm.email_ed.$pristine,
+                         'has-success' : (
+                            editProfileForm.email_ed.$valid
+                            || !editProfileForm.email_ed.$error.pattern)
+                            && !editProfileForm.email_ed.$pristine}">
+                            <input
+                                    type="text"
+                                    name="email_ed"
+                                    id="email_ed"
+                                    class="form-control"
+                                    ng-model="user.email"
+                                    ng-model-options="{ debounce: 100 }"
+                                    ng-minlength="3"
+                                    ng-maxlength="32"
+                                    ng-pattern="/^(\S+)@(\S+)\.(\S+)$/"
+                                    required
+                                    unique-email>
+                            <small  ng-if="editProfileForm.email_ed.$error.unique && !editProfileForm.email_ed.$pristine">
+                                Such user already exists
+                            </small >
+                            <small  ng-if="editProfileForm.email_ed.$error.maxlength && !editProfileForm.email_ed.$pristine">
+                                Too long
+                            </small>
+                            <small  ng-if="editProfileForm.email_ed.$error.pattern && !editProfileForm.email_ed.$pristine">
+                                Doesn't match example@example.ex
+                            </small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <label for="password_ed">
+                                    Password
+                                </label>
+                                <div class="form-group"
+                                     ng-class="{
+                                    'has-error' :
+                                        editProfileForm.password_ed.$invalid && !editProfileForm.password_ed.$pristine,
+                                    'has-success' :
+                                        editProfileForm.password_ed.$valid && !editProfileForm.password_ed.$pristine}">
+                                    <input
+                                            type="password"
+                                            name="password_ed"
+                                            id="password_ed"
+                                            class="form-control input-sm"
+                                            placeholder="New password"
+                                            ng-model="password"
+                                            ng-minlength="5"
+                                            ng-maxlength="32"
+                                            required>
+                                    <small  ng-if="editProfileForm.password_ed.$error.minlength && !editProfileForm.password.$pristine">
+                                        Too short
+                                    </small>
+                                    <small  ng-if="editProfileForm.password_ed.$error.maxlength && !editProfileForm.password.$pristine">
+                                        Too long
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <label for="email_ed">
+                                    Confirm password
+                                </label>
+                                <div class="form-group"
+                                     ng-class="{
+                                    'has-error' :
+                                        editProfileForm.password_confirmation.$invalid
+                                        && !editProfileForm.password_confirmation_ed.$pristine,
+                                    'has-success' :
+                                        editProfileForm.password_confirmation.$valid
+                                        && !editProfileForm.password_confirmation_ed.$pristine}">
+                                    <input
+                                            type="password"
+                                            name="password_confirmation_ed"
+                                            id="password_confirmation_ed"
+                                            class="form-control input-sm"
+                                            placeholder="Confirm new password"
+                                            ng-model="confirmPassword"
+                                            compare-to="password"
+                                            required>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="errorMessage" class="alert alert-danger m-t-15"><strong>Oops! </strong>{{ errorMessage }}</div>
+                    </div>
+                    <div class="form-actions text-right pal">
+                        <button
+                                type="submit"
+                                class="btn btn-grey"
+                                ng-disabled="editTodoTaskForm.$invalid"
+                                ng-click="submit(user)">
+                            Save
+                        </button>
+                        <button
+                                type="button"
+                                class="btn btn-default"
+                                ng-click="close()">
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

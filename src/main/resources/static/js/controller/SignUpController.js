@@ -65,10 +65,4 @@ app.controller('SignUpController', ['$scope', '$rootScope', '$state', '$http', '
         };
 
 
-        function reset(){
-            $scope.user={firstName:'', lastName:'', password: '', email:'', role:''};
-            $scope.confirmPassword = '';
-            $scope.singUpForm.$setPristine(); //reset Form
-        }
-
     }]);

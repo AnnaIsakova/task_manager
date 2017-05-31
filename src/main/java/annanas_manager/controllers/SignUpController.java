@@ -35,11 +35,8 @@ public class SignUpController {
             @RequestBody CustomUserDTO user,
             BindingResult bindingResult) throws CustomUserException {
 
-        System.out.println(user.toString());
-        System.out.println(user.getEmail());
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()){
-            System.out.println("errors from validator: " + bindingResult.getAllErrors());
             throw new CustomUserException("Invalid user form", HttpStatus.BAD_REQUEST);
         }
         customUserService.add(user);
