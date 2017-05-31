@@ -4,6 +4,7 @@ package annanas_manager.controllers;
 import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.entities.CustomUser;
 import annanas_manager.exceptions.CustomUserException;
+import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.services.CustomUserService;
 import annanas_manager.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,13 @@ public class UserController {
         }
         customUserService.edit(userDTO, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @ExceptionHandler(CustomUserException.class)
+    public ResponseEntity<ErrorResponse> exceptionHandler(CustomUserException ex) {
+        ErrorResponse error = new ErrorResponse();
+        error.setErrorCode(ex.getHttpStatus().value());
+        error.setMessage(ex.getMessage());
+        return new ResponseEntity<ErrorResponse>(error, ex.getHttpStatus());
     }
 }
