@@ -33,7 +33,6 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
     public UserDetails loadUserByUsername(String email) {
         CustomUser user = userRepository.findByUsername(email);
         if (user == null) {
-            System.out.println("NOT FOUND");
             throw new UsernameNotFoundException(email);
         }
         return new CustomUserPrincipal(user);
@@ -62,18 +61,6 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
     }
 
     @Override
-    public CustomUserDTO getByName(String name) {
-        CustomUser user = userRepository.findByName(name);
-        return user.toDTO();
-    }
-
-    @Override
-    public CustomUserDTO getByFullName(String firstName, String lastName) {
-        CustomUser user = userRepository.findByFullName(firstName, lastName);
-        return user.toDTO();
-    }
-
-    @Override
     public CustomUserDTO getByEmail(String email) {
         CustomUser user = userRepository.findByEmail(email);
         if (user != null){
@@ -89,14 +76,17 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
     }
 
     @Override
-    public void edit(CustomUserDTO customUserDTO) {
-        CustomUser customUser = null;
-        if (customUserDTO.getUserRole().equals(UserRole.DEVELOPER)){
-            customUser = Developer.fromDTO(customUserDTO);
-        } else if (customUserDTO.getUserRole().equals(UserRole.TEAMLEAD)){
-            customUser = Teamlead.fromDTO(customUserDTO);
+    public void edit(CustomUserDTO customUserDTO, String email) throws CustomUserException {
+        if (userRepository.findByEmail(customUserDTO.getEmail()) != null) {
+            throw new CustomUserException("Such user already exists", HttpStatus.CONFLICT);
         }
-        userRepository.saveAndFlush(customUser);
+        CustomUser user = userRepository.findByEmail(email);
+        user.setFirstName(customUserDTO.getFirstName());
+        user.setLastName(customUserDTO.getLastName());
+        user.setEmail(customUserDTO.getEmail());
+        String encryptedPass = bCryptPasswordEncoder.encode(customUserDTO.getPassword());
+        user.setPassword(encryptedPass);
+        userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -107,10 +97,5 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
             userDTOs.add(user.toDTO());
         }
         return userDTOs;
-    }
-
-    @Override
-    public boolean isUserExist(CustomUserDTO user) {
-        return getByEmail(user.getEmail())!=null;
     }
 }

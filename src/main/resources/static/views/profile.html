@@ -1,0 +1,31 @@
+<div ng-if="errorUser"><h4>&nbsp;{{errorUser}}</h4></div>
+<div ng-if="!errorUser">
+    <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
+        <div class="page-header pull-left">
+            <div class="page-title">
+                My Profile
+            </div>
+        </div>
+
+        <div class="clearfix">
+        </div>
+    </div>
+
+    <div ng-if="errorMessage" class="alert alert-danger m-t-15"><strong>Oops! </strong>{{ errorMessage }}</div>
+
+    <div class="mbl p-t-15">
+        <div>
+            First name: {{user.firstName}}
+        </div>
+        <div>
+            Last name: {{user.lastName}}
+        </div>
+        <div>
+            Email: {{user.email}}
+        </div>
+        <button class="btn btn-default">Edit</button>
+    </div>
+</div>
+
+
+

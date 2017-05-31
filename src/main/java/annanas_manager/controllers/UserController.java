@@ -3,6 +3,7 @@ package annanas_manager.controllers;
 
 import annanas_manager.DTO.CustomUserDTO;
 import annanas_manager.entities.CustomUser;
+import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.services.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,14 @@ public class UserController {
             @PathVariable("id") long id){
         CustomUserDTO user = customUserService.getById(id);
         return new ResponseEntity<CustomUserDTO>(user, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "api/users/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Void> editUser(
+            @RequestBody CustomUserDTO userDTO,
+            Principal principal) throws CustomUserException {
+        customUserService.edit(userDTO, principal.getName());
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

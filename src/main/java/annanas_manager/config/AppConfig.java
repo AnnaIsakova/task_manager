@@ -48,7 +48,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
                 "/projects/{id}/devs",
                 "/todo",
                 "/charts",
-                "/calendar"
+                "/calendar",
+                "/profile"
         })
         public String index() {
             return "forward:/index.html";

@@ -11,11 +11,8 @@ public interface CustomUserService {
 
     void add(CustomUserDTO customUserDTO) throws CustomUserException;
     void delete(long id);
-    CustomUserDTO getByName(String name);
-    CustomUserDTO getByFullName(String firstName, String lastName);
     CustomUserDTO getByEmail(String email);
     CustomUserDTO getById(long id);
-    void edit(CustomUserDTO customUserDTO);
+    void edit(CustomUserDTO customUserDTO, String email) throws CustomUserException;
     List<CustomUserDTO> getAll();
-    boolean isUserExist(CustomUserDTO customUserDTO);
 }

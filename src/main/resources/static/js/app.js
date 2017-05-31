@@ -139,5 +139,14 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
                 }
             }
         })
+        .state('home.profile', {
+            url: '/profile',
+            views: {
+                "inner_content": {
+                    templateUrl: '/views/profile.html',
+                    controller: 'ProfileController'
+                }
+            }
+        })
 
 });
