@@ -5,6 +5,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
 
         $scope.id = 0;
         $scope.project = {};
+        // $scope.project.tasks = [];
         $scope.progressDeadline = 0;
         $scope.newDeveloper = '';
         $scope.newComment = {text:''};
@@ -35,9 +36,13 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 .then(
                     function(d) {
                         $scope.project = d;
+                        fetchFiles();
+                        fetchAllComments();
+                        fetchTasks();
+                        if($scope.user.authorities[0].authority == "TEAMLEAD"){
+                            fetchDevs();
+                        }
                         getDeadlineProgress();
-                        getTaskCompleted();
-                        getTaskCompletedProgress();
                     },
                     function(errResponse){
                         console.error('Error while fetching project -> from controller');
@@ -52,6 +57,22 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 .then(
                     function(d) {
                         $scope.project.files = d;
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching files -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        }
+
+        function fetchTasks(){
+            $scope.id = $stateParams.projectID;
+            CrudService.fetchAll('projects/' + $scope.id + '/tasks')
+                .then(
+                    function(d) {
+                        $scope.project.tasks = d;
+                        getTaskCompleted();
+                        getTaskCompletedProgress();
                     },
                     function(errResponse){
                         console.error('Error while fetching files -> from controller');
@@ -80,6 +101,7 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 .then(
                     function(d) {
                         $scope.project.developers = d;
+                        console.log('devs: ', $scope.project.developers);
                     },
                     function(errResponse){
                         console.error('Error while fetching devs -> from controller');
@@ -286,24 +308,20 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         function getTaskCompleted(){
             $scope.tasksCompleted = 0;
             for (var i=0; i<$scope.project.tasks.length; i++){
-                if ($scope.user.authorities[0].authority == "TEAMLEAD"){
-                    if ($scope.project.tasks[i].approved){
-                        $scope.tasksCompleted++;
-                    }
-                } else if ($scope.user.authorities[0].authority == "DEVELOPER"){
-                    if ($scope.project.tasks[i].approved && $scope.project.tasks[i].assignedTo.email == $scope.user.name){
-                        $scope.tasksCompleted++;
-                    }
+                if ($scope.project.tasks[i].approved){
+                    $scope.tasksCompleted++;
                 }
-
             }
         }
         
         function getTaskCompletedProgress() {
             var tasks = $scope.project.tasks.length;
             var completed = $scope.tasksCompleted;
-            $scope.taskProgress = (100 * completed) / tasks;
-            console.log($scope.taskProgress);
+            if (tasks == 0){
+                $scope.taskProgress = 0;
+            } else {
+                $scope.taskProgress = (100 * completed) / tasks;
+            }
         }
         
     }]);
