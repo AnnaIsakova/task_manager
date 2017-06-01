@@ -6,8 +6,8 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
         $scope.project={};
         $scope.projects=[];
         $rootScope.projectInfo={};
-        var teamlead  = JSON.parse(UserService.getCookieUser());
-        var myId = teamlead.principal.id;
+        var user  = JSON.parse(UserService.getCookieUser());
+        var myId = user.principal.id;
         $scope.selectedProj = $scope.projects[0];
 
         $scope.labels = ["New", "In progress", "Complete", "Approved"];
@@ -25,7 +25,9 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
                         $scope.projects = d;
                         console.log($scope.projects)
                         $scope.selectedProj = $scope.projects[0];
-                        fetchMe();
+                        if (user.authorities[0].authority == "TEAMLEAD"){
+                            fetchMe();
+                        }
 
                     },
                     function(errResponse){
@@ -61,7 +63,9 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
             var complete = 0;
             var approved = 0;
 
-            $scope.selectedProj.developers.push($scope.me);
+            if (user.authorities[0].authority == "TEAMLEAD"){
+                $scope.selectedProj.developers.push($scope.me);
+            }
             for (var i=0; i<$scope.selectedProj.developers.length; i++){
                 newTask = 0;
                 progress = 0;

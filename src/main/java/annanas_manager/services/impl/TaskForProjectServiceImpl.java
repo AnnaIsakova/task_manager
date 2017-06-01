@@ -116,10 +116,12 @@ public class TaskForProjectServiceImpl implements TaskForProjectService {
 
         } else if (project.getDevelopers().contains(user)){
             Developer dev = (Developer) user;
-            List<TaskForProject> tasks = dev.getTasks();
+            List<TaskForProject> tasks = project.getTasks();
             tasksDTO = new ArrayList<>();
             for (TaskForProject task:tasks) {
-                tasksDTO.add(task.toDTO());
+                if (task.getAssignedTo() != null && task.getAssignedTo().equals(dev)){
+                    tasksDTO.add(task.toDTO());
+                }
             }
         } else {
             throw new ProjectException("You have no permission to fetch tasks from this project", HttpStatus.FORBIDDEN);
