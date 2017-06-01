@@ -16,6 +16,8 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
 
         $scope.horizData = [];
 
+        var tasks = [];
+
         fetchAllProjects();
 
         function fetchAllProjects(){
@@ -25,13 +27,44 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
                         $scope.projects = d;
                         console.log($scope.projects)
                         $scope.selectedProj = $scope.projects[0];
-                        if (user.authorities[0].authority == "TEAMLEAD"){
-                            fetchMe();
-                        }
-
+                        fetchAllTasks($scope.selectedProj);
                     },
                     function(errResponse){
                         console.error('Error while fetching projects -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        }
+
+        function fetchAllTasks(project){
+            CrudService.fetchAll('projects/' + project.id + '/tasks')
+                .then(
+                    function(d) {
+                        tasks = d;
+                        project.tasks = tasks;
+                        getHorizData();
+                        if (user.authorities[0].authority == "TEAMLEAD"){
+                            fetchMe();
+                        }
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching tasks -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        }
+
+        function fetchAllDevs(project){
+            CrudService.fetchAll('projects/' + project.id + '/devs')
+                .then(
+                    function(d) {
+                        project.developers = d;
+                        console.log('devvvs: ', project.developers)
+                        $scope.selectedProj.developers.push($scope.me);
+                        getDoughData();
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching tasks -> from controller');
                         $scope.errorMessage = errResponse.data.message;
                     }
                 );
@@ -42,7 +75,7 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
                 .then(
                     function(d) {
                         $scope.me = d;
-                        $scope.getData();
+                        fetchAllDevs($scope.selectedProj);
                     },
                     function(errResponse){
                         console.error('Error while fetching priorities -> from controller');
@@ -52,8 +85,7 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
         }
 
         $scope.getData = function(){
-            getHorizData();
-            getDoughData();
+            fetchAllTasks($scope.selectedProj);
         };
 
         function getDoughData () {
@@ -63,15 +95,14 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
             var complete = 0;
             var approved = 0;
 
-            if (user.authorities[0].authority == "TEAMLEAD"){
-                $scope.selectedProj.developers.push($scope.me);
-            }
             for (var i=0; i<$scope.selectedProj.developers.length; i++){
                 newTask = 0;
                 progress = 0;
                 complete = 0;
                 approved = 0;
+
                 var dev = $scope.selectedProj.developers[i];
+                console.log('tasks from doughnut: ', $scope.selectedProj.tasks);
                 for (var j=0; j<$scope.selectedProj.tasks.length; j++){
                     var task = $scope.selectedProj.tasks[j];
                     if (task.assignedTo != null && dev.email == task.assignedTo.email){
@@ -105,6 +136,7 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
             var complete = 0;
             var approved = 0;
 
+            console.log('tasks from getHorizData: ', $scope.selectedProj.tasks);
             for (var j=0; j<$scope.selectedProj.tasks.length; j++){
                 var task = $scope.selectedProj.tasks[j];
                 if (task.status == "NEW") {
