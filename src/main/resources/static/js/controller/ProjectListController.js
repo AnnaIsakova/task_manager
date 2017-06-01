@@ -6,7 +6,11 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
         $scope.project={};
         $scope.projects=[];
         $rootScope.projectInfo={};
-        $scope.user = JSON.parse(UserService.getCookieUser());
+        var user = JSON.parse(UserService.getCookieUser());
+        var projects = [];
+        var devs = [];
+        var tasks = [];
+
 
         fetchAllProjects();
 
@@ -14,14 +18,59 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
             CrudService.fetchAll('projects')
                 .then(
                     function(d) {
-                        $scope.projects = d;
-                        console.log($scope.projects)
+                        projects = d;
+                        console.log("proj d: ", projects)
+                        for (var i=0; i<projects.length; i++){
+                            fetchAllTasks(projects[i]);
+                            if (user.authorities[0].authority == "TEAMLEAD"){
+                                fetchAllDevs(projects[i]);
+                            }
+                        }
                     },
                     function(errResponse){
                         console.error('Error while fetching projects -> from controller');
                         $scope.errorMessage = errResponse.data.message;
                     }
                 );
+        }
+        
+        function fetchAllTasks(project){
+            CrudService.fetchAll('projects/' + project.id + '/tasks')
+                .then(
+                    function(d) {
+                        tasks = d;
+                        project.tasks = tasks;
+                        $scope.projects.push(project);
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching tasks -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        }
+
+        function fetchAllDevs(project){
+            CrudService.fetchAll('projects/' + project.id + '/devs')
+                .then(
+                    function(d) {
+                        project.developers = d;
+                        changeProj(project.id, project);
+                        console.log("projects: ", $scope.projects);
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching tasks -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        }
+
+        function changeProj( id, project) {
+            for (var i in $scope.projects) {
+                if ($scope.projects[i].id == id) {
+                    $scope.projects[i] = project;
+                    break; //Stop this loop, we found it!
+                }
+            }
         }
 
         $scope.showNewProject = function() {
@@ -41,10 +90,7 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
         $scope.getApproved = function(project) {
             var count = 0;
             for(var i=0;i<project.tasks.length;i++){
-                if (project.tasks[i].assignedTo == null){
-                    continue;
-                }
-                if (project.tasks[i].approved && project.tasks[i].assignedTo.email == $scope.user.name){
+                if (project.tasks[i].approved){
                     count++;
                 }
             }
@@ -54,10 +100,7 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
         $scope.getNew = function(project) {
             var count = 0;
             for(var i=0;i<project.tasks.length;i++){
-                if (project.tasks[i].assignedTo == null){
-                    continue;
-                }
-                if (project.tasks[i].status == "NEW" && project.tasks[i].assignedTo.email == $scope.user.name){
+                if (project.tasks[i].status == "NEW"){
                     count++;
                 }
             }
@@ -67,10 +110,7 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
         $scope.getMy = function (project) {
             var count = 0;
             for(var i=0;i<project.tasks.length;i++){
-                if (project.tasks[i].assignedTo == null){
-                    continue;
-                }
-                if (project.tasks[i].assignedTo.email == $scope.user.name){
+                if (project.tasks[i].assignedTo.email == user.name){
                     count++;
                 }
             }
