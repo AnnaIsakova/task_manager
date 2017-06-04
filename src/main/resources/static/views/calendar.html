@@ -28,15 +28,5 @@
         </select>
     </div>
 
-    <md-event-calendar
-            md-events="data"
-            auto-height=""
-            class="md-primary"
-    >
-        <md-event-calendar-header class="md-center">
-            <md-event-calendar-prev></md-event-calendar-prev>
-            <md-event-calendar-title></md-event-calendar-title>
-            <md-event-calendar-next></md-event-calendar-next>
-        </md-event-calendar-header>
-    </md-event-calendar>
+    <div ui-calendar class="span8 calendar" ng-model="eventSources"></div>
 </div>

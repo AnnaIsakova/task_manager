@@ -11,6 +11,10 @@ app.controller('CalendarController', ['$scope', '$rootScope', 'CrudService', 'Us
         $scope.selectedProj = $scope.projects[0];
         var tasks = [];
         $scope.data = [];
+        $scope.eventsF = function (start, end, timezone, callback) {
+            callback($scope.data);
+        };
+        $scope.eventSources = [$scope.data, $scope.eventsF];
 
         fetchAllProjects();
 
@@ -46,13 +50,14 @@ app.controller('CalendarController', ['$scope', '$rootScope', 'CrudService', 'Us
         }
         
         $scope.getData = function () {
-
             fetchTasks($scope.selectedProj.id);
-            console.log("data", $scope.data);
         };
+
+
 
         function getItems() {
             $scope.data = [];
+            var id;
             var title;
             var start;
             var end;
@@ -62,7 +67,9 @@ app.controller('CalendarController', ['$scope', '$rootScope', 'CrudService', 'Us
                 title = tasks[i].description;
                 start = new Date(tasks[i].createDate);
                 end = new Date(tasks[i].deadline);
+                id = i;
                 item = {
+                    _id: id,
                     title: title,
                     start: start,
                     end: end,
@@ -70,5 +77,11 @@ app.controller('CalendarController', ['$scope', '$rootScope', 'CrudService', 'Us
                 };
                 $scope.data.push(item);
             }
+            $scope.eventsF = function (start, end, timezone, callback) {
+                callback($scope.data);
+            };
+            $scope.eventSources = [$scope.data, $scope.eventsF];
         }
+
+
     }]);

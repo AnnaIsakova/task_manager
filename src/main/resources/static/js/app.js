@@ -10,7 +10,8 @@ var app = angular.module('app',[
     'ngSanitize',
     'ngFileSaver',
     'chart.js',
-    'material.components.eventCalendar'
+    'ui.bootstrap',
+    'ui.calendar'
 ]);
 
 app.run(function ($state, $rootScope, $http, UserService) {
