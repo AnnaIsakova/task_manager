@@ -50,7 +50,12 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
                 .then(
                     function(d) {
                         $scope.me = d;
+
+                        if($scope.developers == ''){
+                            $scope.developers = [];
+                        }
                         $scope.developers.push($scope.me);
+
                     },
                     function(errResponse){
                         console.error('Error while fetching priorities -> from controller');

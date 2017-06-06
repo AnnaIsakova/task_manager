@@ -75,8 +75,10 @@ app.controller('EditTaskController', ['$scope', '$rootScope', '$stateParams', 'c
                 .then(
                     function(d) {
                         $scope.me = d;
+                        if($scope.developers == ''){
+                            $scope.developers = [];
+                        }
                         $scope.developers.push($scope.me);
-                        console.log("devs for task: ", $scope.developers);
                     },
                     function(errResponse){
                         console.error('Error while fetching priorities -> from controller');
