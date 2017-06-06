@@ -2,7 +2,7 @@
 
 app.factory('CrudService', ['$http', '$q', function($http, $q){
 
-    var REST_SERVICE_URI = 'http://localhost:8080/api/';
+    var REST_SERVICE_URI = '/api/';
 
     var factory = {
         fetchAll: fetchAll,

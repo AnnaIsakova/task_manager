@@ -2,7 +2,7 @@
 
 app.factory('TaskService', ['$http', '$q', function($http, $q){
 
-    var REST_SERVICE_URI = 'http://localhost:8080/api/projects/';
+    var REST_SERVICE_URI = '/api/projects/';
 
     var factory = {
         approveTask: approveTask,

@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>Annanas Manager</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Task manager with Spring Boot and AngularJS</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -22,7 +22,18 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+
 	</properties>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 	<dependencies>
 		<dependency>
@@ -80,15 +91,5 @@
 			<version>4.3.11.Final</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 
 </project>

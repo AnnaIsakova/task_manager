@@ -2,14 +2,12 @@
 
 app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($http, $q, $cookies, $rootScope){
 
-    var REST_SERVICE_URI = 'http://localhost:8080/';
     var user = {};
     var header = '';
 
     var factory = {
         fetchAllUsers: fetchAllUsers,
         createUser: createUser,
-        updateUser:updateUser,
         login:login,
         logout:logout,
         setCookieData:setCookieData,
@@ -22,7 +20,7 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
     
     function fetchAllUsers() {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + 'api/user/')
+        $http.get('/api/user/')
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -39,7 +37,7 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
     function createUser(user) {
         var deferred = $q.defer();
         var user_json = angular.toJson(user);
-        $http.post(REST_SERVICE_URI + 'register', user_json)
+        $http.post('/register', user_json)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -55,7 +53,7 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
     
     function login(base64Credential) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + 'sign_up', {
+        $http.get('/sign_up', {
             headers : {
                 // setting the Authorization Header
                 'Authorization' : 'Basic ' + base64Credential
@@ -76,22 +74,6 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
     function logout() {
         $http.defaults.headers.common['Authorization'] = null;
         clearCookieData();
-    }
-
-
-    function updateUser(user, id) {
-        var deferred = $q.defer();
-        $http.put(REST_SERVICE_URI+id, user)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function(errResponse){
-                    console.error('Error while updating User');
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
     }
     
     function setCookieData(user, header) {

@@ -2,7 +2,7 @@
 
 app.factory('FileService', ['$http', '$q', '$window', '$rootScope','Blob', 'FileSaver', function($http, $q, $window, $rootScope, Blob, FileSaver){
 
-    var REST_SERVICE_URI = 'http://localhost:8080/api/';
+    var REST_SERVICE_URI = '/api/';
 
     var factory = {
         uploadFile:uploadFile,
