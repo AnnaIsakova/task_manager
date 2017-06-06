@@ -68,39 +68,6 @@ public class Project {
 
     public ProjectDTO toDTO() {
         ProjectDTO projectDTO = new ProjectDTO(id, name, description, details, createdBy.toDTO(), createDate, deadline);
-
-//        try {
-//            List<DeveloperDTO> developersDTO = new ArrayList<>();
-//            for (Developer dev : this.developers) {
-//                developersDTO.add(dev.toDTO());
-//            }
-//            projectDTO.setDevelopers(developersDTO);
-//        } catch (NullPointerException ex){}
-//
-//        try {
-//            List<FileForProjectDTO> filesDTO = new ArrayList<>();
-//            for (FileForProject file : this.files) {
-//                filesDTO.add(file.toDTO());
-//            }
-//            projectDTO.setFiles(filesDTO);
-//        } catch (NullPointerException ex){}
-//
-//        try {
-//            List<CommentForProjectDTO> commentsDTO = new ArrayList<>();
-//            for (CommentForProject comment:this.comments) {
-//                commentsDTO.add(comment.toDTO());
-//            }
-//            projectDTO.setComments(commentsDTO);
-//        } catch (NullPointerException ex){}
-//
-//        try {
-//            List<TaskForProjectDTO> tasksDTO = new ArrayList<>();
-//            for (TaskForProject task:this.tasks) {
-//                tasksDTO.add(task.toDTO());
-//            }
-//            projectDTO.setTasks(tasksDTO);
-//        } catch (NullPointerException ex){}
-
         return projectDTO;
     }
 

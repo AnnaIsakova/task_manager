@@ -20,33 +20,9 @@ public class ProjectDTO {
     private CustomUserDTO createdBy;
     private Date createDate;
     private Calendar deadline;
-//    private List<DeveloperDTO> developers;
-//    private List<FileForProjectDTO> files;
-//    private List<CommentForProjectDTO> comments;
-//    private List<TaskForProjectDTO> tasks;
 
     public ProjectDTO() {
     }
-
-//    public ProjectDTO(long id,
-//                      String name,
-//                      String description,
-//                      String details,
-//                      CustomUserDTO createdBy,
-//                      Date createDate,
-//                      Calendar deadline) {
-//        this.name = name;
-//        this.id = id;
-//        this.description = description;
-//        this.details = details;
-//        this.createdBy = createdBy;
-//        this.createDate = createDate;
-//        this.deadline = deadline;
-////        this.developers = developers;
-////        this.files = files;
-////        this.comments = comments;
-////        this.tasks = tasks;
-//    }
 
     public ProjectDTO(long id, String name, String description, String details, CustomUserDTO createdBy, Date createDate, Calendar deadline) {
         this.id = id;
@@ -114,37 +90,6 @@ public class ProjectDTO {
         this.deadline = deadline;
     }
 
-//    public List<DeveloperDTO> getDevelopers() {
-//        return developers;
-//    }
-//
-//    public void setDevelopers(List<DeveloperDTO> developers) {
-//        this.developers = developers;
-//    }
-//
-//    public List<FileForProjectDTO> getFiles() {
-//        return files;
-//    }
-//
-//    public void setFiles(List<FileForProjectDTO> files) {
-//        this.files = files;
-//    }
-//
-//    public List<CommentForProjectDTO> getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(List<CommentForProjectDTO> comments) {
-//        this.comments = comments;
-//    }
-//
-//    public List<TaskForProjectDTO> getTasks() {
-//        return tasks;
-//    }
-//
-//    public void setTasks(List<TaskForProjectDTO> tasks) {
-//        this.tasks = tasks;
-//    }
 
     @Override
     public String toString() {
