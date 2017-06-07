@@ -1,6 +1,5 @@
 package annanas_manager.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,15 +8,10 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.persistence.EntityManagerFactory;
@@ -27,7 +21,6 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:config.properties")
 @EnableTransactionManagement
-//@EnableWebMvc
 public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Value("${hibernate.dialect}")
@@ -36,6 +29,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Value("${hbm2ddl.auto}")
     private String hbm2dllAuto;
 
+    //redirect for angularjs html5 mode
     @Controller
     static class Routes {
 
@@ -81,7 +75,4 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         adapter.setDatabasePlatform(sqlDialect);
         return adapter;
     }
-
-
-
 }
