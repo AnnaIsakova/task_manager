@@ -92,7 +92,6 @@ public class TodoController {
 
 
     private void ignoreDeadlineTime(Calendar deadline){
-//        deadline.set(Calendar.HOUR_OF_DAY, 0);
         deadline.set(Calendar.MINUTE, 0);
         deadline.set(Calendar.SECOND, 0);
         deadline.set(Calendar.MILLISECOND, 0);

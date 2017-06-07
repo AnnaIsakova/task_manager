@@ -2,13 +2,11 @@ package annanas_manager.controllers;
 
 
 import annanas_manager.DTO.TaskForProjectDTO;
-import annanas_manager.entities.TaskForProject;
 import annanas_manager.entities.enums.TaskStatus;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.exceptions.TaskException;
 import annanas_manager.exceptions.TaskForProjectException;
-import annanas_manager.services.ProjectService;
 import annanas_manager.services.TaskForProjectService;
 import annanas_manager.validators.TaskForProjectValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +47,10 @@ public class ProjectTasksController {
             BindingResult bindingResult) throws ProjectException
     {
         ignoreDeadlineTime(taskDTO.getDeadline());
-        System.out.println(taskDTO.toString());
         taskValidator.validate(taskDTO, bindingResult);
         if (bindingResult.hasErrors()){
             throw new ProjectException("Invalid task form", HttpStatus.BAD_REQUEST);
         }
-        System.out.println("dfdfdf");
         taskService.addTask(project_id, taskDTO, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }

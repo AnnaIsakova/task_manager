@@ -1,9 +1,7 @@
 package annanas_manager.controllers;
 
 
-import annanas_manager.DTO.CommentForProjectDTO;
 import annanas_manager.DTO.CommentForTaskDTO;
-import annanas_manager.entities.CommentForTask;
 import annanas_manager.exceptions.CommentException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;

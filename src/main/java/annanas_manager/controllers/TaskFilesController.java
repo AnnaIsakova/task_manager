@@ -1,34 +1,23 @@
 package annanas_manager.controllers;
 
 
-import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.DTO.FileForTaskDTO;
-import annanas_manager.entities.FileForTask;
 import annanas_manager.exceptions.CustomFileException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.exceptions.TaskException;
 import annanas_manager.services.FilesForTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.Principal;
 import java.util.List;
-
-import static annanas_manager.services.impl.FilesForProjectServiceImpl.DIR_PATH;
 
 @RestController
 public class TaskFilesController {
@@ -56,21 +45,9 @@ public class TaskFilesController {
             @PathVariable("task_id") long taskId,
             @PathVariable("file_id") long file_id,
             Principal principal,
-            HttpServletResponse response) throws ProjectException, CustomFileException, IOException, TaskException {
+            HttpServletResponse response) throws ProjectException, CustomFileException, TaskException, IOException {
         FileForTaskDTO fileDTO = fileService.getFile(projectId,taskId, file_id, principal.getName());
-        try {
-            File file = new File(DIR_PATH + fileDTO.getCurrentTime() + "-" + fileDTO.getName());
-            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-            String type = Files.probeContentType(file.toPath());
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("File-Name", fileDTO.getName());
-            headers.setContentType(MediaType.parseMediaType(type));
-            return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-        } catch (FileNotFoundException ex) {
-            throw new FileNotFoundException("File not found");
-        } catch (IOException e) {
-            throw new IOException();
-        }
+        return Helper.getFile(fileDTO.getName(), fileDTO.getCurrentTime());
     }
 
     @RequestMapping(value = "/api/projects/{proj_id}/tasks/{task_id}/files/delete", method = RequestMethod.POST)

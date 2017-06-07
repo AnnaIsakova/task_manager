@@ -2,7 +2,6 @@ package annanas_manager.controllers;
 
 
 import annanas_manager.DTO.CustomUserDTO;
-import annanas_manager.entities.CustomUser;
 import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.services.CustomUserService;
@@ -14,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -48,9 +46,8 @@ public class UserController {
             @RequestBody CustomUserDTO userDTO,
             BindingResult bindingResult,
             Principal principal) throws CustomUserException {
-        System.out.println(userDTO);
+        userValidator.validate(userDTO, bindingResult);
         if (bindingResult.hasErrors()){
-            System.out.println("errors from validator: " + bindingResult.getAllErrors());
             throw new CustomUserException("Invalid form", HttpStatus.BAD_REQUEST);
         }
         customUserService.edit(userDTO, principal.getName());

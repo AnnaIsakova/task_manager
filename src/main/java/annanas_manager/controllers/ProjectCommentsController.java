@@ -6,7 +6,6 @@ import annanas_manager.exceptions.CommentException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.services.CommentForProjectService;
-import annanas_manager.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -4,7 +4,6 @@ package annanas_manager.controllers;
 import annanas_manager.DTO.ProjectDTO;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
-import annanas_manager.services.CustomUserService;
 import annanas_manager.services.ProjectService;
 import annanas_manager.validators.ProjectValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,6 @@ public class ProjectController {
     @RequestMapping(value = "api/projects", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<ProjectDTO>> getAllProjects(Principal principal) {
-        System.out.println(principal.getName());
         List<ProjectDTO> projects = projectService.findByUser(principal.getName());
         if(projects.isEmpty()){
             return new ResponseEntity<List<ProjectDTO>>(HttpStatus.NO_CONTENT);
@@ -41,9 +39,7 @@ public class ProjectController {
     public ResponseEntity<ProjectDTO> getProject(
             @PathVariable("id") long id,
             Principal principal) throws ProjectException {
-        System.out.println(id);
         ProjectDTO project = projectService.findById(id, principal.getName());
-        System.out.println("OK1");
         if(project == null){
             return new ResponseEntity<ProjectDTO>(HttpStatus.NO_CONTENT);
         }

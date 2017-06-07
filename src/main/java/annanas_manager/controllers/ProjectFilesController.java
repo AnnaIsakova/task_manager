@@ -53,21 +53,7 @@ public class ProjectFilesController {
             Principal principal,
             HttpServletResponse response) throws ProjectException, CustomFileException, IOException {
         FileForProjectDTO fileDTO = filesForProjectService.getFile(project_id, file_id, principal.getName());
-        try {
-            File file = new File(DIR_PATH + fileDTO.getCurrentTime() + "-" + fileDTO.getName());
-            System.out.println(DIR_PATH + fileDTO.getName());
-            System.out.println(file.getName());
-            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-            String type = Files.probeContentType(file.toPath());
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("File-Name", fileDTO.getName());
-            headers.setContentType(MediaType.parseMediaType(type));
-            return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-        } catch (FileNotFoundException ex) {
-            throw new FileNotFoundException("File not found");
-        } catch (IOException e) {
-            throw new IOException();
-        }
+        return Helper.getFile(fileDTO.getName(), fileDTO.getCurrentTime());
     }
 
     @RequestMapping(value = "/api/projects/{id}/files/delete", method = RequestMethod.POST)

@@ -2,16 +2,13 @@ package annanas_manager.controllers;
 
 
 import annanas_manager.DTO.DeveloperDTO;
-import annanas_manager.DTO.FileForProjectDTO;
 import annanas_manager.exceptions.CustomUserException;
 import annanas_manager.exceptions.ErrorResponse;
 import annanas_manager.exceptions.ProjectException;
 import annanas_manager.services.DeveloperService;
-import annanas_manager.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -40,7 +37,6 @@ public class ProjectDevelopersController {
             @RequestParam("keep_tasks") boolean keepTasks,
             Principal principal
     ) throws ProjectException, CustomUserException {
-        System.out.println(keepTasks);
         developerService.deleteDeveloper(projectId, devId, keepTasks, principal.getName());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
