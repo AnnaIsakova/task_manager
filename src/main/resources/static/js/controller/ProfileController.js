@@ -17,7 +17,7 @@ app.controller('ProfileController', ['$http', '$scope', '$rootScope', '$state', 
                     },
                     function(errResponse){
                         console.error('Error while fetching priorities -> from controller');
-                        $scope.errorMessage = "Oops, error while fetching priorities occurred :(\nPlease, try again later!";
+                        $scope.errorMessage = errResponse.data.message;
                     }
                 );
         }
@@ -30,8 +30,13 @@ app.controller('ProfileController', ['$http', '$scope', '$rootScope', '$state', 
                 controller: "EditUserController"
             }).then(function(modal) {
                 modal.element.modal({backdrop: 'static'});
-                modal.close.then(function(result) {
-                    fetchMe();
+                modal.close.then(function(clearCookie) {
+                    console.log("clearCookie: ", clearCookie)
+                    if (clearCookie){
+                        $state.go("login");
+                    } else{
+                        fetchMe();
+                    }
                 });
             });
         };

@@ -1,13 +1,13 @@
 'use strict';
 
-app.controller('EditUserController', ['$scope', '$rootScope', '$http', 'close', 'CrudService', 'UserService',
-    function($scope, $rootScope, $http, close, CrudService, UserService) {
+app.controller('EditUserController', ['$scope', '$rootScope', '$http', '$state', 'close', 'CrudService', 'UserService',
+    function($scope, $rootScope, $http, $state, close, CrudService, UserService) {
 
         var oldUser = $rootScope.userForEdit;
         $scope.user = angular.copy(oldUser);
         $scope.password = '';
         $scope.confirmPassword = '';
-        var clearCoockie = false;
+        var clearCookie = false;
 
         function editUser (user) {
             console.log('user for editing: ', user);
@@ -16,9 +16,11 @@ app.controller('EditUserController', ['$scope', '$rootScope', '$http', 'close', 
                     function(d) {
                         // $scope.user = d;
                         $('#editProfileModal').modal('hide');
-                        close(user, 500);
-                        if(clearCoockie){
-                            login(user.email, user.password);
+                        close(clearCookie, 500);
+                        if(clearCookie){
+                            console.log("user email: ", user.email);
+                            console.log("user password: ", user.password);
+                            clearCookie = false;
                         }
                     },
                     function(errResponse){
@@ -32,11 +34,12 @@ app.controller('EditUserController', ['$scope', '$rootScope', '$http', 'close', 
             if (result.email == undefined){
                 result.email = oldUser.email;
             }
-            if (result.email != undefined || $scope.password != ''){
+            console.log("result.email != oldUser.email || $scope.password != ''", result.email != oldUser.email || $scope.password != '')
+            if (result.email != oldUser.email || $scope.password != ''){
                 if ($scope.password == $scope.confirmPassword){
                     result.password = $scope.password;
                     UserService.clearCookieData();
-                    clearCoockie = true;
+                    clearCookie = true;
                 } else {
                     $scope.errorMessage = "Password and confirm password don't match";
                 }

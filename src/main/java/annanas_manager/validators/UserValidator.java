@@ -16,6 +16,7 @@ public class UserValidator implements Validator {
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^(\\S+)@(\\S+)\\.(\\S+)$", Pattern.CASE_INSENSITIVE);
 
+    private boolean editingUser = false;
     @Override
     public boolean supports(Class<?> aClass) {
         return CustomUserDTO.class.equals(aClass);
@@ -40,17 +41,23 @@ public class UserValidator implements Validator {
         if (!isValidEmail(customUser.getEmail())){
             errors.rejectValue("email", "Invalid.email");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (customUser.getPassword().length() < 5 || customUser.getPassword().length() > 32) {
-            errors.rejectValue("password", "Size.password");
-        }
-        if (customUser.getUserRole() == null) {
-            errors.reject("role");
+        if (!editingUser){
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
+            if (customUser.getPassword().length() < 5 || customUser.getPassword().length() > 32) {
+                errors.rejectValue("password", "Size.password");
+            }
+            if (customUser.getUserRole() == null) {
+                errors.reject("role");
+            }
         }
     }
 
     private boolean isValidEmail(String email) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
         return matcher.find();
+    }
+
+    public void setEditingUser(boolean editingUser) {
+        this.editingUser = editingUser;
     }
 }

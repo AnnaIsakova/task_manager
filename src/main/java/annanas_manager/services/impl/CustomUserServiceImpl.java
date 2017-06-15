@@ -84,7 +84,7 @@ public class CustomUserServiceImpl implements CustomUserService, UserDetailsServ
         user.setFirstName(customUserDTO.getFirstName());
         user.setLastName(customUserDTO.getLastName());
         user.setEmail(customUserDTO.getEmail());
-        if (!user.getPassword().equals(customUserDTO.getPassword())){
+        if (!customUserDTO.getPassword().isEmpty() && !user.getPassword().equals(customUserDTO.getPassword())){
             String encryptedPass = bCryptPasswordEncoder.encode(customUserDTO.getPassword());
             user.setPassword(encryptedPass);
         }

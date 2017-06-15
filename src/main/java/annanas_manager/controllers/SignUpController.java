@@ -33,7 +33,7 @@ public class SignUpController {
     public ResponseEntity<Void> createUser(
             @RequestBody CustomUserDTO user,
             BindingResult bindingResult) throws CustomUserException {
-
+        userValidator.setEditingUser(false);
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()){
             throw new CustomUserException("Invalid user form", HttpStatus.BAD_REQUEST);

@@ -46,6 +46,8 @@ public class UserController {
             @RequestBody CustomUserDTO userDTO,
             BindingResult bindingResult,
             Principal principal) throws CustomUserException {
+        System.out.println(userDTO.getPassword());
+        userValidator.setEditingUser(true);
         userValidator.validate(userDTO, bindingResult);
         if (bindingResult.hasErrors()){
             throw new CustomUserException("Invalid form", HttpStatus.BAD_REQUEST);
