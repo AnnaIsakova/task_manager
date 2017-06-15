@@ -3,7 +3,6 @@ package annanas_manager.services.impl;
 
 import annanas_manager.DTO.CommentForTaskDTO;
 import annanas_manager.entities.CommentForTask;
-import annanas_manager.entities.CustomUser;
 import annanas_manager.entities.Project;
 import annanas_manager.entities.TaskForProject;
 import annanas_manager.exceptions.CommentException;
