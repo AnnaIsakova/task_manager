@@ -9,7 +9,7 @@ app.controller('ProfileController', ['$http', '$scope', '$rootScope', '$state', 
         fetchMe();
 
         function fetchMe() {
-            console.log(usrId);
+            console.log("user cookie::: ", UserService.getCookieUser());
             CrudService.fetchOne('users', usrId)
                 .then(
                     function(d) {
@@ -30,9 +30,9 @@ app.controller('ProfileController', ['$http', '$scope', '$rootScope', '$state', 
                 controller: "EditUserController"
             }).then(function(modal) {
                 modal.element.modal({backdrop: 'static'});
-                modal.close.then(function(clearCookie) {
-                    console.log("clearCookie: ", clearCookie)
-                    if (clearCookie){
+                modal.close.then(function(reLogin) {
+                    console.log("reLogin: ", reLogin)
+                    if (reLogin){
                         $state.go("login");
                     } else{
                         fetchMe();
