@@ -34,7 +34,7 @@ public class FilesForTaskServiceImpl implements FilesForTaskService {
     @Autowired
     private TaskForProjectRepository taskRepository;
 
-    public static final String DIR_PATH = "D:\\Study_prog\\Java\\AnnanasManager\\src\\main\\resources\\static\\uploaded_files\\";
+    public static final String DIR_PATH = "/home/motordread/uploads/";
 
     @Override
     public void addFile(long projectId, long taskId, MultipartFile multipartFile, String emailCreatedBy) throws ProjectException, CustomFileException, TaskException {

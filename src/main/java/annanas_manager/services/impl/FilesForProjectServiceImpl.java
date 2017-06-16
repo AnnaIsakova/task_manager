@@ -32,7 +32,7 @@ public class FilesForProjectServiceImpl implements FilesForProjectService{
     @Autowired
     private CustomUserRepository userRepository;
 
-    public static final String DIR_PATH = "D:\\Study_prog\\Java\\AnnanasManager\\src\\main\\resources\\static\\uploaded_files\\";
+    public static final String DIR_PATH = "/home/motordread/uploads/";
 
     @Override
     public void addFile(long id, MultipartFile multipartFile, String emailCreatedBy) throws ProjectException, CustomFileException {
