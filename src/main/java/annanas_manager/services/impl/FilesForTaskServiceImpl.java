@@ -64,7 +64,7 @@ public class FilesForTaskServiceImpl implements FilesForTaskService {
             throw new NullPointerException("Project does not exist");
         }
         TaskForProject task = taskRepository.findOne(taskId);
-        if (!project.getCreatedBy().getEmail().equals(email) || !task.getAssignedTo().getEmail().equals(email)) {
+        if (!project.getCreatedBy().getEmail().equals(email) && !task.getAssignedTo().getEmail().equals(email)) {
             throw new TaskException("You have no permission to download file from this task", HttpStatus.FORBIDDEN);
         }
 
