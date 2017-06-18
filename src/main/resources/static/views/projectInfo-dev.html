@@ -34,7 +34,7 @@
                 <span ng-if="comment.lastModified != null">last modified on {{comment.lastModified | date:'mediumDate'}}</span>
                 <div class="f-r" ng-if="comment.userFrom.email == user.name">
                     <a href ng-click="toggleEditingComment(comment)"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
-                    <a href ng-click="deleteComment(comment.id)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                    <a href ng-click="deleteComment(comment)"><i class="fa fa-times" aria-hidden="true"></i></a>
                 </div>
                 <div class="p-l-20">
                     <span ng-hide="comment.editingComment">{{comment.text}}</span>
