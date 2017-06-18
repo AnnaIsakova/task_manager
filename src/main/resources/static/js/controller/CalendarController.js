@@ -34,12 +34,10 @@ app.controller('CalendarController', ['$scope', '$rootScope', 'CrudService', 'Us
         }
 
         function fetchTasks(id){
-            console.log("proj id: ", id);
             CrudService.fetchAll('projects/' + id + '/tasks')
                 .then(
                     function(d) {
                         tasks = d;
-                        console.log("tasks: ", tasks)
                         getItems();
                     },
                     function(errResponse){

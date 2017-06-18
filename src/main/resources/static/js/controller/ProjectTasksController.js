@@ -118,7 +118,6 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
         };
 
         $scope.openEdit = function (task) {
-            console.log('open editing: ', task);
             $rootScope.taskForEdit = task;
             ModalService.showModal({
                 templateUrl: '/views/editProjTask.html',

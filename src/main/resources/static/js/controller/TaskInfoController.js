@@ -24,7 +24,6 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
         $scope.commentForm = false;
         $scope.toggleCommentForm = function() {
             $scope.commentForm = !$scope.commentForm;
-            console.log($scope.commentForm)
         };
 
 
@@ -80,7 +79,6 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
 
 
         $scope.openEdit = function (task) {
-            console.log('open editing: ', task);
             $rootScope.taskForEdit = task;
             ModalService.showModal({
                 templateUrl: '/views/editProjTask.html',
@@ -126,9 +124,6 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
 
         $scope.uploadFile = function(){
             var file = $rootScope.file;
-
-            console.log('file is ', file);
-            console.dir(file);
 
             FileService.uploadFile('projects/' + $scope.prId + '/tasks/' + $scope.taskId + '/files', file)
                 .then(
@@ -219,7 +214,6 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
                     function(d) {
                         fetchAllComments();
                         comment.editingComment = !comment.editingComment;
-                        console.log("new text: ", comment.text)
                     },
                     function(errResponse){
                         console.error('Error while adding developer -> from controller');
@@ -267,7 +261,6 @@ app.controller('TaskInfoController', ['$scope', '$rootScope', '$state', '$http',
         }
 
         function getTaskCompletedProgress() {
-            console.log($scope.task);
             if ($scope.task.status == "NEW"){
                 $scope.taskProgress = 0;
             } else if ($scope.task.status == "IN_PROGRESS"){

@@ -36,8 +36,6 @@ app.controller('NewProjectController', ['$scope', '$rootScope', '$state', '$http
         }
 
         $scope.submit = function (result) {
-            console.log(angular.toJson(result));
-            console.log('deadline-> ', result.deadline);
             var name;
             for (name in CKEDITOR.instances) {
                 CKEDITOR.instances[name].destroy(true);

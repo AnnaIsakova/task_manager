@@ -29,7 +29,6 @@ app.factory('TaskService', ['$http', '$q', function($http, $q){
 
     function changeStatus(projId, taskId, status) {
         var deferred = $q.defer();
-        console.log(REST_SERVICE_URI  +projId+ '/tasks/' + taskId +'?status=' + status)
         $http.post(REST_SERVICE_URI  +projId+ '/tasks/' + taskId +'?status=' + status)
             .then(
                 function (response) {
@@ -45,7 +44,6 @@ app.factory('TaskService', ['$http', '$q', function($http, $q){
 
     function deleteDeveloper(name, id, keepTasks) {
         var deferred = $q.defer();
-        console.log(REST_SERVICE_URI + name + '/delete?id=' + id + '&keep_tasks=' + keepTasks)
         $http.post(REST_SERVICE_URI + name + '/delete?id=' + id + '&keep_tasks=' + keepTasks)
             .then(
                 function (response) {

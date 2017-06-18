@@ -21,7 +21,6 @@ app.factory('FileService', ['$http', '$q', '$window', '$rootScope','Blob', 'File
         })
             .then(
                 function (response) {
-                    console.log("file uploaded");
                     deferred.resolve(response.data);
                 },
                 function(errResponse){
@@ -34,7 +33,6 @@ app.factory('FileService', ['$http', '$q', '$window', '$rootScope','Blob', 'File
 
     function downloadFile(name, fileId) {
         var deferred = $q.defer();
-        console.log(fileId);
         $http({
             method: 'GET',
             url: REST_SERVICE_URI + name + '/' + fileId,
@@ -48,7 +46,6 @@ app.factory('FileService', ['$http', '$q', '$window', '$rootScope','Blob', 'File
                     FileSaver.saveAs(blob, fileName);
                 },
                 function(errResponse){
-                    console.log(errResponse);
                     deferred.reject(errResponse);
                 }
             );

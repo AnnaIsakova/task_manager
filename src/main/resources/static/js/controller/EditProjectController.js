@@ -31,12 +31,10 @@ app.controller('EditProjectController', ['$scope', '$rootScope', 'close', 'CrudS
             } else {
                 $scope.invalidDate = false;
             }
-            console.log($scope.invalidDate)
         }
 
 
         function editProject (project) {
-            console.log('project for editing: ', project);
             CrudService.updateObj('projects', project)
                 .then(
                     function(d) {
@@ -52,7 +50,6 @@ app.controller('EditProjectController', ['$scope', '$rootScope', 'close', 'CrudS
         };
 
         $scope.submit = function (result) {
-            console.log(angular.toJson(result));
             var name;
             for (name in CKEDITOR.instances) {
                 CKEDITOR.instances[name].destroy(true);

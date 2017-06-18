@@ -4,7 +4,6 @@ app.controller('DeleteController', ['$scope', '$rootScope', 'close', 'CrudServic
     function($scope, $rootScope, close, CrudService) {
 
         $scope.delete = function (link, id, modal) {
-            console.log('deleting: ', id);
 
             CrudService.deleteObj(link, id)
                 .then(
@@ -25,7 +24,6 @@ app.controller('DeleteController', ['$scope', '$rootScope', 'close', 'CrudServic
         }
 
         $scope.DeleteDeveloper = function (link, id, keepTasks, modal) {
-            console.log('deleting: ', id);
 
             CrudService.deleteDeveloper(link, id, keepTasks)
                 .then(

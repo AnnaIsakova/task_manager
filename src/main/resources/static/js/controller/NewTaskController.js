@@ -78,13 +78,10 @@ app.controller('NewTaskController', ['$scope', '$rootScope', '$state', '$http', 
         }
 
         $scope.submit = function (result) {
-            console.log(angular.toJson(result));
-            console.log('result-> ', result);
             var name;
             for (name in CKEDITOR.instances) {
                 CKEDITOR.instances[name].destroy(true);
             }
-            console.log(result.assignedTo);
             createTask(result);
         };
 

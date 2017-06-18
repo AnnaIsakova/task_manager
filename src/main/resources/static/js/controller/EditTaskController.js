@@ -101,7 +101,6 @@ app.controller('EditTaskController', ['$scope', '$rootScope', '$stateParams', 'c
         }
 
         function editTask (task) {
-            console.log('task for editing: ', task);
             CrudService.updateObj('projects/' + $stateParams.projectID + '/tasks', task)
                 .then(
                     function(d) {
@@ -117,7 +116,6 @@ app.controller('EditTaskController', ['$scope', '$rootScope', '$stateParams', 'c
         };
 
         $scope.submit = function (result) {
-            console.log(angular.toJson(result));
             editTask(result);
             var name;
             for (name in CKEDITOR.instances) {

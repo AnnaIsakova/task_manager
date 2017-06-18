@@ -40,8 +40,6 @@ app.controller('NewTodoController', ['$scope', '$rootScope', '$state', '$http', 
         }
 
         $scope.submit = function (result) {
-            console.log(angular.toJson(result));
-            console.log('deadline-> ', result.deadline);
             createTask(result);
         };
 

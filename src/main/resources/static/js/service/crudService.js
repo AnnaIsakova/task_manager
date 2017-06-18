@@ -17,12 +17,10 @@ app.factory('CrudService', ['$http', '$q', function($http, $q){
 
     function fetchAll(entity) {
         var deferred = $q.defer();
-        console.log(REST_SERVICE_URI + entity)
         $http.get(REST_SERVICE_URI + entity)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
-                    console.log(response.data);
                 },
                 function(errResponse){
                     console.error('Error while fetching ' + entity);
@@ -34,12 +32,10 @@ app.factory('CrudService', ['$http', '$q', function($http, $q){
 
     function fetchOne(entity, id) {
         var deferred = $q.defer();
-        console.log(REST_SERVICE_URI + entity + '/' + id)
         $http.get(REST_SERVICE_URI + entity + '/' + id)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
-                    console.log(response.data);
                 },
                 function (errResponse) {
                     console.error('Error while fetching this ' + entity);
@@ -51,7 +47,6 @@ app.factory('CrudService', ['$http', '$q', function($http, $q){
 
     function createObj(name, object) {
         var deferred = $q.defer();
-        console.log(REST_SERVICE_URI + name + '/new')
         $http.post(REST_SERVICE_URI + name + '/new', object)
             .then(
                 function (response) {
@@ -84,7 +79,6 @@ app.factory('CrudService', ['$http', '$q', function($http, $q){
 
     function deleteObj(name, id) {
         var deferred = $q.defer();
-        console.log(REST_SERVICE_URI + name + '/delete?id=' + id)
         $http.post(REST_SERVICE_URI + name + '/delete?id=' + id)
             .then(
                 function (response) {
@@ -100,7 +94,6 @@ app.factory('CrudService', ['$http', '$q', function($http, $q){
 
     function deleteDeveloper(name, id, keepTasks) {
         var deferred = $q.defer();
-        console.log(REST_SERVICE_URI + name + '/delete?id=' + id + '&keep_tasks=' + keepTasks)
         $http.post(REST_SERVICE_URI + name + '/delete?id=' + id + '&keep_tasks=' + keepTasks)
             .then(
                 function (response) {

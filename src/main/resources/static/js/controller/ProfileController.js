@@ -9,7 +9,6 @@ app.controller('ProfileController', ['$http', '$scope', '$rootScope', '$state', 
         fetchMe();
 
         function fetchMe() {
-            console.log("user cookie::: ", UserService.getCookieUser());
             CrudService.fetchOne('users', usrId)
                 .then(
                     function(d) {
@@ -23,7 +22,6 @@ app.controller('ProfileController', ['$http', '$scope', '$rootScope', '$state', 
         }
 
         $scope.openEdit = function (user) {
-            console.log('open editing: ', user);
             $rootScope.userForEdit = user;
             ModalService.showModal({
                 templateUrl: '/views/editUser.html',
@@ -31,7 +29,6 @@ app.controller('ProfileController', ['$http', '$scope', '$rootScope', '$state', 
             }).then(function(modal) {
                 modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(reLogin) {
-                    console.log("reLogin: ", reLogin)
                     if (reLogin){
                         $state.go("login");
                     } else{

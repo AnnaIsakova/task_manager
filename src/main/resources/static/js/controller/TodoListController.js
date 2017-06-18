@@ -39,7 +39,6 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
         };
 
         $scope.openEdit = function (task) {
-            console.log('open editing: ', task);
             $rootScope.taskForEdit = task;
             ModalService.showModal({
                 templateUrl: '/views/editTodoTask.html',
@@ -54,7 +53,6 @@ app.controller('TodoListController', ['$scope', '$rootScope', '$state', '$http',
         };
 
         $scope.openDelete = function (id) {
-            console.log('open deleting: ', id);
             $rootScope.taskId = id;
             ModalService.showModal({
                 templateUrl: '/views/confirmTodoDelete.html',

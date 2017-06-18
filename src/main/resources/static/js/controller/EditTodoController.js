@@ -34,7 +34,6 @@ app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'CrudServ
                 .then(
                     function(d) {
                         $scope.priorities = d;
-                        console.log($scope.task.deadline - new Date());
                     },
                     function(errResponse){
                         console.error('Error while fetching priorities -> from controller');
@@ -57,7 +56,6 @@ app.controller('EditTodoController', ['$scope', '$rootScope', 'close', 'CrudServ
         }
 
         $scope.edit = function (task) {
-            console.log('task for editing: ', task);
             CrudService.updateObj('todo', task)
                 .then(
                     function(d) {

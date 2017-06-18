@@ -25,7 +25,6 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
                 .then(
                     function(d) {
                         $scope.projects = d;
-                        console.log($scope.projects)
                         $scope.selectedProj = $scope.projects[0];
                         fetchAllTasks($scope.selectedProj);
                     },
@@ -59,7 +58,6 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
                 .then(
                     function(d) {
                         project.developers = d;
-                        console.log('devvvs: ', project.developers)
                         $scope.selectedProj.developers.push($scope.me);
                         getDoughData();
                     },
@@ -102,7 +100,6 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
                 approved = 0;
 
                 var dev = $scope.selectedProj.developers[i];
-                console.log('tasks from doughnut: ', $scope.selectedProj.tasks);
                 for (var j=0; j<$scope.selectedProj.tasks.length; j++){
                     var task = $scope.selectedProj.tasks[j];
                     if (task.assignedTo != null && dev.email == task.assignedTo.email){
@@ -136,7 +133,6 @@ app.controller('ChartController', ['$scope', '$rootScope', 'CrudService', 'UserS
             var complete = 0;
             var approved = 0;
 
-            console.log('tasks from getHorizData: ', $scope.selectedProj.tasks);
             for (var j=0; j<$scope.selectedProj.tasks.length; j++){
                 var task = $scope.selectedProj.tasks[j];
                 if (task.status == "NEW") {

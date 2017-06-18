@@ -24,7 +24,6 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         $scope.commentForm = false;
         $scope.toggleCommentForm = function() {
             $scope.commentForm = !$scope.commentForm;
-            console.log($scope.commentForm)
         };
 
 
@@ -101,7 +100,6 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                 .then(
                     function(d) {
                         $scope.project.developers = d;
-                        console.log('devs: ', $scope.project.developers);
                     },
                     function(errResponse){
                         console.error('Error while fetching devs -> from controller');
@@ -111,7 +109,6 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         }
 
         $scope.openEdit = function (project) {
-            console.log('open editing: ', project);
             $rootScope.projectForEdit = project;
             ModalService.showModal({
                 templateUrl: '/views/editProject.html',
@@ -142,7 +139,6 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         };
 
         $scope.addDeveloper = function (email) {
-            console.log("email ", email);
             if (email != ''){
                 CrudService.createObj('projects/' + $scope.id + '/devs', email)
                     .then(
@@ -182,7 +178,6 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
         $scope.uploadFile = function(){
             var file = $rootScope.file;
 
-            console.log('file is ', file);
             console.dir(file);
 
             FileService.uploadFile('projects/' + $scope.id + '/files', file)
@@ -272,7 +267,6 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
                     function(d) {
                         fetchAllComments();
                         comment.editingComment = !comment.editingComment;
-                        console.log("new text: ", comment.text)
                     },
                     function(errResponse){
                         console.error('Error while adding developer -> from controller');

@@ -19,7 +19,6 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
                 .then(
                     function(d) {
                         projects = d;
-                        console.log("proj d: ", projects)
                         for (var i=0; i<projects.length; i++){
                             fetchAllTasks(projects[i]);
                             if (user.authorities[0].authority == "TEAMLEAD"){
@@ -55,7 +54,6 @@ app.controller('ProjectListController', ['$scope', '$rootScope', '$state', '$htt
                     function(d) {
                         project.developers = d;
                         changeProj(project.id, project);
-                        console.log("projects: ", $scope.projects);
                     },
                     function(errResponse){
                         console.error('Error while fetching tasks -> from controller');

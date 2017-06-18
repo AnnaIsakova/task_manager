@@ -24,7 +24,6 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
             .then(
                 function (response) {
                     deferred.resolve(response.data);
-                    console.log(response.data);
                 },
                 function(errResponse){
                     console.error('Error while fetching Users');
@@ -41,7 +40,6 @@ app.factory('UserService', ['$http', '$q', '$cookies', '$rootScope', function($h
             .then(
                 function (response) {
                     deferred.resolve(response.data);
-                    console.log("data from service: ", response.data);
                 },
                 function(errResponse){
                     console.error('Error while creating User');
