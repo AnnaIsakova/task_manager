@@ -16,7 +16,22 @@ var app = angular.module('app',[
 
 app.run(function ($state, $rootScope, $http, UserService) {
     $rootScope.$state = $state;
-    $http.defaults.headers.common['Authorization'] = UserService.getCookieHeader();
+
+    $rootScope.$on( '$stateChangeStart', function(e, toState  , toParams, fromState, fromParams) {
+
+        var isLoggedIn = UserService.getCookieHeader() !== undefined;
+        if (toState.name === 'login'){
+            return;
+        }
+        if (isLoggedIn){
+            $http.defaults.headers.common['Authorization'] = UserService.getCookieHeader();
+            return;
+        } else {
+            e.preventDefault();
+            $state.go('login');
+        }
+
+    });
 });
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $compileProvider) {
