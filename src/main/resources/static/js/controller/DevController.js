@@ -9,21 +9,21 @@ app.controller('DevController', ['$scope', '$rootScope', '$state', '$http', '$st
         $scope.me = {};
         $scope.project = {};
         var x = 0;
+        var tasks = [];
 
-        fetchProject();
+        fetchAllDevelopers();
+        fetchAllTasks();
 
-        function fetchProject(){
-            $scope.id = $stateParams.projectID;
-            CrudService.fetchOne('projects', $scope.id)
+        function fetchAllDevelopers(){
+            CrudService.fetchAll('projects/' + $stateParams.projectID + '/devs')
                 .then(
                     function(d) {
-                        $scope.project = d;
-                        $scope.developers = $scope.project.developers;
+                        $scope.developers = d;
                         fetchMe();
                     },
                     function(errResponse){
-                        console.error('Error while fetching project -> from controller');
-                        $scope.errorProject = errResponse.data.message;
+                        console.error('Error while fetching priorities -> from controller');
+                        $scope.errorMessage = "Oops, error while fetching priorities occurred :(\nPlease, try again later!";
                     }
                 );
         }
@@ -33,6 +33,9 @@ app.controller('DevController', ['$scope', '$rootScope', '$state', '$http', '$st
                 .then(
                     function(d) {
                         $scope.me = d;
+                        if($scope.developers == ''){
+                            $scope.developers = [];
+                        }
                         $scope.developers.push($scope.me);
                     },
                     function(errResponse){
@@ -42,13 +45,26 @@ app.controller('DevController', ['$scope', '$rootScope', '$state', '$http', '$st
                 );
         }
 
+        function fetchAllTasks(){
+            CrudService.fetchAll('projects/' + $stateParams.projectID + '/tasks')
+                .then(
+                    function(d) {
+                        tasks = d;
+                    },
+                    function(errResponse){
+                        console.error('Error while fetching tasks -> from controller');
+                        $scope.errorMessage = errResponse.data.message;
+                    }
+                );
+        }
+
         $scope.getTasks = function(dev, status) {
             var count = 0;
-            for(var i=0;i<$scope.project.tasks.length;i++){
-                if ($scope.project.tasks[i].assignedTo == null){
+            for(var i=0;i<tasks.length;i++){
+                if (tasks[i].assignedTo == null){
                     continue;
                 }
-                if ($scope.project.tasks[i].status == status && !$scope.project.tasks[i].approved && $scope.project.tasks[i].assignedTo.email == dev.email){
+                if (tasks[i].status == status && !tasks[i].approved && tasks[i].assignedTo.email == dev.email){
                     count++;
                 }
             }
@@ -57,11 +73,11 @@ app.controller('DevController', ['$scope', '$rootScope', '$state', '$http', '$st
 
         $scope.getApproved = function(dev) {
             var count = 0;
-            for(var i=0;i<$scope.project.tasks.length;i++){
-                if ($scope.project.tasks[i].assignedTo == null){
+            for(var i=0;i<tasks.length;i++){
+                if (tasks[i].assignedTo == null){
                     continue;
                 }
-                if ($scope.project.tasks[i].approved && $scope.project.tasks[i].assignedTo.email == dev.email){
+                if (tasks[i].approved && tasks[i].assignedTo.email == dev.email){
                     count++;
                 }
             }
