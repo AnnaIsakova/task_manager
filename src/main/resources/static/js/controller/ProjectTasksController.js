@@ -161,6 +161,10 @@ app.controller('ProjectTasksController', ['$scope', '$rootScope', '$state', '$st
                 return -1;
             } else if (v1.value == 'HIGH' && v2.value == 'NORMAL'){
                 return 1;
+            } else if (v1.value.hasOwnProperty('firstName')){
+                var name1 = v1.value.firstName + " " + v1.value.lastName;
+                var name2 = v2.value.firstName + " " + v2.value.lastName;
+                return (name1 > name2) ? 1 : -1;
             } else {
                 return (v1.value > v2.value) ? 1 : -1;
             }
