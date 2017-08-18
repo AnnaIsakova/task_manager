@@ -281,22 +281,17 @@ app.controller('ProjectInfoController', ['$scope', '$rootScope', '$state', '$htt
             var deadline = moment($scope.project.deadline).startOf('day');
             var createdAt = moment($scope.project.createDate).startOf('day');
 
-            var diffPass = now.diff(createdAt);
-            var durationPass = moment.duration(diffPass);
-            var daysPass = durationPass.days();
+            var diffPass = now.diff(createdAt, 'days');
 
-            var diffTotal = deadline.diff(createdAt);
-            var durationTotal = moment.duration(diffTotal);
-            var daysTotal = durationTotal.days();
+            var diffTotal = deadline.diff(createdAt, 'days');
 
-            if (daysTotal <= daysPass){
+            if (diffTotal <= diffPass){
                 $scope.progressDeadline = 100;
-            } else if(daysTotal == 1 && now.isSame(createdAt)){
+            } else if(diffTotal == 1 && now.isSame(createdAt)){
                 $scope.progressDeadline = 50;
             }else {
-                $scope.progressDeadline = (100 * daysPass)/daysTotal;
+                $scope.progressDeadline = (100 * diffPass)/diffTotal;
             }
-
         }
 
         function getTaskCompleted(){
