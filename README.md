@@ -4,7 +4,7 @@
 
 <p>
   While registring a user can choose a role.<br/>
-  Roles available: team leader, developer.<br/><br/>
+  Roles available: team leader, developer.<br/>
   Team leader can:
   <ul>
     <li>create/update/delete projects;</li>
