@@ -2,7 +2,7 @@
 
 <h4>Live: http://task.annaisakova.me</h4>
 <p>For testing you can use login: team@team.com and pass: 11111</p>
-
+<hr>
 <p>
   While registring a user can choose a role.<br/>
   Roles available: team leader, developer.
