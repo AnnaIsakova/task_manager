@@ -1,8 +1,5 @@
 <h2><strong>A web application (task manager) with Spring Boot on back-end and AngularJS on front-end.</strong></h2>
 
-<h4>Live: http://task.annaisakova.me</h4>
-<h5>For testing you can use login: team@team.com and pass: 11111</h5>
-
 <p>
   While registring a user can choose a role.<br/>
   Roles available: team leader, developer.
